@@ -1,0 +1,32 @@
+{
+  "name": "funnel-template",
+  "version": "1.0.0",
+  "description": "A customizable HTML funnel template system for client onboarding",
+  "main": "build-template.js",
+  "scripts": {
+    "build": "python3 build-template.py",
+    "build:custom": "python3 build-template.py config/custom-config.json",
+    "dev": "python3 build-template.py && python3 -m http.server 8000 -d output",
+    "serve": "python3 -m http.server 8000 -d output"
+  },
+  "keywords": [
+    "funnel",
+    "template",
+    "html",
+    "marketing",
+    "landing-page"
+  ],
+  "author": "{{client.name}}",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/funnel-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/funnel-template/issues"
+  },
+  "homepage": "https://github.com/your-org/funnel-template#readme"
+}

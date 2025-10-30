@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Training Resources - Remote Sales Academy</title>
+    <meta name="description" content="Educational resources and training materials for Remote Sales Academy">
+    <meta name="keywords" content="remote sales, high ticket sales, sales training, sales closer, work from home, education">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --black: #000000;
+            --dark-gray: #0a0a0a;
+            --medium-gray: #1a1a1a;
+            --red: #ff0000;
+            --red-glow: rgba(255, 0, 0, 0.3);
+            --white: #ffffff;
+            --white-soft: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            line-height: 1.7;
+            color-scheme: dark;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
+            padding: 3rem 0;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .header-title .highlight {
+            color: var(--red);
+        }
+
+        .header-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--white-soft);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .education-section {
+            background: linear-gradient(135deg, var(--medium-gray), var(--dark-gray));
+            padding: 3rem;
+            border-radius: 16px;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-text {
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            color: var(--white-soft);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .highlight-box p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--white-soft);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            padding: 3rem;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: 0 8px 24px var(--red-glow);
+        }
+
+        .cta-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .cta-text {
+            font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+            margin-bottom: 2rem;
+            color: var(--white-soft);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background-color: var(--black);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            border: 2px solid var(--white);
+        }
+
+        .cta-button:hover {
+            background-color: var(--white);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white-soft);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        footer a {
+            color: var(--red);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .main-content {
+                padding: 2rem 1rem;
+            }
+
+            .education-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">Remote Sales <span>Academy</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#apply">Apply Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">Sales Training <span class="highlight">Resources</span></h1>
+            <p class="header-subtitle">Master high-ticket sales and land your dream remote role</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <section class="education-section">
+            <h2 class="section-title">Welcome to Remote Sales Academy</h2>
+            <p class="section-text">Our comprehensive training program is designed to take you from complete beginner to elite closer in 90 days. You'll learn proven sales frameworks, objection handling techniques, and the personal branding strategies that get you hired.</p>
+        </section>
+
+        <section class="education-section">
+            <h2 class="section-title">What You'll Master</h2>
+            <p class="section-text">From the "New Psychology of Sales" to building a powerful personal brand on LinkedIn and Instagram - we cover every skill you need to close high-ticket deals and earn £3K-£8K/month in commissions.</p>
+        </section>
+
+        <section class="education-section">
+            <h2 class="section-title">Key Training Modules</h2>
+            <p class="section-text">Our comprehensive program covers the three core pillars of remote sales success:</p>
+
+            <div class="highlight-box">
+                <h3>🎯 Elite Sales Training</h3>
+                <p>Master the 'New Psychology of Sales' — gap selling, objection handling, tonality, and the question framework that makes prospects sell themselves. No theory BS, just what actually closes deals.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h3>💼 Personal Brand Building</h3>
+                <p>Build authority on Instagram & LinkedIn so role offers come to YOU. We teach you how to position yourself as a professional closer, creating long-term leverage beyond just one role.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h3>🚀 Real Role Placements</h3>
+                <p>Get placed into live sales roles within 30-60 days. SMMA agencies, premium mentorships, AI companies, ecom brands — we connect you to actual businesses that need closers.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Get Started?</h2>
+            <p class="cta-text">Join Remote Sales Academy today and start your journey to landing a high-paying remote sales role.</p>
+            <a href="index.html#apply" class="cta-button">Apply Now</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Remote Sales Academy. All rights reserved.</p>
+        <p style="margin-top: 1rem;">Questions? Contact us at <a href="mailto:contact@remotesalesacademy.com">contact@remotesalesacademy.com</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{seo.title}}</title>
+    <meta name="description" content="{{seo.description}}">
+    <meta name="keywords" content="{{seo.keywords}}">
+    <meta name="author" content="{{client.name}}">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{{seo.title}}">
+    <meta property="og:description" content="{{seo.description}}">
+    <meta property="og:image" content="{{seo.ogImage}}">
+    <meta property="og:url" content="{{client.website}}">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{media.favicon}}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Responsive image sizing for testimonials */
+        .result-img { 
+            max-height: 520px; 
+            width: 100%; 
+            height: auto; 
+            display: block; 
+            object-fit: contain;
+            background-color: #f8f8f8;
+        }
+        
+        @media (max-width: 640px) { 
+            .result-img { 
+                max-height: 420px; 
+            } 
+        }
+
+        /* Prevent layout jumps and ensure consistent sizing */
+        .testimonial-picture-card {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Ensure images load smoothly */
+        .result-img {
+            transition: opacity 0.3s ease;
+        }
+
+        .result-img[loading] {
+            opacity: 0.8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: {{branding.textColor}};
+            background-color: {{branding.backgroundColor}};
+        }
+
+        /* HERO VIDEO WRAPPER */
+        .hero-video{
+          width:100%;
+          max-width: 720px;
+          margin: 0 auto;
+          border-radius: 12px;
+          overflow: hidden;
+          line-height: 0;
+        }
+        .hero-video #vidalytics_embed_{{media.heroVideo.embedId}}{
+          position: relative !important;
+          width: 100% !important;
+          aspect-ratio: 16/9;
+          padding: 0 !important;
+        }
+
+        /* Force the injected iframe to fill the box */
+        .hero-video iframe,
+        .hero-video video,
+        .hero-video .vidalytics-player,
+        .hero-video .vidalytics_container{
+          position: absolute !important;
+          inset: 0 !important;
+          width: 100% !important;
+          height: 100% !important;
+          margin: 0 !important;
+          display: block !important;
+          border: 0 !important;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px){
+          .hero-cta { margin-top: 16px !important; }
+          .mission-section { display: none !important; }
+          .about-section { display: none !important; }
+          .pillars-section { display: none !important; }
+        }
+
+        /* Testimonials Gallery CSS */
+        .results-grid{
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        @media (min-width: 640px){
+          .results-grid{ grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        }
+        @media (min-width: 1024px){
+          .results-grid{ grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        }
+
+        .card{
+          background: #f6f7f8;
+          border-radius: 10px;
+          padding: 8px;
+          box-shadow: 0 1px 3px rgba(0,0,0,.06);
+        }
+
+        .result-img{
+          display:block;
+          width:100%;
+          height:auto;
+          object-fit: contain;
+          border-radius: 8px;
+        }
+
+        .results img, .results figure, .results picture{ margin:0 !important; }
+        
+        /* Mobile CTA Cards */
+        .mobile-cta-card {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-cta-card {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem 1rem;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .mobile-cta-card .mobile-cta-button {
+                width: 100%;
+                max-width: 300px;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+                font-weight: 600;
+                background-color: {{branding.primaryColor}};
+                color: {{branding.textColor}};
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            .mobile-cta-card .mobile-cta-button:hover {
+                background-color: {{branding.accentColor}};
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background-color: {{branding.backgroundColor}};
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 400;
+            color: {{branding.textColor}};
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: {{branding.accentColor}};
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .hero-description {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: {{branding.textColor}};
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-video-container {
+            margin: 3rem 0;
+        }
+
+        .hero-cta {
+            margin-top: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background-color: {{branding.buttonColor}};
+            color: {{branding.buttonTextColor}};
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            background-color: {{branding.accentColor}};
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* MISSION SECTION */
+        .mission-section {
+            padding: 4rem 2rem;
+            background-color: {{branding.secondaryColor}};
+            color: {{branding.primaryColor}};
+        }
+
+        .mission-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .mission-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: {{branding.primaryColor}};
+        }
+
+        .mission-text {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.7;
+            color: {{branding.primaryColor}};
+        }
+
+        /* ABOUT SECTION */
+        .about-section {
+            padding: 4rem 2rem;
+            background-color: {{branding.backgroundColor}};
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.textColor}};
+            margin-bottom: 2rem;
+        }
+
+        .about-text {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: {{branding.textColor}};
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        /* PILLARS SECTION */
+        .pillars-section {
+            padding: 4rem 2rem;
+            background-color: {{branding.secondaryColor}};
+        }
+
+        .pillars-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pillars-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.primaryColor}};
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pillar {
+            background-color: {{branding.primaryColor}};
+            color: {{branding.textColor}};
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pillar h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: {{branding.accentColor}};
+        }
+
+        .pillar p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: {{branding.textColor}};
+        }
+
+        /* TESTIMONIALS SECTION */
+        .student-testimonials-section {
+            padding: 4rem 2rem;
+            background-color: {{branding.backgroundColor}};
+        }
+
+        .testimonials-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonials-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.textColor}};
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-picture-card {
+            background-color: {{branding.secondaryColor}};
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-picture-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-info {
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .testimonial-info h4 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: {{branding.primaryColor}};
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-info .result {
+            font-size: 1rem;
+            font-weight: 600;
+            color: {{branding.accentColor}};
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-info .description {
+            font-size: 0.9rem;
+            color: {{branding.primaryColor}};
+            line-height: 1.5;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, {{branding.primaryColor}} 0%, {{branding.accentColor}} 100%);
+            text-align: center;
+        }
+
+        .final-cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .final-cta-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.textColor}};
+            margin-bottom: 1rem;
+        }
+
+        .final-cta-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: {{branding.textColor}};
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* FORM STYLES */
+        .application-form {
+            background-color: {{branding.secondaryColor}};
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: {{branding.primaryColor}};
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: {{branding.accentColor}};
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 1rem;
+            }
+            
+            .mission-section,
+            .about-section,
+            .pillars-section {
+                padding: 2rem 1rem;
+            }
+            
+            .pillars-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">{{content.heroTitle}}</h1>
+            <h2 class="hero-subtitle">{{content.heroSubtitle}}</h2>
+            <p class="hero-description">{{content.heroDescription}}</p>
+            
+            <div class="hero-video-container">
+                <div class="hero-video">
+                    <div id="vidalytics_embed_{{media.heroVideo.embedId}}"></div>
+                </div>
+            </div>
+            
+            <div class="hero-cta">
+                <a href="{{content.ctaButtonUrl}}" class="cta-button">{{content.ctaButtonText}}</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION SECTION -->
+    <section class="mission-section">
+        <div class="mission-content">
+            <h2 class="mission-title">{{content.missionTitle}}</h2>
+            <p class="mission-text">{{content.missionText}}</p>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about-section">
+        <div class="about-content">
+            <h2 class="about-title">{{content.aboutTitle}}</h2>
+            <p class="about-text">{{content.aboutText}}</p>
+        </div>
+    </section>
+
+    <!-- PILLARS SECTION -->
+    <section class="pillars-section">
+        <div class="pillars-content">
+            <h2 class="pillars-title">Why Choose Us</h2>
+            <div class="pillars-grid">
+                {{content.pillars}}
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="results student-testimonials-section">
+        <div class="testimonials-content">
+            <h2 class="testimonials-title">Success Stories</h2>
+            <div class="results-grid">
+                {{media.testimonials}}
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="final-cta-content">
+            <h2 class="final-cta-title">{{content.ctaTitle}}</h2>
+            <p class="final-cta-subtitle">{{content.ctaSubtitle}}</p>
+            
+            <!-- APPLICATION FORM -->
+            {{forms.applicationForm}}
+        </div>
+    </section>
+
+    <!-- MOBILE CTA CARD -->
+    <div class="mobile-cta-card">
+        <a href="{{content.ctaButtonUrl}}" class="mobile-cta-button">{{content.ctaButtonText}}</a>
+    </div>
+
+    <!-- Vidalytics Video Script -->
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://vidalytics.com/embed/{{media.heroVideo.embedId}}";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'vidalytics-js'));
+    </script>
+
+    <!-- Analytics and Tracking -->
+    <script>
+        // Add your analytics tracking code here
+        console.log('Funnel loaded for {{client.name}}');
+    </script>
+</body>
+</html>

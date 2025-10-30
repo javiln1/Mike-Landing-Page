@@ -1,0 +1,148 @@
+{
+  "client": {
+    "name": "Sam Jacobs",
+    "businessName": "Ecom Uprise",
+    "website": "https://example.com",
+    "email": "contact@example.com",
+    "phone": "(555) 123-4567"
+  },
+  "branding": {
+    "primaryColor": "#07204A",
+    "secondaryColor": "#F5F5DC", 
+    "accentColor": "#CFAF6E",
+    "textColor": "#F5F5DC",
+    "backgroundColor": "#07204A",
+    "buttonColor": "#CFAF6E",
+    "buttonTextColor": "#07204A"
+  },
+  "content": {
+    "heroTitle": "Ecom Uprise Application",
+    "heroSubtitle": "Transform Your E-commerce Business",
+    "heroDescription": "Join thousands of successful entrepreneurs who have built thriving online businesses with our proven system.",
+    "missionTitle": "Our Mission",
+    "missionText": "To empower entrepreneurs with the tools, knowledge, and support they need to build successful e-commerce businesses.",
+    "aboutTitle": "About Us",
+    "aboutText": "We are a team of experienced e-commerce experts dedicated to helping you succeed in the online marketplace.",
+    "pillars": [
+      {
+        "title": "Strategy",
+        "description": "Proven strategies that work in today's competitive market"
+      },
+      {
+        "title": "Support", 
+        "description": "24/7 support from our expert team"
+      },
+      {
+        "title": "Success",
+        "description": "Track record of helping businesses grow"
+      }
+    ],
+    "ctaTitle": "Ready to Get Started?",
+    "ctaSubtitle": "Join our exclusive program today",
+    "ctaButtonText": "Apply Now",
+    "ctaButtonUrl": "#application-form"
+  },
+  "media": {
+    "heroVideo": {
+      "type": "vidalytics",
+      "embedId": "1nEhDb05u9Um53a9",
+      "fallbackImage": "assets/hero-video-fallback.jpg"
+    },
+    "testimonials": [
+      {
+        "image": "assets/testimonial-1.jpg",
+        "name": "John Doe",
+        "result": "Increased sales by 300%",
+        "description": "This program changed my business completely"
+      },
+      {
+        "image": "assets/testimonial-2.jpg", 
+        "name": "Jane Smith",
+        "result": "Made $50k in first month",
+        "description": "The best investment I've ever made"
+      }
+    ],
+    "logo": "assets/logo.png",
+    "favicon": "assets/favicon.ico"
+  },
+  "forms": {
+    "applicationForm": {
+      "action": "https://formspree.io/f/your-form-id",
+      "method": "POST",
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "label": "Full Name",
+          "required": true,
+          "placeholder": "Enter your full name"
+        },
+        {
+          "name": "email", 
+          "type": "email",
+          "label": "Email Address",
+          "required": true,
+          "placeholder": "Enter your email"
+        },
+        {
+          "name": "phone",
+          "type": "tel", 
+          "label": "Phone Number",
+          "required": false,
+          "placeholder": "Enter your phone number"
+        },
+        {
+          "name": "business_type",
+          "type": "select",
+          "label": "Business Type",
+          "required": true,
+          "options": [
+            {"value": "ecommerce", "text": "E-commerce Store"},
+            {"value": "dropshipping", "text": "Dropshipping"},
+            {"value": "amazon", "text": "Amazon FBA"},
+            {"value": "other", "text": "Other"}
+          ]
+        },
+        {
+          "name": "message",
+          "type": "textarea",
+          "label": "Tell us about your goals",
+          "required": false,
+          "placeholder": "What are you hoping to achieve?",
+          "rows": 4
+        }
+      ]
+    }
+  },
+  "pages": {
+    "education": {
+      "title": "Education Page",
+      "sections": [
+        {
+          "title": "Getting Started",
+          "content": "Welcome to our comprehensive education program. Here you'll learn everything you need to know to succeed."
+        },
+        {
+          "title": "Key Concepts", 
+          "content": "Master the fundamental concepts that drive success in e-commerce."
+        }
+      ]
+    },
+    "confirmation": {
+      "title": "Application Received!",
+      "subtitle": "Thank you for your interest",
+      "message": "We've received your application and will be in touch within 24 hours.",
+      "nextSteps": [
+        "Check your email for confirmation",
+        "We'll review your application",
+        "Schedule a call if approved"
+      ]
+    }
+  },
+  "seo": {
+    "title": "Ecom Uprise Application - Transform Your Business",
+    "description": "Join our exclusive e-commerce program and learn proven strategies to build a successful online business.",
+    "keywords": "ecommerce, online business, entrepreneurship, dropshipping, amazon fba",
+    "ogImage": "assets/og-image.jpg"
+  }
+}

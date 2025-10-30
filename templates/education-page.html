@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pages.education.title}} - {{client.businessName}}</title>
+    <meta name="description" content="Educational content and resources for {{client.businessName}}">
+    <meta name="keywords" content="{{seo.keywords}}, education, learning, resources">
+    <meta name="author" content="{{client.name}}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{media.favicon}}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: {{branding.backgroundColor}};
+            color: {{branding.textColor}};
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background-color: {{branding.backgroundColor}};
+            padding: 2rem 0;
+            border-bottom: 1px solid {{branding.accentColor}};
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .header-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.textColor}};
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: {{branding.textColor}};
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .education-section {
+            background-color: {{branding.secondaryColor}};
+            color: {{branding.primaryColor}};
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: {{branding.primaryColor}};
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .section-text {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            color: {{branding.primaryColor}};
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background-color: {{branding.accentColor}};
+            color: {{branding.primaryColor}};
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: {{branding.primaryColor}};
+        }
+
+        .highlight-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: {{branding.primaryColor}};
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, {{branding.primaryColor}} 0%, {{branding.accentColor}} 100%);
+            color: {{branding.textColor}};
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: {{branding.textColor}};
+        }
+
+        .cta-text {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background-color: {{branding.buttonColor}};
+            color: {{branding.buttonTextColor}};
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            background-color: {{branding.secondaryColor}};
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation */
+        .nav {
+            background-color: {{branding.primaryColor}};
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: {{branding.textColor}};
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: {{branding.textColor}};
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: {{branding.accentColor}};
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            .education-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <a href="index.html" class="nav-logo">{{client.businessName}}</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="header-title">{{pages.education.title}}</h1>
+            <p class="header-subtitle">Learn everything you need to succeed with {{client.businessName}}</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {{#each pages.education.sections}}
+        <section class="education-section">
+            <h2 class="section-title">{{this.title}}</h2>
+            <p class="section-text">{{this.content}}</p>
+        </section>
+        {{/each}}
+
+        <!-- Additional Educational Content -->
+        <section class="education-section">
+            <h2 class="section-title">Key Learning Modules</h2>
+            <p class="section-text">Our comprehensive program covers all aspects of building a successful business:</p>
+            
+            <div class="highlight-box">
+                <h3>Module 1: Foundation</h3>
+                <p>Learn the fundamental principles that drive success in today's market. This module covers the essential concepts every entrepreneur needs to understand.</p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Module 2: Strategy</h3>
+                <p>Develop winning strategies that give you a competitive edge. We'll show you proven methods that have worked for thousands of successful entrepreneurs.</p>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>Module 3: Implementation</h3>
+                <p>Put your knowledge into action with our step-by-step implementation guide. Get hands-on experience with real-world applications.</p>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Get Started?</h2>
+            <p class="cta-text">Join our program today and start your journey to success with {{client.businessName}}.</p>
+            <a href="index.html" class="cta-button">{{content.ctaButtonText}}</a>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background-color: {{branding.primaryColor}}; color: {{branding.textColor}}; padding: 2rem; text-align: center;">
+        <p>&copy; 2024 {{client.businessName}}. All rights reserved.</p>
+        <p>Contact us: <a href="mailto:{{client.email}}" style="color: {{branding.accentColor}};">{{client.email}}</a></p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pages.confirmation.title}} - {{client.businessName}}</title>
+    <meta name="description" content="Application confirmation for {{client.businessName}}">
+    <meta name="keywords" content="{{seo.keywords}}, confirmation, application">
+    <meta name="author" content="{{client.name}}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{media.favicon}}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: {{branding.backgroundColor}};
+            color: {{branding.textColor}};
+            line-height: 1.6;
+        }
+
+        /* Confirmation Container */
+        .confirmation-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, {{branding.primaryColor}} 0%, {{branding.accentColor}} 100%);
+        }
+
+        .confirmation-card {
+            background-color: {{branding.secondaryColor}};
+            color: {{branding.primaryColor}};
+            padding: 4rem 3rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.6s ease-out;
+        }
+
+        /* Success Icon */
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: {{branding.accentColor}};
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem auto;
+            color: {{branding.primaryColor}};
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Typography */
+        .confirmation-title {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: {{branding.primaryColor}};
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .confirmation-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            color: {{branding.accentColor}};
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .confirmation-text {
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            color: {{branding.primaryColor}};
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* Next Steps */
+        .next-steps {
+            background-color: {{branding.accentColor}};
+            color: {{branding.primaryColor}};
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: {{branding.primaryColor}};
+        }
+
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .next-steps li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: {{branding.primaryColor}};
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background-color: {{branding.primaryColor}};
+            color: {{branding.textColor}};
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .contact-info h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: {{branding.textColor}};
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-info a {
+            color: {{branding.accentColor}};
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: {{branding.accentColor}};
+            color: {{branding.primaryColor}};
+        }
+
+        .btn-primary:hover {
+            background-color: {{branding.buttonColor}};
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: {{branding.primaryColor}};
+            border: 2px solid {{branding.primaryColor}};
+        }
+
+        .btn-secondary:hover {
+            background-color: {{branding.primaryColor}};
+            color: {{branding.textColor}};
+        }
+
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 1rem;
+            }
+            
+            .confirmation-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <div class="confirmation-card">
+            <!-- Success Icon -->
+            <div class="success-icon">✓</div>
+            
+            <!-- Main Content -->
+            <h1 class="confirmation-title">{{pages.confirmation.title}}</h1>
+            <h2 class="confirmation-subtitle">{{pages.confirmation.subtitle}}</h2>
+            <p class="confirmation-text">{{pages.confirmation.message}}</p>
+            
+            <!-- Next Steps -->
+            <div class="next-steps">
+                <h3>What Happens Next?</h3>
+                <ul>
+                    {{#each pages.confirmation.nextSteps}}
+                    <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h3>Need Help?</h3>
+                <p>If you have any questions, don't hesitate to reach out:</p>
+                <p><strong>Email:</strong> <a href="mailto:{{client.email}}">{{client.email}}</a></p>
+                <p><strong>Phone:</strong> <a href="tel:{{client.phone}}">{{client.phone}}</a></p>
+                <p><strong>Website:</strong> <a href="{{client.website}}" target="_blank">{{client.website}}</a></p>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-primary">Back to Home</a>
+                <a href="education-page.html" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics and Tracking -->
+    <script>
+        // Track confirmation page view
+        console.log('Confirmation page loaded for {{client.name}}');
+        
+        // Add any additional tracking or analytics code here
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                page_title: '{{pages.confirmation.title}}',
+                page_location: window.location.href
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+{
+  "client": {
+    "name": "Mike",
+    "businessName": "Remote Sales Academy",
+    "website": "https://remotesalesacademy.com",
+    "email": "mike@remotesalesacademy.com",
+    "phone": "(555) 123-4567"
+  },
+  "branding": {
+    "primaryColor": "#0a0a0a",
+    "secondaryColor": "#1a1a1a",
+    "accentColor": "#ff0000",
+    "textColor": "#ffffff",
+    "backgroundColor": "#000000",
+    "buttonColor": "#ff0000",
+    "buttonTextColor": "#ffffff"
+  },
+  "content": {
+    "heroTitle": "Break Into Remote High-Ticket Sales in 90 Days",
+    "heroSubtitle": "Learn elite closing skills, build your personal brand, and get placed into real sales roles earning £3K-£8K/month",
+    "heroDescription": "The placement-first system for 9-to-5 workers who want to escape the grind and master remote sales.",
+    "calendlyUrl": "https://calendly.com/michealakerele/remote-closer-academy-strategy-session",
+    "pillars": [
+      {
+        "title": "Elite Sales Training",
+        "description": "Master the 'New Psychology of Sales' — gap selling, objection handling, tonality, and the question framework that makes prospects sell themselves. No theory BS, just what actually closes deals."
+      },
+      {
+        "title": "Personal Brand Building",
+        "description": "Build authority on Instagram & LinkedIn so role offers come to YOU. We teach you how to position yourself as a professional closer, creating long-term leverage beyond just one role."
+      },
+      {
+        "title": "Real Role Placements",
+        "description": "Get placed into live sales roles within 30-60 days. SMMA agencies, premium mentorships, AI companies, ecom brands — we connect you to actual businesses that need closers."
+      }
+    ],
+    "ctaTitle": "Ready to Start Your 90-Day Transformation?",
+    "ctaSubtitle": "Book a call to see if Remote Sales Academy is right for you",
+    "ctaButtonText": "Book Your Call",
+    "ctaButtonUrl": "#calendly"
+  },
+  "media": {
+    "heroVideo": {
+      "type": "youtube",
+      "embedId": "dQw4w9WgXcQ",
+      "fallbackImage": "assets/hero-video-fallback.jpg"
+    },
+    "testimonials": [
+      {
+        "image": "assets/testimonial-1.jpg",
+        "name": "James R.",
+        "result": "£5,000/mo in commissions",
+        "description": "Went from 9-to-5 warehouse job to closing for an AI company in 60 days. This system actually works."
+      },
+      {
+        "image": "assets/testimonial-2.jpg",
+        "name": "Sarah M.",
+        "result": "Placed in 30 days",
+        "description": "Never did sales before. Mike's training got me placed into an SMMA role within a month. Now I work from home."
+      },
+      {
+        "image": "assets/testimonial-3.jpg",
+        "name": "David K.",
+        "result": "£8,000+ in first 90 days",
+        "description": "The personal brand piece is genius. I now get inbound offers from companies wanting me to close for them."
+      }
+    ],
+    "logo": "assets/logo.png",
+    "favicon": "assets/favicon.ico"
+  },
+  "forms": {
+    "applicationForm": {
+      "action": "https://formspree.io/f/your-form-id",
+      "method": "POST",
+      "fields": []
+    }
+  },
+  "pages": {
+    "education": {
+      "title": "How It Works",
+      "sections": []
+    },
+    "confirmation": {
+      "title": "Call Booked!",
+      "subtitle": "Check your email for confirmation",
+      "message": "We've sent you a calendar invite. Make sure to show up prepared to discuss your goals.",
+      "nextSteps": [
+        "Check your email for the Calendly confirmation",
+        "Prepare to discuss why you want to get into remote sales",
+        "Come ready to learn about the 90-day system"
+      ]
+    }
+  },
+  "seo": {
+    "title": "Remote Sales Academy - Break Into High-Ticket Sales in 90 Days",
+    "description": "Learn elite closing skills, build your personal brand, and get placed into real remote sales roles. Earn £3K-£8K/month in commissions.",
+    "keywords": "remote sales, high ticket sales, sales training, sales closer, work from home, remote jobs, 9 to 5 escape",
+    "ogImage": "assets/og-image.jpg"
+  }
+}

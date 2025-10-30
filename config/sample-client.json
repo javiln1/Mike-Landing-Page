@@ -1,0 +1,174 @@
+{
+  "client": {
+    "name": "Sarah Johnson",
+    "businessName": "Digital Success Academy",
+    "website": "https://digitalsuccessacademy.com",
+    "email": "sarah@digitalsuccessacademy.com",
+    "phone": "(555) 987-6543"
+  },
+  "branding": {
+    "primaryColor": "#1a365d",
+    "secondaryColor": "#f7fafc", 
+    "accentColor": "#3182ce",
+    "textColor": "#f7fafc",
+    "backgroundColor": "#1a365d",
+    "buttonColor": "#3182ce",
+    "buttonTextColor": "#ffffff"
+  },
+  "content": {
+    "heroTitle": "Digital Success Academy",
+    "heroSubtitle": "Master Digital Marketing & Build Your Empire",
+    "heroDescription": "Join thousands of entrepreneurs who have transformed their businesses with our proven digital marketing strategies and exclusive mentorship program.",
+    "missionTitle": "Our Mission",
+    "missionText": "To empower ambitious entrepreneurs with cutting-edge digital marketing knowledge, proven strategies, and personalized mentorship that drives real results in today's competitive online landscape.",
+    "aboutTitle": "About Digital Success Academy",
+    "aboutText": "We are a team of digital marketing experts, successful entrepreneurs, and growth hackers who have collectively generated over $50 million in online revenue. Our mission is to share our knowledge and help you build the business of your dreams.",
+    "pillars": [
+      {
+        "title": "Proven Strategies",
+        "description": "Battle-tested marketing strategies that have generated millions in revenue"
+      },
+      {
+        "title": "Expert Mentorship", 
+        "description": "1-on-1 guidance from industry experts who've been where you are"
+      },
+      {
+        "title": "Real Results",
+        "description": "Track record of helping students achieve 300%+ growth in their businesses"
+      }
+    ],
+    "ctaTitle": "Ready to Transform Your Business?",
+    "ctaSubtitle": "Join our exclusive program and start your journey to digital success",
+    "ctaButtonText": "Apply for Mentorship",
+    "ctaButtonUrl": "#application-form"
+  },
+  "media": {
+    "heroVideo": {
+      "type": "vidalytics",
+      "embedId": "sample_video_123",
+      "fallbackImage": "assets/hero-video-fallback.jpg"
+    },
+    "testimonials": [
+      {
+        "image": "assets/testimonial-1.jpg",
+        "name": "Mike Chen",
+        "result": "Increased revenue by 400%",
+        "description": "The strategies I learned here completely transformed my business. Best investment I ever made!"
+      },
+      {
+        "image": "assets/testimonial-2.jpg", 
+        "name": "Lisa Rodriguez",
+        "result": "Made $75k in first 90 days",
+        "description": "Sarah's mentorship was game-changing. I went from struggling to thriving in just 3 months."
+      },
+      {
+        "image": "assets/testimonial-3.jpg",
+        "name": "David Park",
+        "result": "Built 6-figure business",
+        "description": "The step-by-step approach made everything click. I now have a business that runs itself."
+      },
+      {
+        "image": "assets/testimonial-4.jpg",
+        "name": "Emma Thompson",
+        "result": "Quit my 9-5 job",
+        "description": "I never thought I could replace my corporate salary, but here I am, living my dream!"
+      }
+    ],
+    "logo": "assets/logo.png",
+    "favicon": "assets/favicon.ico"
+  },
+  "forms": {
+    "applicationForm": {
+      "action": "https://formspree.io/f/sample-form-id",
+      "method": "POST",
+      "fields": [
+        {
+          "name": "name",
+          "type": "text",
+          "label": "Full Name",
+          "required": true,
+          "placeholder": "Enter your full name"
+        },
+        {
+          "name": "email", 
+          "type": "email",
+          "label": "Email Address",
+          "required": true,
+          "placeholder": "Enter your email address"
+        },
+        {
+          "name": "phone",
+          "type": "tel", 
+          "label": "Phone Number",
+          "required": false,
+          "placeholder": "Enter your phone number"
+        },
+        {
+          "name": "business_type",
+          "type": "select",
+          "label": "Current Business Type",
+          "required": true,
+          "options": [
+            {"value": "ecommerce", "text": "E-commerce Store"},
+            {"value": "service", "text": "Service Business"},
+            {"value": "coaching", "text": "Coaching/Consulting"},
+            {"value": "affiliate", "text": "Affiliate Marketing"},
+            {"value": "other", "text": "Other"}
+          ]
+        },
+        {
+          "name": "current_revenue",
+          "type": "select",
+          "label": "Current Monthly Revenue",
+          "required": true,
+          "options": [
+            {"value": "0-1000", "text": "$0 - $1,000"},
+            {"value": "1000-5000", "text": "$1,000 - $5,000"},
+            {"value": "5000-10000", "text": "$5,000 - $10,000"},
+            {"value": "10000+", "text": "$10,000+"}
+          ]
+        },
+        {
+          "name": "goals",
+          "type": "textarea",
+          "label": "What are your biggest business goals?",
+          "required": true,
+          "placeholder": "Tell us about your goals and what you hope to achieve...",
+          "rows": 4
+        }
+      ]
+    }
+  },
+  "pages": {
+    "education": {
+      "title": "Digital Marketing Education",
+      "sections": [
+        {
+          "title": "Welcome to Digital Success Academy",
+          "content": "Our comprehensive education program is designed to take you from beginner to expert in digital marketing. You'll learn proven strategies, cutting-edge techniques, and insider secrets that most marketers never discover."
+        },
+        {
+          "title": "What You'll Master", 
+          "content": "From social media marketing and email campaigns to SEO, paid advertising, and conversion optimization - we cover every aspect of digital marketing that drives real business growth."
+        }
+      ]
+    },
+    "confirmation": {
+      "title": "Application Received!",
+      "subtitle": "Thank you for your interest in Digital Success Academy",
+      "message": "We've received your mentorship application and are excited to learn more about your business goals. Our team will review your application and get back to you within 24 hours.",
+      "nextSteps": [
+        "Check your email for confirmation and next steps",
+        "We'll review your application and business goals",
+        "Schedule a strategy call if you're a good fit",
+        "Begin your transformation journey with us"
+      ]
+    }
+  },
+  "seo": {
+    "title": "Digital Success Academy - Master Digital Marketing & Build Your Empire",
+    "description": "Join our exclusive mentorship program and learn proven digital marketing strategies from industry experts. Transform your business with personalized guidance and battle-tested techniques.",
+    "keywords": "digital marketing, online business, mentorship, entrepreneurship, social media marketing, email marketing, SEO, paid advertising",
+    "ogImage": "assets/og-image.jpg"
+  }
+}
