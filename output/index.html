@@ -326,11 +326,15 @@
             margin: var(--spacing-xl) 0;
         }
 
-        /* ICLOSED WIDGET */
+        /* ICLOSED BOOKING ROW */
+        .booking-row {
+            width: 100%;
+            margin: var(--spacing-3xl) 0;
+            padding: var(--spacing-2xl) 0;
+        }
+
         .iclosed-widget {
             width: 100%;
-            margin: var(--spacing-xl) 0;
-            filter: invert(95%) hue-rotate(180deg);
         }
 
         /* FALLBACK FORM */
@@ -954,10 +958,11 @@
                 </div>
             </div>
 
-            <!-- iClosed inline widget begin -->
-            <div class="iclosed-widget" id="apply" data-url="https://app.iclosed.io/e/mike/remote-sales-academy-strategy-session" title="Remote Sales Academy - Strategy Session " style="width: 100%; height: 620px"></div>
-            <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
-            <!-- iClosed inline widget end -->
+            <!-- Booking Row -->
+            <div class="booking-row">
+                <div class="iclosed-widget" id="apply" data-url="https://app.iclosed.io/e/mike/remote-sales-academy-strategy-session" title="Remote Sales Academy - Strategy Session " style="width: 100%; height: 620px"></div>
+                <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
+            </div>
 
             <!-- FALLBACK FORM -->
             <form class="fallback-form" id="fallback-form">
