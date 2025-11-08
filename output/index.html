@@ -947,9 +947,10 @@
                 </div>
             </div>
 
-            <!-- Calendly inline widget begin -->
-            <div class="calendly-inline-widget" id="apply" data-url="https://calendly.com/michealakerele/remote-closer-academy-strategy-session?hide_event_type_details=1&hide_gdpr_banner=1" style="min-width:320px;height:700px;"></div>
-            <!-- Calendly inline widget end -->
+            <!-- iClosed inline widget begin -->
+            <div class="iclosed-widget" id="apply" data-url="https://app.iclosed.io/e/mike/remote-sales-academy-strategy-session" title="Remote Sales Academy - Strategy Session " style="width: 100%; height: 620px"></div>
+            <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
+            <!-- iClosed inline widget end -->
 
             <!-- FALLBACK FORM -->
             <form class="fallback-form" id="fallback-form">
@@ -1096,68 +1097,11 @@
         </div>
     </section>
 
-    <!-- Calendly Widget Script -->
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
-    <!-- Initialize Calendly with UTM params before widget.js loads -->
-    <script>
-        (function() {
-            const calendlyWidget = document.querySelector('.calendly-inline-widget');
-            if (calendlyWidget) {
-                const urlParams = new URLSearchParams(window.location.search);
-                const baseUrl = calendlyWidget.getAttribute('data-url');
-                const url = new URL(baseUrl);
-
-                // Pass through all UTM parameters
-                ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(param => {
-                    if (urlParams.has(param)) {
-                        url.searchParams.set(param, urlParams.get(param));
-                    }
-                });
-
-                calendlyWidget.setAttribute('data-url', url.toString());
-            }
-        })();
-    </script>
-
-    <!-- REFINEMENT 4: MutationObserver + Form Handling -->
+    <!-- Form Handling -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const calendlyWidget = document.querySelector('.calendly-inline-widget');
-
-            // REFINEMENT 4: MutationObserver for Calendly widget
             const fallbackForm = document.getElementById('fallback-form');
-            let timeoutId;
-
-            if (calendlyWidget && fallbackForm) {
-                const showFallback = () => {
-                    if (calendlyWidget.children.length === 0 ||
-                        !calendlyWidget.querySelector('iframe')) {
-                        fallbackForm.classList.add('show');
-                    }
-                };
-
-                // Set up MutationObserver
-                const observer = new MutationObserver((mutations) => {
-                    const hasIframe = calendlyWidget.querySelector('iframe');
-                    if (hasIframe) {
-                        // Calendly loaded successfully
-                        clearTimeout(timeoutId);
-                        observer.disconnect();
-                    }
-                });
-
-                observer.observe(calendlyWidget, {
-                    childList: true,
-                    subtree: true
-                });
-
-                // Fallback timeout if Calendly doesn't load in 8 seconds
-                timeoutId = setTimeout(() => {
-                    observer.disconnect();
-                    showFallback();
-                }, 8000);
-            }
 
             // Fallback form submission with Formspree
             if (fallbackForm) {
