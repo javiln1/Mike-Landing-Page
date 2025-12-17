@@ -96,8 +96,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: var(--spacing-3xl) var(--spacing-lg);
+            padding-top: 8rem;
             background:
                 radial-gradient(circle at 50% 30%, rgba(255, 0, 0, 0.08) 0%, transparent 50%),
                 var(--black);
@@ -369,7 +370,9 @@
         </div>
 
         <!-- iClosed widget begin -->
-        <div class="call-details-widget" data-url="https://app.iclosed.io/embed" style="width: 100%; max-width: 800px; height: 340px; margin-top: var(--spacing-xl); background: var(--medium-gray); border: 1px solid rgba(255, 0, 0, 0.3); border-radius: var(--radius-lg);"></div>
+        <div style="width: 100%; max-width: 800px; min-height: 340px; margin-top: var(--spacing-xl);">
+            <div class="call-details-widget" data-url="https://app.iclosed.io/embed" style="width: 100%; min-height: 340px; background: var(--medium-gray); border: 1px solid rgba(255, 0, 0, 0.3); border-radius: var(--radius-lg);"></div>
+        </div>
         <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
         <!-- iClosed widget end -->
     </section>
