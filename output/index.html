@@ -326,9 +326,44 @@
             margin: var(--spacing-xl) 0;
         }
 
-        /* ICLOSED BOOKING ROW */
-        .iclosed-widget {
-            width: 100%;
+        /* FORM CONTAINER */
+        .form-container {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 0, 0, 0.1),
+                0 0 80px rgba(255, 0, 0, 0.15);
+            padding: var(--spacing-xl);
+            margin: var(--spacing-2xl) auto;
+            max-width: 800px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .form-container:hover {
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(255, 0, 0, 0.2),
+                0 0 120px rgba(255, 0, 0, 0.25);
+        }
+
+        .form-header {
+            color: var(--white);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-header span {
+            color: var(--red);
         }
 
         /* FALLBACK FORM */
@@ -952,9 +987,20 @@
                 </div>
             </div>
 
-            <!-- Booking Row -->
-            <div class="iclosed-widget" id="apply" data-url="https://app.iclosed.io/e/mike/remote-sales-academy-strategy-session" title="Remote Sales Academy - Strategy Session " style="width: 100%; height: 620px"></div>
-            <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
+            <!-- Booking Form -->
+            <div class="form-container" id="apply">
+                <iframe
+                  data-tally-src="https://tally.so/embed/xXML6y?alignLeft=1&hideTitle=1&dynamicHeight=1"
+                  loading="lazy"
+                  width="100%"
+                  height="500"
+                  frameborder="0"
+                  marginheight="0"
+                  marginwidth="0"
+                  title="Application Form">
+                </iframe>
+            </div>
+            <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s)}</script>
 
             <!-- FALLBACK FORM -->
             <form class="fallback-form" id="fallback-form">

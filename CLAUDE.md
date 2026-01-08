@@ -18,11 +18,11 @@ This is a **template-based funnel system** for Mike's Remote Sales Academy. The 
 - **Output** (`output/`) contains generated static HTML ready for deployment
 
 ### Current Funnel Structure (Post "Brokie Bait" Implementation)
-1. **index.html** - VSL landing page with Vidalytics video and iClosed booking widget
-2. **education-page.html** - For **qualified** leads (high intent, proper budget)
-3. **education-page-unqualified.html** - For **unqualified** leads (tire kickers, low budget)
+1. **index.html** - VSL landing page with Wistia video and Tally form embed
+2. **confirmation-page.html** - For **qualified** leads (high intent, proper budget)
+3. **confirmation-page-unqualified.html** - For **unqualified** leads (tire kickers, low budget)
 
-The "brokie bait" strategy segments leads by routing them to different education pages based on qualification criteria determined upstream (e.g., via Make automation or quiz).
+The "brokie bait" strategy segments leads by routing them to different confirmation pages based on qualification criteria determined upstream (e.g., via Make automation or quiz).
 
 ### Meta Pixel Tracking Implementation
 All pages have Meta Pixel ID **804390962586900** installed in the `<head>` section for tracking:
@@ -35,7 +35,7 @@ The pixel code is directly embedded in templates, NOT in config files. When edit
 
 ### Third-Party Integrations
 - **Vidalytics** - Video player with engagement tracking (embedId configured in JSON)
-- **iClosed** - Call booking widget embedded in index.html
+- **Tally** - Form embed for lead capture (embedded in index.html)
 - **Meta Pixel** - Conversion tracking for Facebook/Meta ads
 - **Make.com** - Automations for Lead and Schedule event tracking
 
@@ -79,8 +79,8 @@ git push origin main
 
 ### Templates (Source Files)
 - `templates/index.html` - VSL landing page template
-- `templates/education-page.html` - Qualified leads education page
-- `templates/education-page-unqualified.html` - Unqualified leads page
+- `templates/confirmation-page.html` - Qualified leads confirmation page
+- `templates/confirmation-page-unqualified.html` - Unqualified leads page
 
 ### Configuration
 - `config/mike-config.json` - Mike's current config (branding, content, videos)
@@ -127,8 +127,8 @@ Templates use `{{variable.path}}` syntax that gets replaced during build:
 
 ### Current Setup
 - **index.html** tracks PageView automatically
-- **education-page.html** tracks PageView automatically
-- **education-page-unqualified.html** tracks PageView automatically
+- **confirmation-page.html** tracks PageView automatically
+- **confirmation-page-unqualified.html** tracks PageView automatically
 
 ### Conversion Events (via Make)
 The Lead and Schedule events are NOT tracked in the HTML. They are fired server-side via Make.com automations:
@@ -145,9 +145,9 @@ fbq('track', 'EventName', {
 
 ## Brokie Bait Implementation Notes
 
-The funnel uses lead segmentation via separate education pages:
-- Qualified leads see `education-page.html` with strong CTAs and booking prompts
-- Unqualified leads see `education-page-unqualified.html` with educational content
+The funnel uses lead segmentation via separate confirmation pages:
+- Qualified leads see `confirmation-page.html` with strong CTAs and booking prompts
+- Unqualified leads see `confirmation-page-unqualified.html` with educational content
 
 **Routing logic** (where leads get directed) is handled OUTSIDE this repository:
 - Make.com automations
@@ -172,12 +172,12 @@ To change the video:
 1. Update `embedId` in `config/mike-config.json`
 2. Rebuild: `npm run build`
 
-## Working with iClosed Widget
+## Working with Tally Form
 
-The iClosed booking widget is embedded directly in index.html. Changes to the widget:
-1. Edit `templates/index.html` directly (not in config)
-2. Widget styling is in `<style>` section with `.iclosed-widget` classes
-3. Rebuild after changes
+The Tally form is embedded directly in output/index.html. Changes to the form:
+1. Edit `output/index.html` directly
+2. The Tally embed URL contains configuration options (alignLeft, hideTitle, transparentBackground, dynamicHeight)
+3. To change the form, update the form ID in the data-tally-src attribute
 
 ## Debugging Tips
 
