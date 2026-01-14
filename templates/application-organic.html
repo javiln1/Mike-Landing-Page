@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply - Remote Sales Academy</title>
-    <meta name="description" content="Apply to join Remote Sales Academy">
+    <title>Apply - {{client.businessName}}</title>
+    <meta name="description" content="Apply to join {{client.businessName}}">
 
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Apply - Remote Sales Academy">
-    <meta property="og:description" content="Learn elite closing skills, build your personal brand, and access our proven placement system for remote sales roles with Remote Sales Academy.">
-    <meta property="og:image" content="assets/og-image.jpg">
-    <meta property="og:url" content="https://remotesalesacademy.com/application.html">
+    <meta property="og:title" content="Apply - {{client.businessName}}">
+    <meta property="og:description" content="{{seo.description}}">
+    <meta property="og:image" content="{{seo.ogImage}}">
+    <meta property="og:url" content="{{client.website}}/application-organic.html">
 
     <style>
         * {
@@ -34,7 +34,7 @@
 </head>
 <body>
     <iframe
-        src="https://nexusgrowthpartner.co/apply/prime/embed?accent=ff0000&source=paid"
+        src="https://nexusgrowthpartner.co/apply/prime/embed?accent=ff0000&source=organic"
         title="Application Form"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
     </iframe>
