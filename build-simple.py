@@ -115,6 +115,18 @@ def build_template(config_path, output_dir='output'):
     with open(output_path, 'w') as f:
         f.write(html)
 
+    # Build application.html if template exists
+    application_template_path = 'templates/application.html'
+    if os.path.exists(application_template_path):
+        print("Building application.html...")
+        with open(application_template_path, 'r') as f:
+            app_template = f.read()
+        app_html = replace_variables(app_template, config)
+        app_output_path = os.path.join(output_dir, 'application.html')
+        with open(app_output_path, 'w') as f:
+            f.write(app_html)
+        print(f"✓ Application page: {app_output_path}")
+
     print("Copying assets...")
     assets_src = 'assets'
     assets_dst = os.path.join(output_dir, 'assets')

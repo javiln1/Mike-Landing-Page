@@ -86,12 +86,23 @@
             border: none;
         }
 
-        /* CALENDLY WRAPPER */
-        .calendly-wrapper {
-            width: 100%;
-            max-width: 900px;
-            margin: 40px auto 0;
-            min-height: 700px;
+        /* APPLY BUTTON */
+        .apply-btn {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 20px 60px;
+            background: {{branding.buttonColor}};
+            color: {{branding.buttonTextColor}};
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
         }
 
         /* PILLARS SECTION */
@@ -218,9 +229,6 @@
                 grid-template-columns: 1fr;
             }
 
-            .calendly-wrapper {
-                min-height: 600px;
-            }
         }
     </style>
 </head>
@@ -241,13 +249,8 @@
                 </iframe>
             </div>
 
-            <!-- CALENDLY EMBED -->
-            <div class="calendly-wrapper">
-                <div class="calendly-inline-widget"
-                     data-url="{{content.calendlyUrl}}?hide_event_type_details=1&hide_gdpr_banner=1"
-                     style="min-width:320px;height:700px;">
-                </div>
-            </div>
+            <!-- APPLY NOW BUTTON -->
+            <a href="application.html" class="apply-btn">Apply Now</a>
         </div>
     </section>
 
@@ -271,7 +274,5 @@
         </div>
     </section>
 
-    <!-- Calendly Widget Script -->
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 </body>
 </html>

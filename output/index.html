@@ -320,10 +320,34 @@
             transform: translateY(-1px);
         }
 
-        /* CALENDLY EMBED */
-        .calendly-inline-widget {
-            width: 100%;
+        /* APPLY BUTTON */
+        .apply-btn {
+            display: inline-block;
             margin: var(--spacing-xl) 0;
+            background: linear-gradient(135deg, var(--red) 0%, #cc0000 100%);
+            color: var(--white);
+            padding: 1.25rem 3rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow:
+                0 8px 24px var(--red-glow),
+                0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: none;
+            cursor: pointer;
+        }
+
+        .apply-btn:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 32px var(--red-glow),
+                0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
         /* FORM CONTAINER */
@@ -969,7 +993,7 @@
     <nav class="nav-bar">
         <div class="nav-content">
             <div class="brand">Remote Sales <span>Academy</span></div>
-            <a href="#apply" class="nav-cta">Apply Now</a>
+            <a href="application.html" class="nav-cta">Apply Now</a>
         </div>
     </nav>
 
@@ -987,10 +1011,8 @@
                 </div>
             </div>
 
-            <!-- Calendly inline widget begin -->
-            <div id="apply" class="calendly-inline-widget" data-url="https://calendly.com/d/cxpb-946-hng/the-remote-sales-academy-strategy-session-prime?hide_event_type_details=1" style="min-width:320px;max-width:650px;height:730px;margin:0 auto;"></div>
-            <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-            <!-- Calendly inline widget end -->
+            <!-- APPLY NOW BUTTON -->
+            <a id="apply" href="application.html" class="apply-btn">Apply Now</a>
 
             <!-- FALLBACK FORM -->
             <form class="fallback-form" id="fallback-form">
@@ -1051,7 +1073,7 @@
 
             <!-- CTA Button -->
             <div class="cta-section">
-                <a href="#apply" class="cta-button">Apply Now</a>
+                <a href="application.html" class="cta-button">Apply Now</a>
             </div>
         </div>
     </section>
