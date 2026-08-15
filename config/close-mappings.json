@@ -4,19 +4,17 @@
   "funnel": "RSA VSL",
   "leadStatusId": "stat_lvdspqnNnIrvBSgwuvuLFf2DsDLyE200X817s5sZw90",
   "pipeline": {
-    "id": "pipe_70643oVvRscqCsOCWeNl4F",
+    "id": "pipe_4XCyYHIyVNgFEuCV7uFNgV",
     "stages": {
-      "applicationSubmitted": "stat_9XOe3HDRGtnpbIDHBiYRlIlQOhFOwhsGtzjrr8dnD9n",
-      "qualified": "stat_1z9L9wXq6S0SsPucjOg3VRynagWtC5DCFvqNOqmFgQn",
-      "booked": "stat_vIaBDLggA7DSjUDxqz1e8eHAboaVknZZ31dpX3efsZA",
-      "showed": "stat_TiNAzDJ4nx5mkKDv3JYZfsKrDOtnIZoLpSq0L08BDfj",
-      "followUp": "stat_nHimztvIcecisdYvuBFyuiBvUjvaKyPm5zNfeal6zrx",
-      "noShow": "stat_CGfFxts1utn1O0i9byzzlAKYcg58tkzTIOjFNM4DO6X",
-      "rescheduled": "stat_kmKu9ghoT5aGJP5DK8s8VJuL1jV96yPkQjoNgPQtLC1",
-      "notContacted": "stat_e1CEjUeGeANBiieJzsjc8ikCph0RbbmIgU2NiDeCV24",
-      "disqualified": "stat_kS3RkkhBtJ5pQs1AhiQ41YNVfZBt32N5xzlO2KqwHRc",
-      "dealWon": "stat_S5c7fg00FLgbF1IfeuvCxjc00pkCy6b54iSg31PSCHi",
-      "dealLost": "stat_SMFaFcAcCZDfqQ5O1tUxR5UvGABqnuH6RSYwOidWdw8"
+      "applicationSubmitted": "stat_LD8snWAlb7hOQY6TnpG2zOcn2kvS2CXG2uXlJKMiNzS",
+      "qualified": "stat_ZN92RaFe23V2SPNQNWnXzzrk7ffyaCEIRiqqHPc49Tu",
+      "booked": "stat_qcZjLpARKIlTRba7ByYj91HuHW2KRtMrVNKH5Ilan1E",
+      "showed": "stat_NyNre24S56fWsZrNpaFqobAqSdNQJA2JVLYILr3iOkh",
+      "followUp": "stat_qJmsIyx3epXUeUVZzL0A3yR3Tz0REUEZAzi1lTbhyKw",
+      "noShow": "stat_Ua24mdCimquQ6zz1DyNLyXSwEBMHjL1sYS4KVJNgs3J",
+      "notContacted": "stat_AHW5nV57yFbglyZfDbAvk1FP5NaipmRHiaEqS8nZnzE",
+      "dealClosed": "stat_B3PCX7EGJblsHUImwoA3ySwaMHGUJBFdTNyTRipYXgI",
+      "dealLost": "stat_vV1kWUOrZeUu0VQVYYvDXsWM2YyyyKN5sKJ3ZvFVfNx"
     }
   },
   "leadFields": {
@@ -73,6 +71,31 @@
         "utmMedium": "cf_YT30l4qXjINm77UK1bSWmylGkMrwXXllTOeFAivdPdA",
         "utmCampaign": "cf_SG6R3MfRczKJf7rnlrxT6YIBDaWQolWgWPIgPEcIf9a",
         "utmContent": "cf_2pweA9S5vuWJSZHrawTpmdHEjAqSTAsQuR4Gkw9eJ7s"
+      }
+    },
+    "outcome": {
+      "typeId": "actitype_6FTpLyc50mhfF36ZoHUBMl",
+      "fields": {
+        "outcome": "cf_Uct9y56rmRkZvJKM9jsrdSU5biYjTi2gniqZr7g0p0A",
+        "callDate": "cf_ORKRyNzLziMMHjkrpoUz5GbDTwGKaeRg8jr1QGlF90Y",
+        "setterName": "cf_ptmXUwbTBdg05C1mCw3j7Ivxr2Ymj9tAqlT4D4sssQL",
+        "closerName": "cf_lrQglEsjntKuGElky1TSbz8DD8FTh67xrZ2fCrbT8M2",
+        "investmentCapability": "cf_bdSlwZUMCS41ovVAhkbZOQP7coxZj24m5wHvvWIWTlz",
+        "currentSituation": "cf_drJ4SUIaTLzxLhncbMEiqw95iTo4OZTfyvOv0vi7hm6",
+        "desiredSituation": "cf_fPJ4J8yjUUHEPSHUkc1sOl37X6OTiaww4U6TFn1hrvg",
+        "obstacles": "cf_LMwKGZTVVswVFcmhBjUR9vBd2P3Xb3gQemAepHWuRdP",
+        "followUpDate": "cf_8FZ98XdixZS0RvfHFCsB7E8h3dOYByuciDpQ1HMPbhE",
+        "followUpReason": "cf_5LZAPKL5h85StXXiggmZfoWtzI7nHRcaImSjKfkCDEp",
+        "deposit": "cf_UMazFk3D4byRb9oFTOG51I2ajKKoIp1A1ZzAyndEn0g",
+        "dateClosed": "cf_JYwlPArwa4eH0qFE7QuRfYtnKULKgWY6CJQ91TL4DhM",
+        "cashCollected": "cf_JFA9vNihfczM6hwNyA4MRTcg3G87NpHGPgF9s1Bs7oV",
+        "packageTotal": "cf_inpvp8JfIE8RA62kwpybeZDNtb2KXUFiteeXuFZ0jPO",
+        "financingType": "cf_f3tcw1ZNTDJJSpjm1FozvlINn2HOCinRJ27iw5ofFX5",
+        "paymentPlanMonths": "cf_2LpT6cqMW7UXzyA1g3ldFMl0Hub5jpPJN2xlNXIb8UX",
+        "paymentPerPeriod": "cf_9jbbIKxo4apmtMDoQY1NKOHRLzCfkqdSsoDzp0xhEhw",
+        "dateLost": "cf_JvuVEMUQEZIXl3bSaWBVHFiKyfalSDPmZLlU61ZZHtY",
+        "lossReason": "cf_5Plq0XfXQfsjCBgvKHIaOTX9QvHYE3Fb795btQ6R9v7",
+        "notes": "cf_hFldnazZV5tFkLOfGV8WdXjtPKQ8OB12h4zy0CB5KQr"
       }
     }
   },

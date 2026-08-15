@@ -58,11 +58,11 @@ options("/bookings");
 options("/outcomes");
 
 const validOutcomes = [
+  "Deal Closed",
   "Deal Won",
   "Follow Up",
   "Deal Lost",
   "No Show",
-  "Rescheduled",
   "Disqualified",
   "Not Contacted",
 ] as const;
@@ -178,6 +178,22 @@ http.route({
         submittedAt: Date.now(),
       };
       const recorded = await ctx.runMutation(internal.outcomes.record, input);
+      if (!recorded.isDuplicate) {
+        await ctx.scheduler.runAfter(0, internal.discord.outcome, {
+          name: input.name,
+          email: input.email,
+          outcome: input.outcome,
+          setterName: input.setterName,
+          closerName: input.closerName,
+          callDate: input.callDate,
+          followUpDate: input.followUpDate,
+          followUpReason: input.followUpReason,
+          cashCollected: input.cashCollected,
+          packageTotal: input.packageTotal,
+          lossReason: input.lossReason,
+          notes: input.notes,
+        });
+      }
       if (!recorded.isDuplicate || recorded.syncStatus === "failed") {
         try {
           const synced = await syncOutcome({
@@ -190,6 +206,7 @@ http.route({
             status: "synced",
             closeLeadId: synced.leadId,
             closeOpportunityId: synced.opportunityId,
+            closeActivityId: synced.activityId,
           });
         } catch (error) {
           await ctx.runMutation(internal.outcomes.markCloseSync, {

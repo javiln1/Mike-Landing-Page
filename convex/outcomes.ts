@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { internalMutation } from "./_generated/server";
 
 export const outcomeValidator = v.union(
+  v.literal("Deal Closed"),
   v.literal("Deal Won"),
   v.literal("Follow Up"),
   v.literal("Deal Lost"),
@@ -82,6 +83,7 @@ export const markCloseSync = internalMutation({
     status: v.union(v.literal("synced"), v.literal("failed")),
     closeLeadId: optionalString,
     closeOpportunityId: optionalString,
+    closeActivityId: optionalString,
     error: optionalString,
   },
   handler: async (ctx, args) => {

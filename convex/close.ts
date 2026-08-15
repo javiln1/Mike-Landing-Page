@@ -8,17 +8,15 @@ type Attribution = {
 const config = {
   sharedUserId: "user_oKUouqfUCk7U0VxKO776S3oXgzwn63w2Uq2Qxh31Inv",
   leadStatusId: "stat_lvdspqnNnIrvBSgwuvuLFf2DsDLyE200X817s5sZw90",
-  pipelineId: "pipe_70643oVvRscqCsOCWeNl4F",
+  pipelineId: "pipe_4XCyYHIyVNgFEuCV7uFNgV",
   stages: {
-    qualified: "stat_1z9L9wXq6S0SsPucjOg3VRynagWtC5DCFvqNOqmFgQn",
-    booked: "stat_vIaBDLggA7DSjUDxqz1e8eHAboaVknZZ31dpX3efsZA",
-    disqualified: "stat_kS3RkkhBtJ5pQs1AhiQ41YNVfZBt32N5xzlO2KqwHRc",
-    followUp: "stat_nHimztvIcecisdYvuBFyuiBvUjvaKyPm5zNfeal6zrx",
-    noShow: "stat_CGfFxts1utn1O0i9byzzlAKYcg58tkzTIOjFNM4DO6X",
-    rescheduled: "stat_kmKu9ghoT5aGJP5DK8s8VJuL1jV96yPkQjoNgPQtLC1",
-    notContacted: "stat_e1CEjUeGeANBiieJzsjc8ikCph0RbbmIgU2NiDeCV24",
-    dealWon: "stat_S5c7fg00FLgbF1IfeuvCxjc00pkCy6b54iSg31PSCHi",
-    dealLost: "stat_SMFaFcAcCZDfqQ5O1tUxR5UvGABqnuH6RSYwOidWdw8",
+    qualified: "stat_ZN92RaFe23V2SPNQNWnXzzrk7ffyaCEIRiqqHPc49Tu",
+    booked: "stat_qcZjLpARKIlTRba7ByYj91HuHW2KRtMrVNKH5Ilan1E",
+    followUp: "stat_qJmsIyx3epXUeUVZzL0A3yR3Tz0REUEZAzi1lTbhyKw",
+    noShow: "stat_Ua24mdCimquQ6zz1DyNLyXSwEBMHjL1sYS4KVJNgs3J",
+    notContacted: "stat_AHW5nV57yFbglyZfDbAvk1FP5NaipmRHiaEqS8nZnzE",
+    dealClosed: "stat_B3PCX7EGJblsHUImwoA3ySwaMHGUJBFdTNyTRipYXgI",
+    dealLost: "stat_vV1kWUOrZeUu0VQVYYvDXsWM2YyyyKN5sKJ3ZvFVfNx",
   },
   leadFields: {
     setterName: "cf_0JtHxMeHX6pe2F5ZOLSaOFZfS5GEsrDRhRe7Sdrdf2D",
@@ -76,11 +74,45 @@ const config = {
         utmContent: "cf_2pweA9S5vuWJSZHrawTpmdHEjAqSTAsQuR4Gkw9eJ7s",
       },
     },
+    outcome: {
+      typeId: "actitype_6FTpLyc50mhfF36ZoHUBMl",
+      fields: {
+        outcome: "cf_Uct9y56rmRkZvJKM9jsrdSU5biYjTi2gniqZr7g0p0A",
+        callDate: "cf_ORKRyNzLziMMHjkrpoUz5GbDTwGKaeRg8jr1QGlF90Y",
+        setterName: "cf_ptmXUwbTBdg05C1mCw3j7Ivxr2Ymj9tAqlT4D4sssQL",
+        closerName: "cf_lrQglEsjntKuGElky1TSbz8DD8FTh67xrZ2fCrbT8M2",
+        investmentCapability: "cf_bdSlwZUMCS41ovVAhkbZOQP7coxZj24m5wHvvWIWTlz",
+        currentSituation: "cf_drJ4SUIaTLzxLhncbMEiqw95iTo4OZTfyvOv0vi7hm6",
+        desiredSituation: "cf_fPJ4J8yjUUHEPSHUkc1sOl37X6OTiaww4U6TFn1hrvg",
+        obstacles: "cf_LMwKGZTVVswVFcmhBjUR9vBd2P3Xb3gQemAepHWuRdP",
+        followUpDate: "cf_8FZ98XdixZS0RvfHFCsB7E8h3dOYByuciDpQ1HMPbhE",
+        followUpReason: "cf_5LZAPKL5h85StXXiggmZfoWtzI7nHRcaImSjKfkCDEp",
+        deposit: "cf_UMazFk3D4byRb9oFTOG51I2ajKKoIp1A1ZzAyndEn0g",
+        dateClosed: "cf_JYwlPArwa4eH0qFE7QuRfYtnKULKgWY6CJQ91TL4DhM",
+        cashCollected: "cf_JFA9vNihfczM6hwNyA4MRTcg3G87NpHGPgF9s1Bs7oV",
+        packageTotal: "cf_inpvp8JfIE8RA62kwpybeZDNtb2KXUFiteeXuFZ0jPO",
+        financingType: "cf_f3tcw1ZNTDJJSpjm1FozvlINn2HOCinRJ27iw5ofFX5",
+        paymentPlanMonths: "cf_2LpT6cqMW7UXzyA1g3ldFMl0Hub5jpPJN2xlNXIb8UX",
+        paymentPerPeriod: "cf_9jbbIKxo4apmtMDoQY1NKOHRLzCfkqdSsoDzp0xhEhw",
+        dateLost: "cf_JvuVEMUQEZIXl3bSaWBVHFiKyfalSDPmZLlU61ZZHtY",
+        lossReason: "cf_5Plq0XfXQfsjCBgvKHIaOTX9QvHYE3Fb795btQ6R9v7",
+        notes: "cf_hFldnazZV5tFkLOfGV8WdXjtPKQ8OB12h4zy0CB5KQr",
+      },
+    },
   },
 } as const;
 
 function clean(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+function closeDate(value: unknown) {
+  const cleaned = clean(value);
+  if (!cleaned) return undefined;
+  const isoDate = cleaned.match(/^\d{4}-\d{2}-\d{2}/)?.[0];
+  if (isoDate) return isoDate;
+  const parsed = new Date(cleaned);
+  return Number.isNaN(parsed.valueOf()) ? undefined : parsed.toISOString().slice(0, 10);
 }
 
 function custom(body: Record<string, unknown>, fieldId: string, value: unknown) {
@@ -250,7 +282,7 @@ export async function syncApplication(input: {
   });
   const opportunityId = await ensureOpportunity(
     leadId,
-    input.qualificationStatus === "qualified" ? config.stages.qualified : config.stages.disqualified,
+    input.qualificationStatus === "qualified" ? config.stages.qualified : config.stages.dealLost,
     input.closeOpportunityId,
   );
   const activityId = await createActivity(leadId, config.activities.application, {
@@ -300,13 +332,23 @@ export async function syncBooking(input: {
 }
 
 const outcomeStages = {
-  "Deal Won": config.stages.dealWon,
+  "Deal Closed": config.stages.dealClosed,
+  "Deal Won": config.stages.dealClosed,
   "Follow Up": config.stages.followUp,
   "Deal Lost": config.stages.dealLost,
   "No Show": config.stages.noShow,
-  "Rescheduled": config.stages.rescheduled,
-  "Disqualified": config.stages.disqualified,
+  "Disqualified": config.stages.dealLost,
   "Not Contacted": config.stages.notContacted,
+} as const;
+
+const normalizedOutcomes = {
+  "Deal Closed": "Deal Closed",
+  "Deal Won": "Deal Closed",
+  "Follow Up": "Follow Up",
+  "Deal Lost": "Deal Lost",
+  "No Show": "No Show",
+  "Disqualified": "Deal Lost",
+  "Not Contacted": "Not Contacted",
 } as const;
 
 export async function syncOutcome(input: {
@@ -317,7 +359,23 @@ export async function syncOutcome(input: {
   setterName?: string;
   closerName?: string;
   outcome: keyof typeof outcomeStages;
+  callDate?: string;
+  investmentCapability?: string;
+  currentSituation?: string;
+  desiredSituation?: string;
+  obstacles?: string;
+  followUpDate?: string;
+  followUpReason?: string;
+  deposit?: string;
+  dateWon?: string;
   cashCollected?: string;
+  packageTotal?: string;
+  financingType?: string;
+  paymentPlanMonths?: string;
+  paymentPerPeriod?: string;
+  dateLost?: string;
+  lossReason?: string;
+  notes?: string;
 }) {
   const existingLead = input.closeLeadId ? { id: input.closeLeadId } : await findLead(input.email);
   if (!existingLead) throw new Error(`No existing Close lead found for ${input.email}.`);
@@ -334,7 +392,29 @@ export async function syncOutcome(input: {
     outcomeStages[input.outcome],
     input.closeOpportunityId,
   );
-  if (input.outcome === "Deal Won" && input.cashCollected) {
+  const activityId = await createActivity(leadId, config.activities.outcome, {
+    outcome: normalizedOutcomes[input.outcome],
+    callDate: closeDate(input.callDate),
+    setterName: input.setterName,
+    closerName: input.closerName,
+    investmentCapability: input.investmentCapability,
+    currentSituation: input.currentSituation,
+    desiredSituation: input.desiredSituation,
+    obstacles: input.obstacles,
+    followUpDate: closeDate(input.followUpDate),
+    followUpReason: input.followUpReason,
+    deposit: input.deposit,
+    dateClosed: closeDate(input.dateWon),
+    cashCollected: input.cashCollected,
+    packageTotal: input.packageTotal,
+    financingType: input.financingType,
+    paymentPlanMonths: input.paymentPlanMonths,
+    paymentPerPeriod: input.paymentPerPeriod,
+    dateLost: closeDate(input.dateLost),
+    lossReason: input.lossReason,
+    notes: input.notes,
+  });
+  if (normalizedOutcomes[input.outcome] === "Deal Closed" && input.cashCollected) {
     const value = Math.round(Number(input.cashCollected.replace(/[^0-9.]/g, "")) * 100);
     if (Number.isFinite(value)) {
       await closeRequest(`opportunity/${opportunityId}/`, {
@@ -343,5 +423,5 @@ export async function syncOutcome(input: {
       });
     }
   }
-  return { leadId, opportunityId };
+  return { leadId, opportunityId, activityId };
 }

@@ -85,6 +85,7 @@ export default defineSchema({
     setterName: v.optional(v.string()),
     closerName: v.optional(v.string()),
     outcome: v.union(
+      v.literal("Deal Closed"),
       v.literal("Deal Won"),
       v.literal("Follow Up"),
       v.literal("Deal Lost"),
@@ -113,6 +114,7 @@ export default defineSchema({
     submittedAt: v.number(),
     closeLeadId: v.optional(v.string()),
     closeOpportunityId: v.optional(v.string()),
+    closeActivityId: v.optional(v.string()),
     syncStatus,
     syncError: v.optional(v.string()),
   })
