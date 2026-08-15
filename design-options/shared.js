@@ -249,6 +249,7 @@ const previousButton = application.querySelector('[data-previous]');
 let currentScreen = 0;
 let optInCaptured = false;
 let calendarLoaded = false;
+let calendarScriptPromise;
 let calendarBookingSynced = false;
 let calendarRedirectStarted = false;
 let isTransitioning = false;
@@ -739,7 +740,31 @@ function buildCalendarUrl() {
   return url.toString();
 }
 
-function loadCalendar() {
+function loadCalendarScript() {
+  if (calendarScriptPromise) return calendarScriptPromise;
+
+  calendarScriptPromise = new Promise((resolve, reject) => {
+    const existing = document.querySelector('script[data-ghl-calendar-embed]');
+    if (existing && window.__GHL_EMBED_STATE__) {
+      resolve();
+      return;
+    }
+
+    const script = existing || document.createElement('script');
+    script.addEventListener('load', resolve, { once: true });
+    script.addEventListener('error', () => reject(new Error('Unable to load the booking calendar.')), { once: true });
+    if (!existing) {
+      script.src = 'https://link.msgsndr.com/js/form_embed.js';
+      script.async = true;
+      script.dataset.ghlCalendarEmbed = '';
+      document.head.append(script);
+    }
+  });
+
+  return calendarScriptPromise;
+}
+
+async function loadCalendar() {
   if (!applicationConfig.calendarUrl) {
     calendarMount.innerHTML = '<p class="calendar-embed__error">The Application Call calendar is not configured yet.</p>';
     return;
@@ -747,6 +772,15 @@ function loadCalendar() {
 
   if (calendarLoaded) return;
   calendarLoaded = true;
+
+  try {
+    await loadCalendarScript();
+  } catch (error) {
+    calendarLoaded = false;
+    calendarMount.innerHTML = `<p class="calendar-embed__error">${error instanceof Error ? error.message : 'Unable to load the booking calendar.'}</p>`;
+    return;
+  }
+
   const iframe = document.createElement('iframe');
   iframe.src = buildCalendarUrl();
   iframe.id = 'msgsndr-calendar';
@@ -754,14 +788,6 @@ function loadCalendar() {
   iframe.setAttribute('scrolling', 'no');
   iframe.setAttribute('allow', 'payment');
   calendarMount.replaceChildren(iframe);
-
-  if (!document.querySelector('script[data-ghl-calendar-embed]')) {
-    const script = document.createElement('script');
-    script.src = 'https://link.msgsndr.com/js/form_embed.js';
-    script.async = true;
-    script.dataset.ghlCalendarEmbed = '';
-    document.head.append(script);
-  }
 }
 
 async function syncCalendarBooking(calendarId, detail = {}) {
