@@ -53,10 +53,18 @@ for (const asset of ["shared.css", "shared.js"]) {
 }
 
 await mkdir(join(outputDirectory, "assets"), { recursive: true });
-await copyFile(
-  join(import.meta.dir, "assets", "vsl-remote-sales-poster.jpg"),
-  join(outputDirectory, "assets", "vsl-remote-sales-poster.jpg"),
-);
+for (const asset of [
+  "vsl-remote-sales-poster.jpg",
+  "vsl-remote-sales-h264.mp4",
+  "video-thumbnail.png",
+  "win-story-1.png",
+  "win-story-2.png",
+  "client1.jpg",
+  "client2.jpg",
+  "client3.jpg",
+]) {
+  await copyFile(join(import.meta.dir, "assets", asset), join(outputDirectory, "assets", asset));
+}
 
 await Bun.write(join(outputDirectory, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: https://theremotesalesacademy.com/sitemap.xml\n");
 await Bun.write(
