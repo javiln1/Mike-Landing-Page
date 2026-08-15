@@ -1,7 +1,7 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
-import { syncApplication, syncBooking, syncOptIn } from "./close";
+import { syncApplication, syncBooking, syncOptIn, syncOutcome } from "./close";
 
 const http = httpRouter();
 
@@ -55,6 +55,41 @@ function options(path: string) {
 options("/opt-ins");
 options("/applications");
 options("/bookings");
+options("/outcomes");
+
+const validOutcomes = [
+  "Deal Won",
+  "Follow Up",
+  "Deal Lost",
+  "No Show",
+  "Rescheduled",
+  "Disqualified",
+  "Not Contacted",
+] as const;
+
+type Outcome = typeof validOutcomes[number];
+
+function answerMap(body: Record<string, any>) {
+  const values = new Map<string, unknown>();
+  for (const field of Array.isArray(body.fields) ? body.fields : []) {
+    if (!field || typeof field !== "object") continue;
+    const key = String(field.question || field.name || field.id || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+    if (key) values.set(key, field.answer ?? field.value);
+  }
+  const get = (...names: string[]) => {
+    for (const name of names) {
+      const key = name.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+      const direct = body[name] ?? body[key.replaceAll(" ", "_")];
+      const value = direct ?? values.get(key);
+      if (value !== undefined && value !== null && String(value).trim()) return String(value).trim();
+    }
+    return undefined;
+  };
+  return get;
+}
 
 http.route({
   path: "/opt-ins",
@@ -96,6 +131,78 @@ http.route({
         }
       }
       return Response.json({ optInId: recorded.optInId, duplicate: recorded.isDuplicate }, { status: 201, headers: corsHeaders });
+    } catch (error) {
+      return Response.json({ error: errorMessage(error) }, { status: 400, headers: corsHeaders });
+    }
+  }),
+});
+
+http.route({
+  path: "/outcomes",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    try {
+      const body = await request.json() as Record<string, any>;
+      const get = answerMap(body);
+      const rawOutcome = get("Outcome", "outcome");
+      if (!rawOutcome || !validOutcomes.includes(rawOutcome as Outcome)) {
+        if (body.event_type === "submission") {
+          return Response.json({ accepted: true, test: true }, { status: 202, headers: corsHeaders });
+        }
+        throw new Error("A valid outcome is required.");
+      }
+      const input = {
+        submissionKey: text(body.event_id || body.submission_id || `${get("Email")}:${rawOutcome}:${get("Date of Call", "Date Closed", "Date Lost") || ""}`, "Submission ID"),
+        name: text(get("Name"), "Name"),
+        email: email(get("Email")),
+        setterName: optional(get("Setter", "Setter Name")),
+        closerName: optional(get("Closer", "Closer Name")),
+        outcome: rawOutcome as Outcome,
+        callDate: optional(get("Date of Call")),
+        investmentCapability: optional(get("Investment Capability $", "Investment Capability")),
+        currentSituation: optional(get("Current Situation")),
+        desiredSituation: optional(get("Desired Situation")),
+        obstacles: optional(get("Obstacles")),
+        followUpDate: optional(get("Follow Up Date")),
+        followUpReason: optional(get("Follow Up Reason")),
+        deposit: optional(get("Deposit (if nothing put 0)", "Deposit")),
+        dateWon: optional(get("Date Closed", "Date Won")),
+        cashCollected: optional(get("Cash Collected")),
+        packageTotal: optional(get("Package Total")),
+        financingType: optional(get("Financing Type")),
+        paymentPlanMonths: optional(get("# Months", "Months")),
+        paymentPerPeriod: optional(get("$ per payment period", "Payment per period")),
+        dateLost: optional(get("Date Lost")),
+        lossReason: optional(get("Reason", "Reason Lost", "Loss Reason")),
+        notes: optional(get("Any Additional Info you would like to mention?", "Additional Info", "Notes")),
+        submittedAt: Date.now(),
+      };
+      const recorded = await ctx.runMutation(internal.outcomes.record, input);
+      if (!recorded.isDuplicate || recorded.syncStatus === "failed") {
+        try {
+          const synced = await syncOutcome({
+            ...input,
+            closeLeadId: recorded.closeLeadId,
+            closeOpportunityId: recorded.closeOpportunityId,
+          });
+          await ctx.runMutation(internal.outcomes.markCloseSync, {
+            outcomeId: recorded.outcomeId,
+            status: "synced",
+            closeLeadId: synced.leadId,
+            closeOpportunityId: synced.opportunityId,
+          });
+        } catch (error) {
+          await ctx.runMutation(internal.outcomes.markCloseSync, {
+            outcomeId: recorded.outcomeId,
+            status: "failed",
+            error: errorMessage(error),
+          });
+        }
+      }
+      return Response.json({
+        outcomeId: recorded.outcomeId,
+        duplicate: recorded.isDuplicate,
+      }, { status: 201, headers: corsHeaders });
     } catch (error) {
       return Response.json({ error: errorMessage(error) }, { status: 400, headers: corsHeaders });
     }

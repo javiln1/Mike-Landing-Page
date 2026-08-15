@@ -77,4 +77,46 @@ export default defineSchema({
   })
     .index("by_email_start", ["email", "callStart"])
     .index("by_submission", ["submittedAt"]),
+
+  outcomes: defineTable({
+    submissionKey: v.string(),
+    name: v.string(),
+    email: v.string(),
+    setterName: v.optional(v.string()),
+    closerName: v.optional(v.string()),
+    outcome: v.union(
+      v.literal("Deal Won"),
+      v.literal("Follow Up"),
+      v.literal("Deal Lost"),
+      v.literal("No Show"),
+      v.literal("Rescheduled"),
+      v.literal("Disqualified"),
+      v.literal("Not Contacted"),
+    ),
+    callDate: v.optional(v.string()),
+    investmentCapability: v.optional(v.string()),
+    currentSituation: v.optional(v.string()),
+    desiredSituation: v.optional(v.string()),
+    obstacles: v.optional(v.string()),
+    followUpDate: v.optional(v.string()),
+    followUpReason: v.optional(v.string()),
+    deposit: v.optional(v.string()),
+    dateWon: v.optional(v.string()),
+    cashCollected: v.optional(v.string()),
+    packageTotal: v.optional(v.string()),
+    financingType: v.optional(v.string()),
+    paymentPlanMonths: v.optional(v.string()),
+    paymentPerPeriod: v.optional(v.string()),
+    dateLost: v.optional(v.string()),
+    lossReason: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    submittedAt: v.number(),
+    closeLeadId: v.optional(v.string()),
+    closeOpportunityId: v.optional(v.string()),
+    syncStatus,
+    syncError: v.optional(v.string()),
+  })
+    .index("by_submission_key", ["submissionKey"])
+    .index("by_email", ["email"])
+    .index("by_submission", ["submittedAt"]),
 });

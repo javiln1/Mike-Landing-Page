@@ -13,6 +13,12 @@ const config = {
     qualified: "stat_1z9L9wXq6S0SsPucjOg3VRynagWtC5DCFvqNOqmFgQn",
     booked: "stat_vIaBDLggA7DSjUDxqz1e8eHAboaVknZZ31dpX3efsZA",
     disqualified: "stat_kS3RkkhBtJ5pQs1AhiQ41YNVfZBt32N5xzlO2KqwHRc",
+    followUp: "stat_nHimztvIcecisdYvuBFyuiBvUjvaKyPm5zNfeal6zrx",
+    noShow: "stat_CGfFxts1utn1O0i9byzzlAKYcg58tkzTIOjFNM4DO6X",
+    rescheduled: "stat_kmKu9ghoT5aGJP5DK8s8VJuL1jV96yPkQjoNgPQtLC1",
+    notContacted: "stat_e1CEjUeGeANBiieJzsjc8ikCph0RbbmIgU2NiDeCV24",
+    dealWon: "stat_S5c7fg00FLgbF1IfeuvCxjc00pkCy6b54iSg31PSCHi",
+    dealLost: "stat_SMFaFcAcCZDfqQ5O1tUxR5UvGABqnuH6RSYwOidWdw8",
   },
   leadFields: {
     setterName: "cf_0JtHxMeHX6pe2F5ZOLSaOFZfS5GEsrDRhRe7Sdrdf2D",
@@ -291,4 +297,51 @@ export async function syncBooking(input: {
     utmContent: input.attribution.content,
   });
   return { leadId, opportunityId, activityId };
+}
+
+const outcomeStages = {
+  "Deal Won": config.stages.dealWon,
+  "Follow Up": config.stages.followUp,
+  "Deal Lost": config.stages.dealLost,
+  "No Show": config.stages.noShow,
+  "Rescheduled": config.stages.rescheduled,
+  "Disqualified": config.stages.disqualified,
+  "Not Contacted": config.stages.notContacted,
+} as const;
+
+export async function syncOutcome(input: {
+  closeLeadId?: string;
+  closeOpportunityId?: string;
+  name: string;
+  email: string;
+  setterName?: string;
+  closerName?: string;
+  outcome: keyof typeof outcomeStages;
+  cashCollected?: string;
+}) {
+  const existingLead = input.closeLeadId ? { id: input.closeLeadId } : await findLead(input.email);
+  if (!existingLead) throw new Error(`No existing Close lead found for ${input.email}.`);
+  const leadId = await ensureLead({
+    closeLeadId: existingLead.id,
+    name: input.name,
+    email: input.email,
+    setterName: input.setterName,
+    closerName: input.closerName,
+    attribution: {},
+  });
+  const opportunityId = await ensureOpportunity(
+    leadId,
+    outcomeStages[input.outcome],
+    input.closeOpportunityId,
+  );
+  if (input.outcome === "Deal Won" && input.cashCollected) {
+    const value = Math.round(Number(input.cashCollected.replace(/[^0-9.]/g, "")) * 100);
+    if (Number.isFinite(value)) {
+      await closeRequest(`opportunity/${opportunityId}/`, {
+        method: "PUT",
+        body: JSON.stringify({ value, value_period: "one_time" }),
+      });
+    }
+  }
+  return { leadId, opportunityId };
 }
