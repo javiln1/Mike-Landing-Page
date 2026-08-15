@@ -22,6 +22,7 @@ export const record = internalMutation({
         isDuplicate: true,
         syncStatus: existing.syncStatus,
         closeLeadId: existing.closeLeadId,
+        ghlContactId: existing.ghlContactId,
       };
     }
     const optInId = await ctx.db.insert("optIns", { ...args, syncStatus: "pending" });
@@ -35,6 +36,8 @@ export const markSync = internalMutation({
     status: v.union(v.literal("synced"), v.literal("failed")),
     closeLeadId: v.optional(v.string()),
     closeActivityId: v.optional(v.string()),
+    ghlContactId: v.optional(v.string()),
+    ghlNoteId: v.optional(v.string()),
     error: v.optional(v.string()),
   },
   handler: async (ctx, args) => {

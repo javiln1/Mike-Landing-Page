@@ -19,7 +19,7 @@
     "heroTitle": "Break Into Remote High-Ticket Sales in 90 Days",
     "heroSubtitle": "Learn elite closing skills, build your personal brand, and access our proven placement system for remote sales roles",
     "heroDescription": "The placement-first system for 9-to-5 workers who want to escape the grind and master remote sales.",
-    "calendlyUrl": "https://calendly.com/michealakerele/remote-closer-academy-strategy-session",
+    "calendarUrl": "https://api.leadconnectorhq.com/widget/booking/qOGJN8o9daw4OP02G60v",
     "pillars": [
       {
         "title": "Elite Sales Training",
@@ -37,7 +37,7 @@
     "ctaTitle": "Ready to Start Your 90-Day Transformation?",
     "ctaSubtitle": "Book a call to see if Remote Sales Academy is right for you",
     "ctaButtonText": "Book Your Call",
-    "ctaButtonUrl": "#calendly"
+    "ctaButtonUrl": "#application-form"
   },
   "media": {
     "heroVideo": {
@@ -85,7 +85,7 @@
       "subtitle": "Check your email for confirmation",
       "message": "We've sent you a calendar invite. Make sure to show up prepared to discuss your goals.",
       "nextSteps": [
-        "Check your email for the Calendly confirmation",
+        "Check your email for the booking confirmation",
         "Prepare to discuss why you want to get into remote sales",
         "Come ready to learn about the 90-day system"
       ]

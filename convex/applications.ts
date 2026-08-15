@@ -14,14 +14,16 @@ export const record = internalMutation({
     currentIncome: v.string(),
     incomeGoal: v.string(),
     experience: v.string(),
+    salesRole: v.optional(v.string()),
+    whyNow: v.optional(v.string()),
     urgency: v.string(),
+    startTiming: v.optional(v.string()),
+    investmentReadiness: v.optional(v.string()),
     name: v.string(),
     email: v.string(),
-    instagram: v.string(),
+    instagram: v.optional(v.string()),
     phone: v.string(),
     liquidCapital: v.string(),
-    nonMarketingConsent: v.boolean(),
-    marketingConsent: v.boolean(),
     qualificationStatus: v.union(v.literal("qualified"), v.literal("unqualified")),
     submittedAt: v.number(),
     landingPage: v.string(),
@@ -41,6 +43,8 @@ export const record = internalMutation({
         syncStatus: existing.syncStatus,
         closeLeadId: existing.closeLeadId,
         closeOpportunityId: existing.closeOpportunityId,
+        ghlContactId: existing.ghlContactId,
+        ghlOpportunityId: existing.ghlOpportunityId,
       };
     }
 
@@ -58,6 +62,7 @@ export const record = internalMutation({
       isDuplicate: false,
       syncStatus: "pending" as const,
       closeLeadId: optIn?.closeLeadId,
+      ghlContactId: optIn?.ghlContactId,
     };
   },
 });
@@ -69,6 +74,9 @@ export const markSync = internalMutation({
     closeLeadId: v.optional(v.string()),
     closeOpportunityId: v.optional(v.string()),
     closeActivityId: v.optional(v.string()),
+    ghlContactId: v.optional(v.string()),
+    ghlOpportunityId: v.optional(v.string()),
+    ghlNoteId: v.optional(v.string()),
     error: v.optional(v.string()),
   },
   handler: async (ctx, args) => {

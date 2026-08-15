@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
     <title>Application Call Booked — Remote Sales Academy</title>
-    <link rel="stylesheet" href="shared.css?v=4" />
+    <link rel="stylesheet" href="shared.css?v=5" />
     <style>
       body { font-family: 'Manrope', sans-serif; }
       .confirmation-header { height: 58px; border-bottom: 1px solid var(--line-soft); }
@@ -16,7 +16,7 @@
       .confirmation-kicker { margin: 0 0 12px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
       .confirmation-main h1 { max-width: 760px; margin: 0; font: 700 clamp(48px, 7vw, 68px)/.94 'Archivo Condensed', sans-serif; letter-spacing: -.025em; text-transform: uppercase; }
       .confirmation-intro { max-width: 660px; margin: 18px 0 28px; color: var(--muted); font-size: 15px; line-height: 1.6; }
-      .booking { width: 100%; display: grid; grid-template-columns: .95fr 1.05fr; border: 1px solid var(--line); }
+      .booking { width: 100%; margin-top: 42px; display: grid; grid-template-columns: .95fr 1.05fr; border: 1px solid var(--line); }
       .booking__summary { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 16px; align-content: center; border-right: 1px solid var(--line); }
       .booking__summary strong { display: block; font: 700 22px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
       .booking__summary span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
@@ -32,22 +32,25 @@
       .calendar-button:active { transform: translateY(1px); }
       .calendar-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
       .calendar-note { min-height: 0; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
-      .pre-call { margin-top: 32px; padding-top: 30px; border-top: 1px solid var(--line); }
+      .pre-call { margin-top: 42px; padding-top: 34px; border-top: 1px solid var(--line); }
+      .pre-call--first { margin-top: 0; padding-top: 0; border-top: 0; }
       .pre-call__heading { margin-bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; column-gap: 32px; align-items: end; }
       .pre-call h2 { grid-column: 1; margin: 0; font: 700 32px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
       .pre-call__heading > p:last-child { grid-column: 2; grid-row: 1 / 3; max-width: 620px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
       .video-frame { width: 100%; aspect-ratio: 16 / 9; display: block; border: 0; background: #050505; object-fit: cover; }
       .primary-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: #050505; }
       .primary-video .video-frame { position: absolute; inset: 0; height: 100%; }
-      .video-section { margin-top: 64px; }
+      .video-section { margin-top: 18px; }
       .video-section__label { margin: 0 0 10px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
       .video-section h2 { margin-bottom: 28px; }
       .video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
       .video-card { min-width: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
       .video-card__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #070708; }
       .video-card__media .video-frame { position: absolute; inset: 0; height: 100%; }
-      .branded-poster { position: absolute; inset: 0; z-index: 1; width: 100%; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; border: 0; background: #070708; color: var(--white); text-align: left; cursor: pointer; }
+      .branded-poster { position: absolute; inset: 0; z-index: 1; width: 100%; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; border: 0; background-color: #070708; background-image: url('https://theremotesalesacademy.com/images/video-thumbnail.png'); background-position: center; background-size: cover; background-blend-mode: multiply; color: var(--white); text-align: left; cursor: pointer; }
+      .branded-poster::before { content: ''; position: absolute; inset: 0; background: rgba(7, 7, 8, .38); }
       .branded-poster::after { content: ''; position: absolute; right: 0; bottom: 0; width: 38%; height: 3px; background: var(--red); }
+      .branded-poster > span { position: relative; z-index: 1; }
       .branded-poster__brand { color: var(--red); font: 700 17px/1 'Archivo Condensed', sans-serif; letter-spacing: .08em; }
       .branded-poster__title { max-width: 340px; font: 700 clamp(27px, 3vw, 38px)/.95 'Archivo Condensed', sans-serif; letter-spacing: -.015em; text-transform: uppercase; }
       .branded-poster__action { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
@@ -105,7 +108,27 @@
       <div class="confirmation-main__inner">
         <p class="confirmation-kicker">Application call booked</p>
         <h1>Your application call is booked.</h1>
-        <p class="confirmation-intro">Complete the two steps below so you are ready for the conversation and know what to expect when the team calls.</p>
+        <p class="confirmation-intro">Complete the three steps below so you are ready for the conversation and know what to expect when the team calls.</p>
+
+        <section class="pre-call pre-call--first" aria-labelledby="what-happens-now-title">
+          <div class="pre-call__heading">
+            <p class="booking__step">Step 1: Watch the short “What happens now?” video</p>
+            <h2 id="what-happens-now-title">Know what to do before your call</h2>
+            <p>Save the event, join from a quiet place, be ready to discuss your goals and watch the preparation videos before your Application Call.</p>
+          </div>
+
+          <div class="primary-video">
+            <button class="branded-poster primary-poster" type="button" aria-label="Play: What happens now?">
+              <span class="branded-poster__brand">RSA.</span>
+              <span class="branded-poster__title">What happens now?</span>
+              <span class="branded-poster__action">Start here</span>
+              <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+            </button>
+            <video class="video-frame" controls playsinline preload="metadata">
+              <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa75feb392bc58afe3a70.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </section>
 
         <section class="booking" aria-labelledby="booking-title">
           <div class="booking__summary">
@@ -114,7 +137,7 @@
               <span data-booking-time>Your booked date and time will appear here</span>
             </div>
             <div class="booking__summary-actions">
-              <span class="booking__duration">15 minutes</span>
+              <span class="booking__duration" data-booking-duration>Application Call</span>
               <button class="calendar-button" type="button" data-save-calendar>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" /></svg>
                 Save to Calendar
@@ -122,7 +145,7 @@
             </div>
           </div>
           <div class="booking__body">
-            <p class="booking__step">Step 1: Save the call and the team's number</p>
+            <p class="booking__step">Step 2: Save the Application Call to your calendar</p>
             <h2>Keep your application call on your calendar</h2>
             <p>Before the meeting, a member of the team will call you from +44 7476 956587. Save it as Remote Sales Academy so you know it's us.</p>
             <p class="calendar-note" data-calendar-note>Preview mode: the booked time will be supplied by the scheduling flow.</p>
@@ -131,26 +154,12 @@
 
         <section class="pre-call" id="pre-call-videos">
           <div class="pre-call__heading">
-            <p class="booking__step">Step 2: Watch the preparation videos</p>
-            <h2>Watch this before your application call</h2>
-            <p>Start with the main preparation video, then watch the short answers underneath so your Application Call can focus on your goals and next steps.</p>
+            <p class="booking__step">Step 3: Watch the preparation videos</p>
+            <h2>Prepare for your Application Call</h2>
+            <p>Watch the short answers below so your Application Call can focus on your goals, current situation and next steps.</p>
           </div>
 
-          <div class="primary-video">
-            <button class="branded-poster primary-poster" type="button" aria-label="Play: What happens now?">
-              <span class="branded-poster__brand">RSA.</span>
-              <span class="branded-poster__title">What happens now?</span>
-              <span class="branded-poster__action">Watch before your application call</span>
-              <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-            </button>
-            <video class="video-frame" controls playsinline preload="metadata">
-              <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa75feb392bc58afe3a70.mp4" type="video/mp4" />
-            </video>
-          </div>
-
-          <section class="video-section" aria-labelledby="faq-videos-title">
-            <p class="video-section__label">Important next steps</p>
-            <h2 id="faq-videos-title">Common questions answered</h2>
+          <section class="video-section" aria-label="Application Call preparation videos">
             <div class="video-grid">
               <article class="video-card">
                 <div class="video-card__media">
@@ -238,10 +247,11 @@
 
     <script>
       const params = new URLSearchParams(window.location.search);
-      const start = new Date(params.get('start') || '');
-      const end = new Date(params.get('end') || '');
+      const start = new Date(params.get('event_start_time') || params.get('start') || '');
+      const end = new Date(params.get('event_end_time') || params.get('end') || '');
       const hasBookingTime = Number.isFinite(start.getTime()) && Number.isFinite(end.getTime()) && end > start;
       const timeLabel = document.querySelector('[data-booking-time]');
+      const durationLabel = document.querySelector('[data-booking-duration]');
       const calendarButton = document.querySelector('[data-save-calendar]');
       const calendarNote = document.querySelector('[data-calendar-note]');
 
@@ -255,6 +265,7 @@
           minute: '2-digit',
           timeZoneName: 'short',
         }).format(start);
+        durationLabel.textContent = `${Math.round((end.getTime() - start.getTime()) / 60000)} minutes`;
         calendarNote.textContent = 'The calendar file uses the confirmed booking time shown above.';
       }
 

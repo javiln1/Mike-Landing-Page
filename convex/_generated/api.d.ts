@@ -12,6 +12,7 @@ import type * as applications from "../applications.js";
 import type * as bookings from "../bookings.js";
 import type * as close from "../close.js";
 import type * as discord from "../discord.js";
+import type * as ghl from "../ghl.js";
 import type * as http from "../http.js";
 import type * as optIns from "../optIns.js";
 import type * as outcomes from "../outcomes.js";
@@ -27,6 +28,7 @@ declare const fullApi: ApiFromModules<{
   bookings: typeof bookings;
   close: typeof close;
   discord: typeof discord;
+  ghl: typeof ghl;
   http: typeof http;
   optIns: typeof optIns;
   outcomes: typeof outcomes;

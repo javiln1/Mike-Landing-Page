@@ -54,6 +54,9 @@ const config = {
         urgency: "cf_Gemx4Qq20BIS5EN8itS8891twiDT6rVN76uVRS0qYIL",
         instagram: "cf_E8fzQjqzpH88nk3Ij9xH7be2VJdKlKfAAbpLZhorKw0",
         investmentCapacity: "cf_xQ7kOddIE2eimjsGjWXAyYKOAIVvSoyvuyRxi4rW2LA",
+        whyNow: "",
+        startTiming: "",
+        investmentReadiness: "",
         utmSource: "cf_waGDLwdccAlIzpsTyePVINX0bDyLGiFAzTfS321Q1vX",
         utmMedium: "cf_JMSgKTitJa1uLp04qcxHonsmhy2llaCuR1mfSEaQkiQ",
         utmCampaign: "cf_KtiT1DFRic79Aumo2cTUnjwvyTP9ytXBqjCx65TDaW5",
@@ -265,10 +268,14 @@ export async function syncApplication(input: {
   currentIncome: string;
   incomeGoal: string;
   experience: string;
+  salesRole?: string;
+  whyNow: string;
   urgency: string;
+  startTiming: string;
+  investmentReadiness: string;
   name: string;
   email: string;
-  instagram: string;
+  instagram?: string;
   phone: string;
   liquidCapital: string;
   qualificationStatus: "qualified" | "unqualified";
@@ -294,6 +301,9 @@ export async function syncApplication(input: {
     urgency: input.urgency,
     instagram: input.instagram,
     investmentCapacity: input.liquidCapital,
+    whyNow: input.whyNow,
+    startTiming: input.startTiming,
+    investmentReadiness: input.investmentReadiness,
     utmSource: input.attribution.source,
     utmMedium: input.attribution.medium,
     utmCampaign: input.attribution.campaign,

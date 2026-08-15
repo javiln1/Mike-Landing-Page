@@ -1,7 +1,8 @@
 import { httpRouter } from "convex/server";
 import { httpAction } from "./_generated/server";
 import { internal } from "./_generated/api";
-import { syncApplication, syncBooking, syncOptIn, syncOutcome } from "./close";
+import { syncApplication, syncBooking, syncNativeCalendarBooking, syncOptIn, syncOutcome } from "./ghl";
+import mappings from "../config/ghl-mappings.json";
 
 const http = httpRouter();
 
@@ -55,6 +56,7 @@ function options(path: string) {
 options("/opt-ins");
 options("/applications");
 options("/bookings");
+options("/calendar-booked");
 options("/outcomes");
 
 const validOutcomes = [
@@ -63,6 +65,7 @@ const validOutcomes = [
   "Follow Up",
   "Deal Lost",
   "No Show",
+  "Rescheduled",
   "Disqualified",
   "Not Contacted",
 ] as const;
@@ -110,6 +113,7 @@ http.route({
         await ctx.scheduler.runAfter(0, internal.discord.optIn, {
           name: input.name,
           email: input.email,
+          landingPage: input.landingPage,
           attribution: input.attribution,
         });
       }
@@ -119,8 +123,8 @@ http.route({
           await ctx.runMutation(internal.optIns.markSync, {
             optInId: recorded.optInId,
             status: "synced",
-            closeLeadId: synced.leadId,
-            closeActivityId: synced.activityId,
+            ghlContactId: synced.contactId,
+            ghlNoteId: synced.noteId,
           });
         } catch (error) {
           await ctx.runMutation(internal.optIns.markSync, {
@@ -170,7 +174,7 @@ http.route({
         cashCollected: optional(get("Cash Collected")),
         packageTotal: optional(get("Package Total")),
         financingType: optional(get("Financing Type")),
-        paymentPlanMonths: optional(get("# Months", "Months")),
+        paymentPlanMonths: optional(get("Number of Months in Payment Plan", "# Months", "Months")),
         paymentPerPeriod: optional(get("$ per payment period", "Payment per period")),
         dateLost: optional(get("Date Lost")),
         lossReason: optional(get("Reason", "Reason Lost", "Loss Reason")),
@@ -186,10 +190,20 @@ http.route({
           setterName: input.setterName,
           closerName: input.closerName,
           callDate: input.callDate,
+          investmentCapability: input.investmentCapability,
+          currentSituation: input.currentSituation,
+          desiredSituation: input.desiredSituation,
+          obstacles: input.obstacles,
           followUpDate: input.followUpDate,
           followUpReason: input.followUpReason,
+          deposit: input.deposit,
+          dateWon: input.dateWon,
           cashCollected: input.cashCollected,
           packageTotal: input.packageTotal,
+          financingType: input.financingType,
+          paymentPlanMonths: input.paymentPlanMonths,
+          paymentPerPeriod: input.paymentPerPeriod,
+          dateLost: input.dateLost,
           lossReason: input.lossReason,
           notes: input.notes,
         });
@@ -198,18 +212,16 @@ http.route({
         try {
           const synced = await syncOutcome({
             ...input,
-            closeLeadId: recorded.closeLeadId,
-            closeOpportunityId: recorded.closeOpportunityId,
           });
-          await ctx.runMutation(internal.outcomes.markCloseSync, {
+          await ctx.runMutation(internal.outcomes.markGhlSync, {
             outcomeId: recorded.outcomeId,
             status: "synced",
-            closeLeadId: synced.leadId,
-            closeOpportunityId: synced.opportunityId,
-            closeActivityId: synced.activityId,
+            ghlContactId: synced.contactId,
+            ghlOpportunityId: synced.opportunityId,
+            ghlNoteId: synced.noteId,
           });
         } catch (error) {
-          await ctx.runMutation(internal.outcomes.markCloseSync, {
+          await ctx.runMutation(internal.outcomes.markGhlSync, {
             outcomeId: recorded.outcomeId,
             status: "failed",
             error: errorMessage(error),
@@ -232,9 +244,13 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     try {
       const body = await request.json();
-      const urgency = text(body.urgency, "Urgency");
-      const liquidCapital = text(body.liquidCapital, "Investment capacity");
-      const qualificationStatus = liquidCapital === "$2,500+" && urgency !== "Just browsing"
+      const startTiming = text(body.startTiming ?? body.urgency, "Start timing");
+      const investmentReadiness = text(body.investmentReadiness ?? body.liquidCapital, "Investment readiness");
+      const whyNow = text(body.whyNow, "Why now");
+      if (whyNow.length < 20) throw new Error("Why now must be at least 20 characters.");
+      const canInvest = investmentReadiness === "Yes" || investmentReadiness === "Yes, with a payment plan";
+      const readySoon = ["Immediately", "Within the next two weeks", "Within 30 days"].includes(startTiming);
+      const qualificationStatus = canInvest && readySoon
         ? "qualified" as const
         : "unqualified" as const;
       const input = {
@@ -242,21 +258,22 @@ http.route({
         currentIncome: text(body.currentIncome, "Current income"),
         incomeGoal: text(body.incomeGoal, "Income goal"),
         experience: text(body.experience, "Sales experience"),
-        urgency,
+        salesRole: optional(body.salesRole),
+        whyNow,
+        urgency: startTiming,
+        startTiming,
+        investmentReadiness,
         name: text(body.name, "Name"),
         email: email(body.email),
-        instagram: text(body.instagram, "Instagram"),
+        instagram: optional(body.instagram),
         phone: text(body.phone, "Phone"),
-        liquidCapital,
-        nonMarketingConsent: body.nonMarketingConsent === true,
-        marketingConsent: body.marketingConsent === true,
+        liquidCapital: investmentReadiness,
         qualificationStatus,
         submittedAt: Date.now(),
         landingPage: text(body.landingPage, "Landing page"),
         userAgent: optional(body.userAgent),
         attribution: attribution(body.attribution),
       };
-      if (!input.nonMarketingConsent || !input.marketingConsent) throw new Error("Both communication consents are required.");
       const recorded = await ctx.runMutation(internal.applications.record, input);
       if (!recorded.isDuplicate) {
         await ctx.scheduler.runAfter(0, internal.discord.application, {
@@ -264,8 +281,16 @@ http.route({
           email: input.email,
           phone: input.phone,
           instagram: input.instagram,
+          currentWork: input.currentWork,
           currentIncome: input.currentIncome,
+          incomeGoal: input.incomeGoal,
+          experience: input.experience,
+          salesRole: input.salesRole,
+          whyNow: input.whyNow,
+          startTiming: input.startTiming,
+          investmentReadiness: input.investmentReadiness,
           liquidCapital: input.liquidCapital,
+          landingPage: input.landingPage,
           qualificationStatus: input.qualificationStatus,
           attribution: input.attribution,
         });
@@ -274,15 +299,13 @@ http.route({
         try {
           const synced = await syncApplication({
             ...input,
-            closeLeadId: recorded.closeLeadId,
-            closeOpportunityId: recorded.closeOpportunityId,
           });
           await ctx.runMutation(internal.applications.markSync, {
             applicationId: recorded.applicationId,
             status: "synced",
-            closeLeadId: synced.leadId,
-            closeOpportunityId: synced.opportunityId,
-            closeActivityId: synced.activityId,
+            ghlContactId: synced.contactId,
+            ghlOpportunityId: synced.opportunityId,
+            ghlNoteId: synced.noteId,
           });
         } catch (error) {
           await ctx.runMutation(internal.applications.markSync, {
@@ -297,6 +320,28 @@ http.route({
         qualificationStatus,
         duplicate: recorded.isDuplicate,
       }, { status: 201, headers: corsHeaders });
+    } catch (error) {
+      return Response.json({ error: errorMessage(error) }, { status: 400, headers: corsHeaders });
+    }
+  }),
+});
+
+http.route({
+  path: "/calendar-booked",
+  method: "POST",
+  handler: httpAction(async (_ctx, request) => {
+    try {
+      const body = await request.json();
+      if (text(body.calendarId, "Calendar ID") !== mappings.calendar.id) {
+        throw new Error("Unknown calendar.");
+      }
+      const synced = await syncNativeCalendarBooking({
+        name: text(body.name, "Name"),
+        email: email(body.email),
+        phone: optional(body.phone),
+        attribution: attribution(body.attribution),
+      });
+      return Response.json({ synced: true, opportunityId: synced.opportunityId }, { status: 201, headers: corsHeaders });
     } catch (error) {
       return Response.json({ error: errorMessage(error) }, { status: 400, headers: corsHeaders });
     }
@@ -326,8 +371,10 @@ http.route({
         await ctx.scheduler.runAfter(0, internal.discord.booking, {
           name: input.name,
           email: input.email,
+          phone: input.phone,
           callStart: input.callStart,
           timeZone: input.timeZone,
+          meetingLink: input.meetingLink,
           setterName: input.setterName,
           closerName: input.closerName,
           attribution: input.attribution,
@@ -337,15 +384,13 @@ http.route({
         try {
           const synced = await syncBooking({
             ...input,
-            closeLeadId: recorded.closeLeadId,
-            closeOpportunityId: recorded.closeOpportunityId,
           });
           await ctx.runMutation(internal.bookings.markSync, {
             bookingId: recorded.bookingId,
             status: "synced",
-            closeLeadId: synced.leadId,
-            closeOpportunityId: synced.opportunityId,
-            closeActivityId: synced.activityId,
+            ghlContactId: synced.contactId,
+            ghlOpportunityId: synced.opportunityId,
+            ghlNoteId: synced.noteId,
           });
         } catch (error) {
           await ctx.runMutation(internal.bookings.markSync, {

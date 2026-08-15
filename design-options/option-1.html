@@ -6,23 +6,27 @@
     <meta name="robots" content="noindex" />
     <meta name="rsa-optin-endpoint" content="https://hushed-porpoise-98.eu-west-1.convex.site/opt-ins" />
     <meta name="rsa-application-endpoint" content="https://hushed-porpoise-98.eu-west-1.convex.site/applications" />
+    <meta name="rsa-calendar-booked-endpoint" content="https://hushed-porpoise-98.eu-west-1.convex.site/calendar-booked" />
     <meta name="rsa-unqualified-redirect" content="/not-qualified" />
-    <title>Remote Sales Academy - Free Training For 9-5 Salespeople</title>
-    <link rel="stylesheet" href="shared.css?v=4" />
+    <meta name="rsa-confirmation-redirect" content="/confirmation-page" />
+    <meta name="rsa-calendar-url" content="https://api.leadconnectorhq.com/widget/booking/qOGJN8o9daw4OP02G60v" />
+    <title>Earn $10K+ Per Month Closing Remotely — Remote Sales Academy</title>
+    <meta name="description" content="Free training for salespeople who want to use their existing skills to land remote closing opportunities and increase their monthly income." />
+    <link rel="stylesheet" href="shared.css?v=5" />
     <style>
       body { font-family: 'Manrope', sans-serif; }
-      .dr-hero { padding: 64px 20px 76px; text-align: center; }
+      .dr-hero { padding: 56px 20px 76px; text-align: center; }
       .dr-hero__inner { width: min(100%, 920px); margin: 0 auto; }
       .dr-label { margin: 0 0 20px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
       .dr-hero h1 { margin: 0; font: 700 clamp(42px, 6.2vw, 68px)/.98 'Archivo Condensed', sans-serif; letter-spacing: -.025em; text-transform: uppercase; }
       .dr-hero h1 em { color: var(--red); font-style: normal; }
-      .dr-sub { max-width: 650px; margin: 22px auto 36px; color: var(--muted); font-size: 17px; line-height: 1.65; }
-      .social-proof { display: flex; align-items: center; justify-content: center; gap: 12px; margin: -12px auto 30px; color: var(--muted); font-size: 13px; }
+      .dr-sub { max-width: 700px; margin: 22px auto 32px; color: var(--muted); font-size: 17px; line-height: 1.65; }
+      .social-proof { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px auto 0; color: var(--muted); font-size: 13px; }
       .social-proof__avatars { display: flex; padding-left: 8px; }
       .social-proof__avatar { width: 38px; height: 38px; margin-left: -8px; overflow: hidden; border: 2px solid var(--black); border-radius: 50%; background: var(--surface); }
       .social-proof__avatar img { width: 100%; height: 100%; object-fit: cover; }
       .dr-video { margin: 0 auto; }
-      .dr-action { max-width: 440px; margin: 22px auto 0; }
+      .dr-action { max-width: 500px; margin: 20px auto 0; }
       .dr-section { padding: 88px 20px; border-top: 1px solid var(--line-soft); }
       .dr-section__inner { width: min(100%, 920px); margin: 0 auto; }
       .dr-section h2 { max-width: 700px; margin: 0 0 38px; font: 700 clamp(34px, 4.5vw, 48px)/1 'Archivo Condensed', sans-serif; letter-spacing: -.02em; text-transform: uppercase; }
@@ -31,13 +35,6 @@
       .result strong { font-size: 14px; }
       .result span { color: var(--muted); font-size: 15px; line-height: 1.6; }
       .result span b { color: var(--white); font-weight: 600; }
-      .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 46px; border: 1px solid var(--line); }
-      .metric { min-height: 210px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-      .metric + .metric { border-left: 1px solid var(--line); }
-      .metric__icon { width: 48px; height: 48px; margin-bottom: 22px; display: grid; place-items: center; border-radius: 50%; background: rgba(223, 23, 38, .12); color: var(--red); }
-      .metric__icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-      .metric strong { font: 700 44px/1 'Archivo Condensed', sans-serif; }
-      .metric span { margin-top: 12px; color: var(--muted); font-size: 14px; }
       .dr-section--surface { background: #0e0e0f; }
       .testimonial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); }
       .testimonial { display: block; padding: 26px; transition: background-color 160ms ease; }
@@ -68,20 +65,23 @@
       .site-footer { padding: 30px 20px 90px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 11px; line-height: 1.7; }
       .site-footer p { max-width: 760px; margin: 8px auto 0; }
       @media (max-width: 680px) {
-        .dr-hero { padding: 34px 16px 58px; }
-        .dr-hero__inner { display: flex; flex-direction: column; }
-        .dr-label,
-        .dr-sub { display: none; }
-        .dr-hero h1 { order: 0; margin-bottom: 22px; }
-        .dr-video { order: 1; }
-        .dr-action { order: 2; width: 100%; }
-        .social-proof { order: 3; margin: 18px auto 0; font-size: 12px; }
+        .dr-hero { padding: 30px 16px 54px; }
+        .dr-hero__inner { max-width: 520px; }
+        .dr-label { margin-bottom: 14px; }
+        .dr-hero h1 {
+          max-width: 13.5ch;
+          margin-inline: auto;
+          font-size: clamp(34px, 8.5vw, 44px);
+          line-height: .96;
+          letter-spacing: -.018em;
+          text-wrap: balance;
+        }
+        .dr-hero h1 em { display: block; margin-top: .12em; }
+        .dr-sub { margin: 18px auto 24px; font-size: 15px; line-height: 1.55; }
+        .dr-action { width: 100%; }
+        .social-proof { margin-top: 16px; font-size: 12px; }
         .dr-section { padding: 66px 18px; }
         .result { grid-template-columns: 1fr; gap: 8px; }
-        .metrics-grid { grid-template-columns: 1fr; }
-        .metric { min-height: 150px; }
-        .metric + .metric { border-top: 1px solid var(--line); border-left: 0; }
-        .metric__icon { margin-bottom: 14px; }
         .testimonial-grid { grid-template-columns: 1fr; }
         .testimonial + .testimonial { border-top: 1px solid var(--line); border-left: 0; }
         .wins-layout,
@@ -101,18 +101,9 @@
     <main>
       <section class="dr-hero">
         <div class="dr-hero__inner">
-          <p class="dr-label">Free training for working salespeople</p>
-          <h1>For 9-5 salespeople who want to move into <em>high-ticket remote sales</em></h1>
-          <p class="dr-sub">Watch the free training to see how to use your current sales experience to start closing remotely.</p>
-
-          <div class="social-proof">
-            <div class="social-proof__avatars" aria-label="Remote Sales Academy students">
-              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client1.jpg" alt="Remote Sales Academy student 1" /></span>
-              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client2.jpg" alt="Remote Sales Academy student 2" /></span>
-              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client3.jpg" alt="Remote Sales Academy student 3" /></span>
-            </div>
-            <span>Join 200+ students who have trained with RSA</span>
-          </div>
+          <p class="dr-label">For salespeople ready to earn more</p>
+          <h1>Go from a 9–5 sales job to <em>earning $10K+ per month closing remotely</em></h1>
+          <p class="dr-sub">Watch the free training to discover how to use the sales skills you already have to land remote closing opportunities and increase your monthly income.</p>
 
           <div class="video-shell dr-video" data-video-shell>
             <video autoplay muted playsinline loop controls preload="metadata" poster="https://theremotesalesacademy.com/images/video-thumbnail.png">
@@ -127,9 +118,18 @@
             <div class="video-progress"><span data-video-progress></span></div>
           </div>
 
+          <div class="social-proof">
+            <div class="social-proof__avatars" aria-label="Remote Sales Academy students">
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client1.jpg" alt="Remote Sales Academy student" /></span>
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client2.jpg" alt="Remote Sales Academy student" /></span>
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client3.jpg" alt="Remote Sales Academy student" /></span>
+            </div>
+            <span>Real outcomes from working salespeople</span>
+          </div>
+
           <div class="dr-action">
             <button class="cta cta--wide" type="button" data-open-application>
-              Start Your Application
+              Apply to See If You Qualify
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
             </button>
           </div>
@@ -140,28 +140,6 @@
         <div class="dr-section__inner">
           <p class="proof-kicker">Student proof</p>
           <h2 class="rule-title">Real results from RSA students</h2>
-          <div class="metrics-grid">
-            <div class="metric">
-              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 13h6L9.5 22 19.5 10h-6L13 2Z" /></svg></span>
-              <strong>89%</strong>
-              <span>Job Placement Rate</span>
-            </div>
-            <div class="metric">
-              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
-              <strong>200+</strong>
-              <span>Successful Students</span>
-            </div>
-            <div class="metric">
-              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg></span>
-              <strong>90 Days</strong>
-              <span>Average Transformation</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="dr-section">
-        <div class="dr-section__inner">
           <div class="testimonial-grid">
             <a class="testimonial" href="https://www.youtube.com/watch?v=AvPgl-COpHs" target="_blank" rel="noreferrer" aria-label="Watch Zain's testimonial on YouTube">
               <div class="testimonial__person">
@@ -243,6 +221,6 @@
     <nav class="option-switcher" aria-label="Design options">
       <a href="index.html" aria-label="All options">All</a><a href="option-1.html" aria-current="page">1</a><a href="option-2.html">2</a><a href="option-3.html">3</a><a href="option-4.html">4</a>
     </nav>
-    <script src="shared.js?v=4"></script>
+    <script src="shared.js?v=5"></script>
   </body>
 </html>

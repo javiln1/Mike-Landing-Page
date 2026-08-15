@@ -53,6 +53,8 @@ export const record = internalMutation({
         syncStatus: existing.syncStatus,
         closeLeadId: existing.closeLeadId,
         closeOpportunityId: existing.closeOpportunityId,
+        ghlContactId: existing.ghlContactId,
+        ghlOpportunityId: existing.ghlOpportunityId,
       };
     }
     const booking = await ctx.db
@@ -65,6 +67,8 @@ export const record = internalMutation({
       ...args,
       closeLeadId: booking?.closeLeadId,
       closeOpportunityId: booking?.closeOpportunityId,
+      ghlContactId: booking?.ghlContactId,
+      ghlOpportunityId: booking?.ghlOpportunityId,
       syncStatus: "pending",
     });
     return {
@@ -73,17 +77,22 @@ export const record = internalMutation({
       syncStatus: "pending" as const,
       closeLeadId: booking?.closeLeadId,
       closeOpportunityId: booking?.closeOpportunityId,
+      ghlContactId: booking?.ghlContactId,
+      ghlOpportunityId: booking?.ghlOpportunityId,
     };
   },
 });
 
-export const markCloseSync = internalMutation({
+export const markGhlSync = internalMutation({
   args: {
     outcomeId: v.id("outcomes"),
     status: v.union(v.literal("synced"), v.literal("failed")),
     closeLeadId: optionalString,
     closeOpportunityId: optionalString,
     closeActivityId: optionalString,
+    ghlContactId: optionalString,
+    ghlOpportunityId: optionalString,
+    ghlNoteId: optionalString,
     error: optionalString,
   },
   handler: async (ctx, args) => {

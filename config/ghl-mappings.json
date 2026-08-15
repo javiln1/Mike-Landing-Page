@@ -1,0 +1,61 @@
+{
+  "locationId": "ZrvuqZuyEg3n9G8JoGF0",
+  "calendar": {
+    "id": "qOGJN8o9daw4OP02G60v",
+    "scheduleId": "T9jsBB7M5zWQrDtUBEb6",
+    "widgetUrl": "https://api.leadconnectorhq.com/widget/booking/qOGJN8o9daw4OP02G60v"
+  },
+  "pipeline": {
+    "id": "ex8lSTI3w664PTaXop1L",
+    "stages": {
+      "applicationSubmitted": "d4be349d-ade4-4937-b6a9-878a7fdea9ef",
+      "qualified": "e0655e47-2230-4fd7-a085-6bd7f512317e",
+      "booked": "06674589-a5b1-47a4-a1a6-3c89248d6fbc",
+      "showed": "09776a87-843e-4338-b07a-0e894d3f0185",
+      "followUp": "6b3a973f-4cf7-4eda-997e-ea3c30966fa5",
+      "noShow": "8515b9e3-5aa9-4786-aa5f-98da261f3113",
+      "notContacted": "bb1f5015-41d8-496a-b46a-c80c75a37bd6",
+      "dealClosed": "92c6bcf4-3806-4a6a-b63d-796dbb434a6d",
+      "dealLost": "d26b9c12-fd8c-4291-913f-922678110cf1"
+    }
+  },
+  "contactFields": {
+    "instagram": "QbdOWIwThxWcRpbOkj09",
+    "qualification": "3oLbLWuWcWlDeqhlb76G",
+    "setterName": "vHyl6Dc1zkBrgbZ3WDpB",
+    "closerName": "OkumjjUZGnZQasxvSM7T",
+    "currentWork": "FUPGDATf4TdxF7INTmGF",
+    "currentIncome": "zO8p1NEDA22yIV1efGoM",
+    "incomeGoal": "25b15XZYZXdnNhDTNaxv",
+    "salesExperience": "mzk6APZO4YJfEl2Nvh7X",
+    "salesRole": "gRJSCXgZ0At2jXyTc81N",
+    "whyNow": "w9bJetGHfzObylwsXIgK",
+    "startTiming": "BOqzrWUTD9gDC2wY8SJH",
+    "investmentReadiness": "SZtDYSDMhgRodWJ2pBKj",
+    "landingPage": "uZ4QL5JuP7Ir10s6L7X1",
+    "utmSource": "NHVO0IAhtocK57uC2UPE",
+    "utmMedium": "Gay9DrH0sOC7g3IFnxOT",
+    "utmCampaign": "bKcnZ5uuTiif3uRvbGbw",
+    "utmContent": "azOTkBPqg1q25wxqNNMW"
+  },
+  "opportunityFields": {
+    "outcome": "dlhlepAWJbDTjHfRI6uA",
+    "callDate": "ONTekSk0nCL22iHB5Pbb",
+    "investmentCapability": "4et29F3GMhycuWiAPXcz",
+    "currentSituation": "yFe3K8WDygdvT1bQ8Fmy",
+    "desiredSituation": "Oy5Djmxwx9RRbKdo8T4Q",
+    "obstacles": "3rhB4U3q05DhQncTIyJE",
+    "followUpDate": "5yPayOwPoB2z8T0hFEtr",
+    "followUpReason": "zHeYCRZ8QXy3dlo5sr1s",
+    "deposit": "VrfWfenYopBT2mnZ9cLf",
+    "dateClosed": "uqn7DrrdOpRbeTYUQNnY",
+    "cashCollected": "IjInoB1NPYvz06Uyabni",
+    "packageTotal": "wqOeLuGb7Ll3XbI8MCqC",
+    "financingType": "QfttX3AfLwhANGM2a6gp",
+    "paymentPlanMonths": "ee8OIehjOqwAnVAWODpk",
+    "paymentPerPeriod": "AREslJL9ch4SixfWUq86",
+    "dateLost": "9HSzuMFcTQpNDp26UITD",
+    "lossReason": "7zTmkGRBxGyNCoqeJj6G",
+    "notes": "XlLTehbcZrVyTnSoIyDo"
+  }
+}
