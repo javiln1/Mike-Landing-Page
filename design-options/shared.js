@@ -526,12 +526,25 @@ function renderPhoneField(field, labelledBy) {
   input.value = formatNationalPhone(applicationAnswers.phoneNational || '');
 
   const updatePhone = () => {
+    const rawValue = input.value.trim();
+    if (rawValue.startsWith('+')) {
+      const internationalDigits = rawValue.replace(/\D/g, '');
+      const detectedCountry = [...phoneCountries]
+        .sort((a, b) => b.code.length - a.code.length)
+        .find((country) => internationalDigits.startsWith(country.code.replace(/\D/g, '')));
+      if (detectedCountry) {
+        countrySelect.value = detectedCountry.iso;
+        input.value = internationalDigits.slice(detectedCountry.code.replace(/\D/g, '').length);
+        renderSelectedCountry();
+      }
+    }
     const selectedCountry = phoneCountries.find((country) => country.iso === countrySelect.value) || defaultCountry;
     const maxNationalDigits = 15 - selectedCountry.code.replace(/\D/g, '').length;
     const formatted = formatNationalPhone(input.value, maxNationalDigits);
     const nationalDigits = formatted.replace(/\D/g, '');
     input.value = formatted;
     applicationAnswers.phoneCountry = selectedCountry.iso;
+    applicationAnswers.phoneCountryCode = selectedCountry.code;
     applicationAnswers.phoneNational = nationalDigits;
     applicationAnswers.phone = `${selectedCountry.code}${nationalDigits}`;
     saveApplicationDraft();
@@ -757,9 +770,10 @@ function loadCalendar() {
   }
 }
 
-async function syncCalendarBooking(calendarId) {
+async function syncCalendarBooking(calendarId, detail = {}) {
   if (calendarBookingSynced || !applicationConfig.calendarBookedEndpoint || isLocalPreview) return;
   calendarBookingSynced = true;
+  const booking = detail.appointment || detail.booking || detail;
   try {
     const response = await fetch(applicationConfig.calendarBookedEndpoint, {
       method: 'POST',
@@ -769,6 +783,9 @@ async function syncCalendarBooking(calendarId) {
         name: applicationAnswers.name,
         email: applicationAnswers.email,
         phone: applicationAnswers.phone,
+        callStart: booking.event_start_time || booking.eventStartTime || booking.startTime || booking.start,
+        timeZone: booking.timezone || booking.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
+        meetingLink: booking.meeting_location || booking.meetingLocation || booking.meetingLink || booking.location,
         attribution: getAttribution(),
       }),
       keepalive: true,
@@ -802,7 +819,7 @@ window.addEventListener('message', (event) => {
   ) return;
   calendarRedirectStarted = true;
   if (window.fbq) window.fbq('track', 'Schedule');
-  syncCalendarBooking(detail?.calendarId);
+  syncCalendarBooking(detail?.calendarId, detail);
   window.location.assign(buildConfirmationUrl(detail));
 });
 
@@ -829,6 +846,8 @@ async function finishApplication() {
     email: applicationAnswers.email,
     instagram: applicationAnswers.instagram?.trim() || undefined,
     phone: applicationAnswers.phone,
+    phoneCountryCode: applicationAnswers.phoneCountryCode,
+    phoneNational: applicationAnswers.phoneNational,
     qualificationStatus,
     submittedAt: Date.now(),
     landingPage: window.location.href,

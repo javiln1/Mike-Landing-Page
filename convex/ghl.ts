@@ -275,24 +275,12 @@ export async function syncNativeCalendarBooking(input: {
 
 const outcomeStages = {
   "Deal Closed": mappings.pipeline.stages.dealClosed,
-  "Deal Won": mappings.pipeline.stages.dealClosed,
-  "Follow Up": mappings.pipeline.stages.followUp,
   "Deal Lost": mappings.pipeline.stages.dealLost,
-  "No Show": mappings.pipeline.stages.noShow,
-  "Rescheduled": mappings.pipeline.stages.booked,
-  "Disqualified": mappings.pipeline.stages.dealLost,
-  "Not Contacted": mappings.pipeline.stages.notContacted,
 } as const;
 
 const normalizedOutcomes = {
   "Deal Closed": "Deal Closed",
-  "Deal Won": "Deal Won",
-  "Follow Up": "Follow Up",
   "Deal Lost": "Deal Lost",
-  "No Show": "No Show",
-  "Rescheduled": "Rescheduled",
-  "Disqualified": "Deal Lost",
-  "Not Contacted": "Not Contacted",
 } as const;
 
 export async function syncOutcome(input: {
@@ -343,7 +331,7 @@ export async function syncOutcome(input: {
   field(opportunityFields, mappings.opportunityFields.dateLost, input.dateLost);
   field(opportunityFields, mappings.opportunityFields.lossReason, input.lossReason);
   field(opportunityFields, mappings.opportunityFields.notes, input.notes);
-  const status = normalized === "Deal Won" || normalized === "Deal Closed" ? "won" : normalized === "Deal Lost" ? "lost" : "open";
+  const status = normalized === "Deal Closed" ? "won" : "lost";
   const opportunityId = await upsertOpportunity({
     contactId,
     name: input.name,

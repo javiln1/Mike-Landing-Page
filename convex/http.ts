@@ -31,6 +31,18 @@ function email(value: unknown) {
   return result;
 }
 
+function internationalPhone(value: unknown, countryCode?: unknown, nationalNumber?: unknown) {
+  const fallback = text(value, "Phone");
+  const codeDigits = optional(countryCode)?.replace(/\D/g, "");
+  const nationalDigits = optional(nationalNumber)?.replace(/\D/g, "");
+  const normalized = codeDigits && nationalDigits
+    ? `+${codeDigits}${nationalDigits.replace(/^0+/, "")}`
+    : `+${fallback.replace(/\D/g, "")}`;
+  const digitCount = normalized.length - 1;
+  if (digitCount < 8 || digitCount > 15) throw new Error("A valid international phone number is required.");
+  return normalized;
+}
+
 function attribution(value: unknown): Attribution {
   const source = value && typeof value === "object" ? value as Record<string, unknown> : {};
   return {
@@ -61,13 +73,7 @@ options("/outcomes");
 
 const validOutcomes = [
   "Deal Closed",
-  "Deal Won",
-  "Follow Up",
   "Deal Lost",
-  "No Show",
-  "Rescheduled",
-  "Disqualified",
-  "Not Contacted",
 ] as const;
 
 type Outcome = typeof validOutcomes[number];
@@ -114,6 +120,13 @@ http.route({
           name: input.name,
           email: input.email,
           landingPage: input.landingPage,
+          attribution: input.attribution,
+        });
+        await ctx.scheduler.runAfter(0, internal.sheets.optIn, {
+          name: input.name,
+          email: input.email,
+          landingPage: input.landingPage,
+          submittedAt: input.submittedAt,
           attribution: input.attribution,
         });
       }
@@ -266,7 +279,7 @@ http.route({
         name: text(body.name, "Name"),
         email: email(body.email),
         instagram: optional(body.instagram),
-        phone: text(body.phone, "Phone"),
+        phone: internationalPhone(body.phone, body.phoneCountryCode, body.phoneNational),
         liquidCapital: investmentReadiness,
         qualificationStatus,
         submittedAt: Date.now(),
@@ -292,6 +305,22 @@ http.route({
           liquidCapital: input.liquidCapital,
           landingPage: input.landingPage,
           qualificationStatus: input.qualificationStatus,
+          attribution: input.attribution,
+        });
+        await ctx.scheduler.runAfter(0, internal.sheets.application, {
+          name: input.name,
+          email: input.email,
+          phone: input.phone,
+          instagram: input.instagram,
+          currentWork: input.currentWork,
+          currentIncome: input.currentIncome,
+          incomeGoal: input.incomeGoal,
+          experience: input.experience,
+          startTiming: input.startTiming,
+          investmentReadiness: input.investmentReadiness,
+          qualificationStatus: input.qualificationStatus,
+          whyNow: input.whyNow,
+          submittedAt: input.submittedAt,
           attribution: input.attribution,
         });
       }
@@ -329,7 +358,7 @@ http.route({
 http.route({
   path: "/calendar-booked",
   method: "POST",
-  handler: httpAction(async (_ctx, request) => {
+  handler: httpAction(async (ctx, request) => {
     try {
       const body = await request.json();
       if (text(body.calendarId, "Calendar ID") !== mappings.calendar.id) {
@@ -341,6 +370,23 @@ http.route({
         phone: optional(body.phone),
         attribution: attribution(body.attribution),
       });
+      const booking = {
+        name: text(body.name, "Name"),
+        email: email(body.email),
+        phone: optional(body.phone),
+        callStart: optional(body.callStart),
+        timeZone: optional(body.timeZone),
+        meetingLink: optional(body.meetingLink),
+        submittedAt: Date.now(),
+        attribution: attribution(body.attribution),
+      };
+      await ctx.scheduler.runAfter(0, internal.discord.booking, {
+        ...booking,
+        callStart: booking.callStart || "Recorded in GHL calendar",
+        timeZone: booking.timeZone || "Calendar invite",
+        meetingLink: booking.meetingLink || "See GHL appointment",
+      });
+      await ctx.scheduler.runAfter(0, internal.sheets.booking, booking);
       return Response.json({ synced: true, opportunityId: synced.opportunityId }, { status: 201, headers: corsHeaders });
     } catch (error) {
       return Response.json({ error: errorMessage(error) }, { status: 400, headers: corsHeaders });
@@ -377,6 +423,17 @@ http.route({
           meetingLink: input.meetingLink,
           setterName: input.setterName,
           closerName: input.closerName,
+          attribution: input.attribution,
+        });
+        await ctx.scheduler.runAfter(0, internal.sheets.booking, {
+          name: input.name,
+          email: input.email,
+          phone: input.phone,
+          callStart: input.callStart,
+          timeZone: input.timeZone,
+          meetingLink: input.meetingLink,
+          closerName: input.closerName,
+          submittedAt: input.submittedAt,
           attribution: input.attribution,
         });
       }

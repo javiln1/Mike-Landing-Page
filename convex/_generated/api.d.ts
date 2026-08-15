@@ -16,6 +16,7 @@ import type * as ghl from "../ghl.js";
 import type * as http from "../http.js";
 import type * as optIns from "../optIns.js";
 import type * as outcomes from "../outcomes.js";
+import type * as sheets from "../sheets.js";
 
 import type {
   ApiFromModules,
@@ -32,6 +33,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   optIns: typeof optIns;
   outcomes: typeof outcomes;
+  sheets: typeof sheets;
 }>;
 
 /**

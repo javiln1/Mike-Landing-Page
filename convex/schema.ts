@@ -98,13 +98,7 @@ export default defineSchema({
     closerName: v.optional(v.string()),
     outcome: v.union(
       v.literal("Deal Closed"),
-      v.literal("Deal Won"),
-      v.literal("Follow Up"),
       v.literal("Deal Lost"),
-      v.literal("No Show"),
-      v.literal("Rescheduled"),
-      v.literal("Disqualified"),
-      v.literal("Not Contacted"),
     ),
     callDate: v.optional(v.string()),
     investmentCapability: v.optional(v.string()),

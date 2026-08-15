@@ -188,13 +188,7 @@ export const outcome = internalAction({
     email: v.string(),
     outcome: v.union(
       v.literal("Deal Closed"),
-      v.literal("Deal Won"),
-      v.literal("Follow Up"),
       v.literal("Deal Lost"),
-      v.literal("No Show"),
-      v.literal("Rescheduled"),
-      v.literal("Disqualified"),
-      v.literal("Not Contacted"),
     ),
     setterName: v.optional(v.string()),
     closerName: v.optional(v.string()),
@@ -217,8 +211,8 @@ export const outcome = internalAction({
     notes: v.optional(v.string()),
   },
   handler: async (_ctx, args) => send(
-    args.outcome === "Deal Won" ? "wins" : "outcomes",
-    args.outcome === "Deal Won" ? "🏆 RSA Deal Won" : `📞 RSA Call Outcome — ${args.outcome}`,
+    args.outcome === "Deal Closed" ? "wins" : "outcomes",
+    args.outcome === "Deal Closed" ? "🏆 RSA Deal Closed" : "📞 RSA Call Outcome — Deal Lost",
     [
       ["Contact", [
         ["Name", args.name],
