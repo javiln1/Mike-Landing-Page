@@ -56,6 +56,8 @@ await mkdir(join(outputDirectory, "assets"), { recursive: true });
 for (const asset of [
   "vsl-remote-sales-poster.jpg",
   "vsl-remote-sales-h264.mp4",
+  "money-back-guarantee.mp4",
+  "placement-companies.mp4",
   "video-thumbnail.png",
   "win-story-1.png",
   "win-story-2.png",
