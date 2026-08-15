@@ -3,6 +3,8 @@ import { internalAction } from "./_generated/server";
 import { attributionValidator } from "./applications";
 
 type WebhookKind = "optIns" | "applications" | "bookings" | "outcomes" | "wins";
+type Row = [label: string, value: string | undefined];
+type Section = [title: string, rows: Row[]];
 
 const webhookEnvNames: Record<WebhookKind, string> = {
   optIns: "DISCORD_OPTINS_WEBHOOK_URL",
@@ -14,12 +16,12 @@ const webhookEnvNames: Record<WebhookKind, string> = {
 
 const rsaAvatarUrl = "https://cdn.discordapp.com/icons/1538060651338010754/a127a7f4d77ea32832a38938edadcab8.webp?size=128";
 
-const embedStyles: Record<WebhookKind, { color: number; label: string }> = {
-  optIns: { color: 0xe11d2e, label: "NEW OPT-IN" },
-  applications: { color: 0xe11d2e, label: "NEW APPLICATION" },
-  bookings: { color: 0x3b82f6, label: "CALL BOOKED" },
-  outcomes: { color: 0xf59e0b, label: "CALL OUTCOME" },
-  wins: { color: 0x22c55e, label: "DEAL WON" },
+const embedColors: Record<WebhookKind, number> = {
+  optIns: 0xe11d2e,
+  applications: 0xe11d2e,
+  bookings: 0x3b82f6,
+  outcomes: 0xf59e0b,
+  wins: 0x22c55e,
 };
 
 const webhookUrl = (kind: WebhookKind) => {
@@ -27,47 +29,51 @@ const webhookUrl = (kind: WebhookKind) => {
   return env?.[webhookEnvNames[kind]] ?? env?.DISCORD_WEBHOOK_URL;
 };
 
-function field(name: string, value: string | undefined, inline = true) {
-  return value?.trim() ? { name, value: value.trim().slice(0, 1024), inline } : null;
+function safe(value: string) {
+  return value.replace(/([\\`*_{}\[\]()#+\-.!|>~])/g, "\\$1").slice(0, 900);
 }
 
-function attributionFields(attribution: {
+function section([title, rows]: Section) {
+  const visibleRows = rows.filter(([, value]) => value?.trim());
+  if (!visibleRows.length) return "";
+  return [
+    `**${title}**`,
+    ...visibleRows.map(([label, value]) => `• **${label}:** ${safe(value!.trim())}`),
+  ].join("\n");
+}
+
+function description(sections: Section[]) {
+  return sections.map(section).filter(Boolean).join("\n\n").slice(0, 4096);
+}
+
+function attributionSection(attribution: {
   source?: string;
   medium?: string;
   campaign?: string;
   content?: string;
-}) {
-  return [
-    field("UTM Source", attribution.source),
-    field("UTM Medium", attribution.medium),
-    field("UTM Campaign", attribution.campaign),
-    field("UTM Content", attribution.content),
-  ].filter(Boolean);
+}): Section {
+  return ["Attribution", [
+    ["Source", attribution.source ?? "Not Provided"],
+    ["Medium", attribution.medium ?? "Not Provided"],
+    ["Campaign", attribution.campaign ?? "Not Provided"],
+    ["Content", attribution.content ?? "Not Provided"],
+  ]];
 }
 
-async function send(kind: WebhookKind, title: string, fields: Array<ReturnType<typeof field>>) {
+async function send(kind: WebhookKind, title: string, sections: Section[]) {
   const url = webhookUrl(kind);
   if (!url) return { skipped: true };
-  const style = embedStyles[kind];
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      username: "RSA Funnel",
+      username: "RSA Funnel Bot",
       avatar_url: rsaAvatarUrl,
       allowed_mentions: { parse: [] },
       embeds: [{
-        author: {
-          name: `REMOTE SALES ACADEMY  •  ${style.label}`,
-          icon_url: rsaAvatarUrl,
-        },
         title,
-        color: style.color,
-        fields: fields.filter(Boolean),
-        footer: {
-          text: "RSA  •  Funnel Operations",
-          icon_url: rsaAvatarUrl,
-        },
+        description: description(sections),
+        color: embedColors[kind],
         timestamp: new Date().toISOString(),
       }],
     }),
@@ -82,10 +88,15 @@ export const optIn = internalAction({
     email: v.string(),
     attribution: attributionValidator,
   },
-  handler: async (_ctx, args) => send("optIns", "New RSA VSL opt-in", [
-    field("Name", args.name),
-    field("Email", args.email),
-    ...attributionFields(args.attribution),
+  handler: async (_ctx, args) => send("optIns", "🧲 RSA VSL Opt-In", [
+    ["Contact", [
+      ["Name", args.name],
+      ["Email", args.email],
+    ]],
+    attributionSection(args.attribution),
+    ["Funnel", [
+      ["Source", "Remote Sales Academy VSL"],
+    ]],
   ]),
 });
 
@@ -94,23 +105,39 @@ export const application = internalAction({
     name: v.string(),
     email: v.string(),
     phone: v.string(),
-    instagram: v.string(),
+    instagram: v.optional(v.string()),
+    currentWork: v.string(),
     currentIncome: v.string(),
+    incomeGoal: v.string(),
+    whyNow: v.string(),
+    startTiming: v.string(),
+    investmentReadiness: v.string(),
     liquidCapital: v.string(),
     qualificationStatus: v.union(v.literal("qualified"), v.literal("unqualified")),
     attribution: attributionValidator,
   },
   handler: async (_ctx, args) => send(
     "applications",
-    `New RSA VSL application — ${args.qualificationStatus === "qualified" ? "Qualified" : "Unqualified"}`,
+    `📝 RSA Application — ${args.qualificationStatus === "qualified" ? "Qualified" : "Unqualified"}`,
     [
-      field("Name", args.name),
-      field("Email", args.email),
-      field("Phone", args.phone),
-      field("Instagram", args.instagram),
-      field("Current Income", args.currentIncome),
-      field("Investment Capacity", args.liquidCapital),
-      ...attributionFields(args.attribution),
+      ["Contact", [
+        ["Name", args.name],
+        ["Email", args.email],
+        ["Phone", args.phone],
+        ["Instagram", args.instagram],
+      ]],
+      ["Application", [
+        ["Current Position", args.currentWork],
+        ["Current Income", args.currentIncome],
+        ["Income Goal", args.incomeGoal],
+        ["Why Now", args.whyNow],
+        ["Ready to Start", args.startTiming],
+        ["Investment Readiness", args.investmentReadiness],
+      ]],
+      attributionSection(args.attribution),
+      ["Funnel", [
+        ["Source", "Remote Sales Academy VSL"],
+      ]],
     ],
   ),
 });
@@ -125,14 +152,21 @@ export const booking = internalAction({
     closerName: v.optional(v.string()),
     attribution: attributionValidator,
   },
-  handler: async (_ctx, args) => send("bookings", "New RSA VSL booking", [
-    field("Name", args.name),
-    field("Email", args.email),
-    field("Call Start", args.callStart),
-    field("Time Zone", args.timeZone),
-    field("Setter", args.setterName),
-    field("Closer", args.closerName),
-    ...attributionFields(args.attribution),
+  handler: async (_ctx, args) => send("bookings", "📅 RSA Call Booking", [
+    ["Contact", [
+      ["Name", args.name],
+      ["Email", args.email],
+    ]],
+    ["Booking", [
+      ["Date & Time", args.callStart],
+      ["Time Zone", args.timeZone],
+      ["Setter", args.setterName],
+      ["Closer", args.closerName],
+    ]],
+    attributionSection(args.attribution),
+    ["Funnel", [
+      ["Source", "RSA Calendar"],
+    ]],
   ]),
 });
 
@@ -161,20 +195,30 @@ export const outcome = internalAction({
   },
   handler: async (_ctx, args) => send(
     args.outcome === "Deal Won" ? "wins" : "outcomes",
-    args.outcome === "Deal Won" ? "RSA deal won" : `RSA call outcome — ${args.outcome}`,
+    args.outcome === "Deal Won" ? "🏆 RSA Deal Won" : `📞 RSA Call Outcome — ${args.outcome}`,
     [
-      field("Name", args.name),
-      field("Email", args.email),
-      field("Outcome", args.outcome),
-      field("Setter", args.setterName),
-      field("Closer", args.closerName),
-      field("Call Date", args.callDate),
-      field("Follow-up Date", args.followUpDate),
-      field("Follow-up Reason", args.followUpReason, false),
-      field("Cash Collected", args.cashCollected),
-      field("Package Total", args.packageTotal),
-      field("Loss Reason", args.lossReason, false),
-      field("Notes", args.notes, false),
+      ["Contact", [
+        ["Name", args.name],
+        ["Email", args.email],
+      ]],
+      ["Call", [
+        ["Outcome", args.outcome],
+        ["Call Date", args.callDate],
+        ["Setter", args.setterName],
+        ["Closer", args.closerName],
+      ]],
+      ["Follow-Up", [
+        ["Date", args.followUpDate],
+        ["Reason", args.followUpReason],
+      ]],
+      ["Revenue", [
+        ["Cash Collected", args.cashCollected],
+        ["Package Total", args.packageTotal],
+      ]],
+      ["Notes", [
+        ["Loss Reason", args.lossReason],
+        ["Additional Info", args.notes],
+      ]],
     ],
   ),
 });
