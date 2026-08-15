@@ -5,7 +5,10 @@ const sourceDirectory = join(import.meta.dir, "design-options");
 const outputDirectory = join(import.meta.dir, "dist");
 const metaPixelId = "1276913444308503";
 
-const metaPixel = `
+function metaPixel(conversionEvent?: "Schedule") {
+  const conversionTracking = conversionEvent ? `\n      fbq('track', '${conversionEvent}');` : "";
+
+  return `
     <!-- Meta Pixel -->
     <script>
       !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -14,12 +17,13 @@ const metaPixel = `
       t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
       (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '${metaPixelId}');
-      fbq('track', 'PageView');
+      fbq('track', 'PageView');${conversionTracking}
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1" alt="" /></noscript>
     <!-- End Meta Pixel -->`;
+}
 
-function productionHtml(html: string, canonicalPath: string) {
+function productionHtml(html: string, canonicalPath: string, conversionEvent?: "Schedule") {
   return html
     .replace(/\s*<meta name="robots" content="noindex" \/>/, "")
     .replace(/\s*<nav class="option-switcher"[\s\S]*?<\/nav>/, "")
@@ -27,7 +31,7 @@ function productionHtml(html: string, canonicalPath: string) {
     .replaceAll('href="index.html"', 'href="/"')
     .replace(
       "</head>",
-      `    <link rel="canonical" href="https://theremotesalesacademy.com${canonicalPath}" />\n${metaPixel}\n  </head>`,
+      `    <link rel="canonical" href="https://theremotesalesacademy.com${canonicalPath}" />\n${metaPixel(conversionEvent)}\n  </head>`,
     );
 }
 
@@ -35,13 +39,13 @@ await mkdir(outputDirectory, { recursive: true });
 
 const pages = [
   { source: "option-1.html", target: "index.html", canonicalPath: "/" },
-  { source: "confirmation-page.html", target: "confirmation-page.html", canonicalPath: "/confirmation-page" },
+  { source: "confirmation-page.html", target: "confirmation-page.html", canonicalPath: "/confirmation-page", conversionEvent: "Schedule" as const },
   { source: "not-qualified.html", target: "not-qualified.html", canonicalPath: "/not-qualified" },
 ];
 
 for (const page of pages) {
   const html = await Bun.file(join(sourceDirectory, page.source)).text();
-  await Bun.write(join(outputDirectory, page.target), productionHtml(html, page.canonicalPath));
+  await Bun.write(join(outputDirectory, page.target), productionHtml(html, page.canonicalPath, page.conversionEvent));
 }
 
 for (const asset of ["shared.css", "shared.js"]) {
