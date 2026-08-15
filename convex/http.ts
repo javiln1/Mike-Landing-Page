@@ -381,10 +381,13 @@ http.route({
         attribution: attribution(body.attribution),
       };
       await ctx.scheduler.runAfter(0, internal.discord.booking, {
-        ...booking,
+        name: booking.name,
+        email: booking.email,
+        phone: booking.phone,
         callStart: booking.callStart || "Recorded in GHL calendar",
         timeZone: booking.timeZone || "Calendar invite",
         meetingLink: booking.meetingLink || "See GHL appointment",
+        attribution: booking.attribution,
       });
       await ctx.scheduler.runAfter(0, internal.sheets.booking, booking);
       return Response.json({ synced: true, opportunityId: synced.opportunityId }, { status: 201, headers: corsHeaders });
