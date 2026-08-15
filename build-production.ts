@@ -1,0 +1,57 @@
+import { mkdir } from "node:fs/promises";
+import { join } from "node:path";
+
+const sourceDirectory = join(import.meta.dir, "design-options");
+const outputDirectory = join(import.meta.dir, "dist");
+const metaPixelId = "1276913444308503";
+
+const metaPixel = `
+    <!-- Meta Pixel -->
+    <script>
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}
+      (window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '${metaPixelId}');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1" alt="" /></noscript>
+    <!-- End Meta Pixel -->`;
+
+function productionHtml(html: string, canonicalPath: string) {
+  return html
+    .replace(/\s*<meta name="robots" content="noindex" \/>/, "")
+    .replace(/\s*<nav class="option-switcher"[\s\S]*?<\/nav>/, "")
+    .replaceAll('href="option-1.html"', 'href="/"')
+    .replaceAll('href="index.html"', 'href="/"')
+    .replace(
+      "</head>",
+      `    <link rel="canonical" href="https://theremotesalesacademy.com${canonicalPath}" />\n${metaPixel}\n  </head>`,
+    );
+}
+
+await mkdir(outputDirectory, { recursive: true });
+
+const pages = [
+  { source: "option-1.html", target: "index.html", canonicalPath: "/" },
+  { source: "confirmation-page.html", target: "confirmation-page.html", canonicalPath: "/confirmation-page" },
+  { source: "not-qualified.html", target: "not-qualified.html", canonicalPath: "/not-qualified" },
+];
+
+for (const page of pages) {
+  const html = await Bun.file(join(sourceDirectory, page.source)).text();
+  await Bun.write(join(outputDirectory, page.target), productionHtml(html, page.canonicalPath));
+}
+
+for (const asset of ["shared.css", "shared.js"]) {
+  await Bun.write(join(outputDirectory, asset), Bun.file(join(sourceDirectory, asset)));
+}
+
+await Bun.write(join(outputDirectory, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: https://theremotesalesacademy.com/sitemap.xml\n");
+await Bun.write(
+  join(outputDirectory, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://theremotesalesacademy.com/</loc></url>\n</urlset>\n`,
+);
+
+console.log(`Built ${pages.length} production pages in ${outputDirectory}`);

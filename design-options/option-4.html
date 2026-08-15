@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>RSA VSL Option 4 — Application First</title>
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      body { font-family: 'Manrope', sans-serif; background: #0c0c0d; }
+      .af-fold { min-height: calc(100dvh - 58px); padding: 48px 20px; display: grid; place-items: center; }
+      .af-fold__inner { width: min(100%, 590px); text-align: center; }
+      .af-mark { display: block; margin-bottom: 28px; color: var(--red); font: 700 17px/1 'Archivo Condensed', sans-serif; }
+      .af-fold h1 { margin: 0; font: 600 clamp(38px, 5.4vw, 58px)/1.02 'Bricolage Grotesque', sans-serif; letter-spacing: -.045em; }
+      .af-fold p { margin: 20px auto 30px; max-width: 520px; color: var(--muted); font-size: 16px; line-height: 1.65; }
+      .af-fold .cta { width: 100%; }
+      .af-watch { display: inline-block; margin-top: 18px; border: 0; background: transparent; color: #b8b8bc; font-size: 13px; cursor: pointer; }
+      .af-watch:hover { color: var(--white); }
+      .af-main { width: min(calc(100% - 40px), 760px); margin: 0 auto; }
+      .af-video-section { padding: 92px 0 72px; border-top: 1px solid var(--line); }
+      .af-video-section h2 { margin: 0 0 22px; font: 600 30px/1.12 'Bricolage Grotesque', sans-serif; letter-spacing: -.03em; }
+      .af-video { border-radius: 4px; }
+      .af-proof { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 24px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .af-proof span { padding: 18px 14px; color: var(--muted); font-size: 12px; text-align: center; }
+      .af-proof span + span { border-left: 1px solid var(--line); }
+      .af-quote { margin: 42px auto 0; max-width: 610px; text-align: center; }
+      .af-quote blockquote { margin: 0; font: 500 22px/1.5 'Bricolage Grotesque', sans-serif; }
+      .af-quote cite { display: block; margin-top: 14px; color: var(--muted); font-size: 12px; font-style: normal; }
+      .af-video-action { margin: 32px auto 0; max-width: 590px; }
+      .af-next { padding: 72px 0 110px; border-top: 1px solid var(--line); }
+      .af-next h2 { margin: 0 0 30px; font: 600 30px/1.12 'Bricolage Grotesque', sans-serif; letter-spacing: -.03em; }
+      .af-steps { border-top: 1px solid var(--line); }
+      .af-step { display: grid; grid-template-columns: 44px 1fr; gap: 18px; padding: 21px 0; border-bottom: 1px solid var(--line); }
+      .af-step > span { color: var(--red); font-size: 12px; font-weight: 700; }
+      .af-step strong { display: block; margin-bottom: 5px; font-size: 15px; }
+      .af-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+      @media (max-width: 680px) {
+        .af-fold { min-height: calc(100dvh - 58px); padding: 42px 18px; }
+        .af-main { width: min(calc(100% - 36px), 760px); }
+        .af-video-section { padding: 70px 0 60px; }
+        .af-proof { grid-template-columns: 1fr; }
+        .af-proof span + span { border-left: 0; border-top: 1px solid var(--line); }
+        .af-next { padding: 60px 0 90px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="wordmark" href="index.html">REMOTE SALES <b>ACADEMY</b></a>
+        <span class="header-link">Applications open</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="af-fold">
+        <div class="af-fold__inner">
+          <span class="af-mark">RSA.</span>
+          <h1>Move from 9-to-5 sales into a remote high-ticket role.</h1>
+          <p>We work with a limited number of salespeople at a time. Start with the short application and see whether the Academy fits your experience and goals.</p>
+          <button class="cta" type="button" data-open-application>
+            Start the application
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+          <a class="af-watch" href="#training">Or watch the free training first</a>
+        </div>
+      </section>
+
+      <div class="af-main">
+        <section class="af-video-section" id="training">
+          <h2>Watch Mike explain the path before you apply.</h2>
+          <div class="video-shell af-video" data-video-shell>
+            <video autoplay muted playsinline loop poster="https://theremotesalesacademy.com/images/video-thumbnail.png">
+              <source src="https://theremotesalesacademy.com/videos/vsl-remote-sales-h264.mp4" type="video/mp4" />
+            </video>
+            <button class="video-control" type="button" data-video-control aria-label="Turn sound on">
+              <span class="video-control__inner"><span class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span><span>WATCH WITH SOUND</span></span>
+            </button>
+            <div class="video-progress"><span data-video-progress></span></div>
+          </div>
+
+          <div class="af-proof" aria-label="Program proof">
+            <span>200+ students trained</span>
+            <span>Real role-placement support</span>
+            <span>90-day training path</span>
+          </div>
+
+          <div class="af-quote">
+            <blockquote>“I went from earning $2,000 a month to $6,700 in my first month after placement.”</blockquote>
+            <cite>James — former appointment setter</cite>
+          </div>
+
+          <div class="af-video-action">
+            <button class="cta cta--wide" type="button" data-open-application>Start the application <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+          </div>
+        </section>
+
+        <section class="af-next">
+          <h2>What happens after you apply.</h2>
+          <div class="af-steps">
+            <div class="af-step"><span>01</span><div><strong>We review your answers.</strong><p>Your experience, goals, timing, and ability to commit determine the next step.</p></div></div>
+            <div class="af-step"><span>02</span><div><strong>You choose a call time.</strong><p>If there is a potential fit, you book a short application call with the team.</p></div></div>
+            <div class="af-step"><span>03</span><div><strong>You get a clear answer.</strong><p>The call establishes whether RSA is the right route for you now.</p></div></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <nav class="option-switcher" aria-label="Design options">
+      <a href="index.html" aria-label="All options">All</a><a href="option-1.html">1</a><a href="option-2.html">2</a><a href="option-3.html">3</a><a href="option-4.html" aria-current="page">4</a>
+    </nav>
+    <script src="shared.js"></script>
+  </body>
+</html>

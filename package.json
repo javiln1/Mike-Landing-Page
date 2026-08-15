@@ -6,6 +6,9 @@
   "scripts": {
     "build": "python3 build-template.py",
     "build:custom": "python3 build-template.py config/custom-config.json",
+    "build:production": "bun run build-production.ts",
+    "convex:dev": "convex dev",
+    "convex:deploy": "convex deploy",
     "dev": "python3 build-template.py && python3 -m http.server 8000 -d output",
     "serve": "python3 -m http.server 8000 -d output"
   },
@@ -30,6 +33,7 @@
   },
   "homepage": "https://github.com/your-org/funnel-template#readme",
   "dependencies": {
-    "@vercel/analytics": "^1.5.0"
+    "@vercel/analytics": "^1.5.0",
+    "convex": "^1.44.0"
   }
 }

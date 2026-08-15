@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="rsa-optin-endpoint" content="https://hushed-porpoise-98.eu-west-1.convex.site/opt-ins" />
+    <meta name="rsa-application-endpoint" content="https://hushed-porpoise-98.eu-west-1.convex.site/applications" />
+    <meta name="rsa-unqualified-redirect" content="/not-qualified" />
+    <title>Remote Sales Academy - Free Training For 9-5 Salespeople</title>
+    <link rel="stylesheet" href="shared.css?v=4" />
+    <style>
+      body { font-family: 'Manrope', sans-serif; }
+      .dr-hero { padding: 64px 20px 76px; text-align: center; }
+      .dr-hero__inner { width: min(100%, 920px); margin: 0 auto; }
+      .dr-label { margin: 0 0 20px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+      .dr-hero h1 { margin: 0; font: 700 clamp(42px, 6.2vw, 68px)/.98 'Archivo Condensed', sans-serif; letter-spacing: -.025em; text-transform: uppercase; }
+      .dr-hero h1 em { color: var(--red); font-style: normal; }
+      .dr-sub { max-width: 650px; margin: 22px auto 36px; color: var(--muted); font-size: 17px; line-height: 1.65; }
+      .social-proof { display: flex; align-items: center; justify-content: center; gap: 12px; margin: -12px auto 30px; color: var(--muted); font-size: 13px; }
+      .social-proof__avatars { display: flex; padding-left: 8px; }
+      .social-proof__avatar { width: 38px; height: 38px; margin-left: -8px; overflow: hidden; border: 2px solid var(--black); border-radius: 50%; background: var(--surface); }
+      .social-proof__avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .dr-video { margin: 0 auto; }
+      .dr-action { max-width: 440px; margin: 22px auto 0; }
+      .dr-section { padding: 88px 20px; border-top: 1px solid var(--line-soft); }
+      .dr-section__inner { width: min(100%, 920px); margin: 0 auto; }
+      .dr-section h2 { max-width: 700px; margin: 0 0 38px; font: 700 clamp(34px, 4.5vw, 48px)/1 'Archivo Condensed', sans-serif; letter-spacing: -.02em; text-transform: uppercase; }
+      .result-list { border-top: 1px solid var(--line); }
+      .result { display: grid; grid-template-columns: 190px 1fr; gap: 34px; padding: 25px 0; border-bottom: 1px solid var(--line); }
+      .result strong { font-size: 14px; }
+      .result span { color: var(--muted); font-size: 15px; line-height: 1.6; }
+      .result span b { color: var(--white); font-weight: 600; }
+      .metrics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 46px; border: 1px solid var(--line); }
+      .metric { min-height: 210px; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+      .metric + .metric { border-left: 1px solid var(--line); }
+      .metric__icon { width: 48px; height: 48px; margin-bottom: 22px; display: grid; place-items: center; border-radius: 50%; background: rgba(223, 23, 38, .12); color: var(--red); }
+      .metric__icon svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+      .metric strong { font: 700 44px/1 'Archivo Condensed', sans-serif; }
+      .metric span { margin-top: 12px; color: var(--muted); font-size: 14px; }
+      .dr-section--surface { background: #0e0e0f; }
+      .testimonial-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line); }
+      .testimonial { display: block; padding: 26px; transition: background-color 160ms ease; }
+      .testimonial + .testimonial { border-left: 1px solid var(--line); }
+      .testimonial:hover { background: var(--surface); }
+      .testimonial:focus-visible { outline: 2px solid var(--red); outline-offset: -2px; }
+      .testimonial__person { display: flex; align-items: center; gap: 13px; margin-bottom: 24px; }
+      .testimonial__person img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+      .testimonial__person strong { display: block; font-size: 14px; }
+      .testimonial__person span { display: block; margin-top: 3px; color: var(--red); font-size: 11px; font-weight: 700; }
+      .testimonial blockquote { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+      .wins-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: stretch; }
+      .wins-images { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .wins-images img { width: 100%; height: 100%; max-height: 460px; object-fit: cover; border: 1px solid var(--line); }
+      .wins-cta { padding: 34px; display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--line); }
+      .wins-cta h3 { margin: 0; font: 700 32px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
+      .wins-cta p { margin: 16px 0 28px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .wins-cta .cta { width: 100%; }
+      .story-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+      .story-card { display: block; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .story-card__media { position: relative; overflow: hidden; aspect-ratio: 16 / 9; background: var(--surface); }
+      .story-card__media img { width: 100%; height: 100%; object-fit: cover; }
+      .story-card__play { position: absolute; inset: 50% auto auto 50%; width: 46px; height: 46px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.72); border-radius: 50%; background: rgba(11,11,12,.78); transform: translate(-50%, -50%); }
+      .story-card__play svg { width: 17px; height: 17px; margin-left: 2px; fill: var(--white); }
+      .story-card__copy { padding: 22px; }
+      .story-card h3 { margin: 0; font: 700 23px/1.05 'Archivo Condensed', sans-serif; text-transform: uppercase; }
+      .story-card p { margin: 11px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+      .site-footer { padding: 30px 20px 90px; border-top: 1px solid var(--line); color: var(--muted); text-align: center; font-size: 11px; line-height: 1.7; }
+      .site-footer p { max-width: 760px; margin: 8px auto 0; }
+      @media (max-width: 680px) {
+        .dr-hero { padding: 34px 16px 58px; }
+        .dr-hero__inner { display: flex; flex-direction: column; }
+        .dr-label,
+        .dr-sub { display: none; }
+        .dr-hero h1 { order: 0; margin-bottom: 22px; }
+        .dr-video { order: 1; }
+        .dr-action { order: 2; width: 100%; }
+        .social-proof { order: 3; margin: 18px auto 0; font-size: 12px; }
+        .dr-section { padding: 66px 18px; }
+        .result { grid-template-columns: 1fr; gap: 8px; }
+        .metrics-grid { grid-template-columns: 1fr; }
+        .metric { min-height: 150px; }
+        .metric + .metric { border-top: 1px solid var(--line); border-left: 0; }
+        .metric__icon { margin-bottom: 14px; }
+        .testimonial-grid { grid-template-columns: 1fr; }
+        .testimonial + .testimonial { border-top: 1px solid var(--line); border-left: 0; }
+        .wins-layout,
+        .story-grid { grid-template-columns: 1fr; }
+        .wins-cta { padding: 26px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="wordmark" href="index.html">REMOTE SALES <b>ACADEMY</b></a>
+        <button class="header-link" type="button" data-open-application>START YOUR APPLICATION</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="dr-hero">
+        <div class="dr-hero__inner">
+          <p class="dr-label">Free training for working salespeople</p>
+          <h1>For 9-5 salespeople who want to move into <em>high-ticket remote sales</em></h1>
+          <p class="dr-sub">Watch the free training to see how to use your current sales experience to start closing remotely.</p>
+
+          <div class="social-proof">
+            <div class="social-proof__avatars" aria-label="Remote Sales Academy students">
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client1.jpg" alt="Remote Sales Academy student 1" /></span>
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client2.jpg" alt="Remote Sales Academy student 2" /></span>
+              <span class="social-proof__avatar"><img src="https://theremotesalesacademy.com/images/client3.jpg" alt="Remote Sales Academy student 3" /></span>
+            </div>
+            <span>Join 200+ students who have trained with RSA</span>
+          </div>
+
+          <div class="video-shell dr-video" data-video-shell>
+            <video autoplay muted playsinline loop controls preload="metadata" poster="https://theremotesalesacademy.com/images/video-thumbnail.png">
+              <source src="https://theremotesalesacademy.com/videos/vsl-remote-sales-h264.mp4" type="video/mp4" />
+            </video>
+            <button class="video-control" type="button" data-video-control aria-label="Turn sound on">
+              <span class="video-control__inner">
+                <span class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
+                <span>VIDEO PLAYING - TAP FOR SOUND</span>
+              </span>
+            </button>
+            <div class="video-progress"><span data-video-progress></span></div>
+          </div>
+
+          <div class="dr-action">
+            <button class="cta cta--wide" type="button" data-open-application>
+              Start Your Application
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="dr-section">
+        <div class="dr-section__inner">
+          <p class="proof-kicker">Student proof</p>
+          <h2 class="rule-title">Real results from RSA students</h2>
+          <div class="metrics-grid">
+            <div class="metric">
+              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13 2 4.5 13h6L9.5 22 19.5 10h-6L13 2Z" /></svg></span>
+              <strong>89%</strong>
+              <span>Job Placement Rate</span>
+            </div>
+            <div class="metric">
+              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
+              <strong>200+</strong>
+              <span>Successful Students</span>
+            </div>
+            <div class="metric">
+              <span class="metric__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg></span>
+              <strong>90 Days</strong>
+              <span>Average Transformation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dr-section">
+        <div class="dr-section__inner">
+          <div class="testimonial-grid">
+            <a class="testimonial" href="https://www.youtube.com/watch?v=AvPgl-COpHs" target="_blank" rel="noreferrer" aria-label="Watch Zain's testimonial on YouTube">
+              <div class="testimonial__person">
+                <img src="https://theremotesalesacademy.com/images/client1.jpg" alt="Zain student result" />
+                <div><strong>Zain</strong><span>NOW EARNING $12K/MO</span></div>
+              </div>
+              <blockquote>“I was skeptical at first, but the training on tonality changed everything. I went from zero sales experience to closing high-ticket deals in 5 weeks.”</blockquote>
+            </a>
+            <a class="testimonial" href="https://www.youtube.com/watch?v=-9gStKZF2bc" target="_blank" rel="noreferrer" aria-label="Watch Kai's testimonial on YouTube">
+              <div class="testimonial__person">
+                <img src="https://theremotesalesacademy.com/images/client2.jpg" alt="Kai student result" />
+                <div><strong>Kai</strong><span>NOW EARNING $9.5K/MO</span></div>
+              </div>
+              <blockquote>“The placement support is real. They did not just teach me how to sell; they connected me with a 7-figure agency that hired me on the spot.”</blockquote>
+            </a>
+            <a class="testimonial" href="https://www.youtube.com/watch?v=Tr74ImKCgaY" target="_blank" rel="noreferrer" aria-label="Watch Sam's testimonial on YouTube">
+              <div class="testimonial__person">
+                <img src="https://theremotesalesacademy.com/images/client3.jpg" alt="Sam student result" />
+                <div><strong>Sam</strong><span>NOW EARNING $15K/MO</span></div>
+              </div>
+              <blockquote>“RSA gave me the blueprint. The personal branding module helped me stand out, and now recruiters are reaching out to me on LinkedIn.”</blockquote>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="dr-section dr-section--surface">
+        <div class="dr-section__inner">
+          <p class="proof-kicker">Verified wins</p>
+          <h2 class="rule-title">See what students are doing</h2>
+          <div class="wins-layout">
+            <div class="wins-images">
+              <img src="https://theremotesalesacademy.com/images/wins/win-story-1.png" alt="Remote Sales Academy verified student win 1" />
+              <img src="https://theremotesalesacademy.com/images/wins/win-story-2.png" alt="Remote Sales Academy verified student win 2" />
+            </div>
+            <div class="wins-cta">
+              <h3>More student wins on Instagram</h3>
+              <p>View 50+ more unfiltered wins and daily updates.</p>
+              <a class="cta" href="https://www.instagram.com/stories/highlights/18040208225396466/" target="_blank" rel="noreferrer">
+                Watch Stories
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="dr-section">
+        <div class="dr-section__inner">
+          <p class="proof-kicker">Student stories</p>
+          <h2 class="rule-title">Watch the results</h2>
+          <div class="story-grid">
+            <a class="story-card" href="https://www.youtube.com/watch?v=84GW7qME5V0" target="_blank" rel="noreferrer">
+              <div class="story-card__media"><img src="https://img.youtube.com/vi/84GW7qME5V0/maxresdefault.jpg" alt="Tripled Income to $6,700/Month" /><span class="story-card__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span></div>
+              <div class="story-card__copy"><h3>Tripled Income to $6,700/Month</h3><p>James went from earning $2k/mo as an appointment setter to $6,700/mo in his first month after placement.</p></div>
+            </a>
+            <a class="story-card" href="https://www.youtube.com/watch?v=AvPgl-COpHs" target="_blank" rel="noreferrer">
+              <div class="story-card__media"><img src="https://img.youtube.com/vi/AvPgl-COpHs/maxresdefault.jpg" alt="From $0 to $9,000/Month" /><span class="story-card__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span></div>
+              <div class="story-card__copy"><h3>From $0 to $9,000/Month</h3><p>After a bad experience elsewhere, Zane joined RSA and jumped from $1,500 to $9,000/mo in a verified role.</p></div>
+            </a>
+            <a class="story-card" href="https://www.youtube.com/watch?v=Tr74ImKCgaY" target="_blank" rel="noreferrer">
+              <div class="story-card__media"><img src="https://img.youtube.com/vi/Tr74ImKCgaY/maxresdefault.jpg" alt="Bricklayer to $8,000/Month" /><span class="story-card__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span></div>
+              <div class="story-card__copy"><h3>Bricklayer to $8,000/Month</h3><p>Sam quit inconsistent bricklaying work and now earns $8k/mo working remotely.</p></div>
+            </a>
+            <a class="story-card" href="https://www.youtube.com/watch?v=-9gStKZF2bc" target="_blank" rel="noreferrer">
+              <div class="story-card__media"><img src="https://img.youtube.com/vi/-9gStKZF2bc/maxresdefault.jpg" alt="Customer Service to $5,000/Month" /><span class="story-card__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span></div>
+              <div class="story-card__copy"><h3>Customer Service to $5,000/Month</h3><p>Kai left a burnt-out 9-5 customer service job and hit $5k/mo in commissions.</p></div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong>© 2026 Remote Sales Academy. All rights reserved.</strong>
+      <p>DISCLAIMER: Individual results vary. This site is not part of Facebook or Meta Platforms, Inc. and is not endorsed by Facebook in any way.</p>
+    </footer>
+
+    <nav class="option-switcher" aria-label="Design options">
+      <a href="index.html" aria-label="All options">All</a><a href="option-1.html" aria-current="page">1</a><a href="option-2.html">2</a><a href="option-3.html">3</a><a href="option-4.html">4</a>
+    </nav>
+    <script src="shared.js?v=4"></script>
+  </body>
+</html>

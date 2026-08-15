@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>RSA VSL Option 2 — Documentary</title>
+    <link rel="stylesheet" href="shared.css" />
+    <style>
+      body { font-family: 'Work Sans', sans-serif; background: #0d0d0e; }
+      .ed-layout { width: min(calc(100% - 48px), 1120px); margin: 0 auto; }
+      .ed-intro { padding: 82px 0 64px; display: grid; grid-template-columns: 1fr 3fr 1fr; }
+      .ed-intro__copy { grid-column: 2; }
+      .ed-dateline { margin: 0 0 24px; color: var(--red); font: 600 11px/1 'Work Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+      .ed-intro h1 { margin: 0; font: 500 clamp(43px, 6vw, 68px)/1.05 'Newsreader', serif; letter-spacing: -.035em; }
+      .ed-standfirst { margin: 26px 0 0; color: #b8b8bd; font: 400 23px/1.52 'Newsreader', serif; }
+      .ed-rule { height: 1px; margin-top: 44px; background: var(--line); }
+      .ed-video-wrap { margin-bottom: 88px; }
+      .ed-video { width: min(100%, 960px); margin: 0 auto; border: 0; border-radius: 0; }
+      .ed-caption { width: min(100%, 960px); margin: 12px auto 0; padding-left: 14px; border-left: 2px solid var(--red); color: var(--muted); font: 400 13px/1.5 'Newsreader', serif; }
+      .ed-article { width: min(calc(100% - 48px), 680px); margin: 0 auto; }
+      .ed-section { padding: 72px 0; border-top: 1px solid var(--line); }
+      .ed-number { margin: 0 0 20px; color: var(--red); font: 600 11px/1 'Work Sans', sans-serif; letter-spacing: .17em; text-transform: uppercase; }
+      .ed-section h2 { margin: 0 0 24px; font: 500 clamp(32px, 4vw, 45px)/1.08 'Newsreader', serif; letter-spacing: -.025em; }
+      .ed-section > p:not(.ed-number) { margin: 0 0 19px; color: #b0b0b5; font: 400 18px/1.75 'Newsreader', serif; }
+      .ed-story { margin: 42px 0; padding: 26px 0 26px 30px; border-left: 2px solid var(--red); }
+      .ed-story strong { display: block; margin-bottom: 10px; font: 600 11px/1 'Work Sans', sans-serif; letter-spacing: .13em; text-transform: uppercase; }
+      .ed-story blockquote { margin: 0; font: 400 25px/1.45 'Newsreader', serif; }
+      .ed-action { padding: 34px 0 0; border-top: 1px solid var(--red); }
+      .ed-link { border: 0; padding: 0; background: transparent; color: var(--white); font: 500 22px/1.2 'Newsreader', serif; cursor: pointer; }
+      .ed-link span { color: var(--red); }
+      .ed-final { padding: 74px 0 110px; text-align: left; }
+      .ed-final h2 { margin: 0 0 28px; font: 500 40px/1.08 'Newsreader', serif; }
+      .ed-final .cta { width: 100%; }
+      @media (max-width: 760px) {
+        .ed-layout { width: min(calc(100% - 36px), 1120px); }
+        .ed-intro { padding: 54px 0 46px; display: block; }
+        .ed-standfirst { font-size: 20px; }
+        .ed-video-wrap { margin-bottom: 64px; }
+        .ed-video { width: calc(100% + 36px); margin-left: -18px; }
+        .ed-caption { margin-top: 12px; }
+        .ed-article { width: min(calc(100% - 36px), 680px); }
+        .ed-section { padding: 58px 0; }
+        .ed-section > p:not(.ed-number) { font-size: 17px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="wordmark" href="index.html">RSA<b>.</b></a>
+        <button class="header-link" type="button" data-open-application>Application</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="ed-layout ed-intro">
+        <div class="ed-intro__copy">
+          <p class="ed-dateline">Remote Sales Academy — Field Notes</p>
+          <h1>The sales career you built in an office can travel further than you think.</h1>
+          <p class="ed-standfirst">Mike Akerele explains how working salespeople are moving into remote high-ticket roles without discarding the experience they already earned.</p>
+          <div class="ed-rule"></div>
+        </div>
+      </section>
+
+      <section class="ed-layout ed-video-wrap">
+        <div class="video-shell ed-video" data-video-shell>
+          <video autoplay muted playsinline loop poster="https://theremotesalesacademy.com/images/video-thumbnail.png">
+            <source src="https://theremotesalesacademy.com/videos/vsl-remote-sales-h264.mp4" type="video/mp4" />
+          </video>
+          <button class="video-control" type="button" data-video-control aria-label="Turn sound on">
+            <span class="video-control__inner"><span class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span><span>WATCH WITH SOUND</span></span>
+          </button>
+          <div class="video-progress"><span data-video-progress></span></div>
+        </div>
+        <p class="ed-caption">Mike on the difference between being good at sales and building a career that is not tied to one location.</p>
+      </section>
+
+      <article class="ed-article">
+        <section class="ed-section">
+          <p class="ed-number">I. The setup</p>
+          <h2>You are not starting again. You are repositioning.</h2>
+          <p>Most working salespeople already have the hardest part: they can speak to customers, handle pressure, and keep a conversation moving.</p>
+          <p>Remote high-ticket sales demands a more deliberate process, but it does not require you to throw away the career you have already built.</p>
+        </section>
+
+        <section class="ed-section">
+          <p class="ed-number">II. The evidence</p>
+          <h2>The change becomes credible when you see who has already made it.</h2>
+          <div class="ed-story">
+            <strong>James — Appointment setter</strong>
+            <blockquote>“I went from earning $2,000 a month to $6,700 in my first month after placement.”</blockquote>
+          </div>
+          <div class="ed-story">
+            <strong>Sam — Former bricklayer</strong>
+            <blockquote>“I left inconsistent site work and now earn $8,000 a month working remotely.”</blockquote>
+          </div>
+        </section>
+
+        <section class="ed-section">
+          <p class="ed-number">III. The next step</p>
+          <h2>The application is a short conversation about where you are now.</h2>
+          <p>Answer a few direct questions. If the Academy fits your experience, goals, and timing, you will be invited to choose a time with the team.</p>
+          <div class="ed-action"><button class="ed-link" type="button" data-open-application>Start the application <span>→</span></button></div>
+        </section>
+
+        <section class="ed-final">
+          <h2>See if your current experience can take you further.</h2>
+          <button class="cta" type="button" data-open-application>Apply for a call <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></button>
+        </section>
+      </article>
+    </main>
+
+    <nav class="option-switcher" aria-label="Design options">
+      <a href="index.html" aria-label="All options">All</a><a href="option-1.html">1</a><a href="option-2.html" aria-current="page">2</a><a href="option-3.html">3</a><a href="option-4.html">4</a>
+    </nav>
+    <script src="shared.js"></script>
+  </body>
+</html>

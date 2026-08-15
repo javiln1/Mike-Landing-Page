@@ -1,0 +1,84 @@
+{
+  "organizationId": "orga_ky8RPI3Lv2mIasVX8X2vdtPiuLQQ3cckMDpoIUks0dd",
+  "sharedUserId": "user_oKUouqfUCk7U0VxKO776S3oXgzwn63w2Uq2Qxh31Inv",
+  "funnel": "RSA VSL",
+  "leadStatusId": "stat_lvdspqnNnIrvBSgwuvuLFf2DsDLyE200X817s5sZw90",
+  "pipeline": {
+    "id": "pipe_70643oVvRscqCsOCWeNl4F",
+    "stages": {
+      "applicationSubmitted": "stat_9XOe3HDRGtnpbIDHBiYRlIlQOhFOwhsGtzjrr8dnD9n",
+      "qualified": "stat_1z9L9wXq6S0SsPucjOg3VRynagWtC5DCFvqNOqmFgQn",
+      "booked": "stat_vIaBDLggA7DSjUDxqz1e8eHAboaVknZZ31dpX3efsZA",
+      "showed": "stat_TiNAzDJ4nx5mkKDv3JYZfsKrDOtnIZoLpSq0L08BDfj",
+      "followUp": "stat_nHimztvIcecisdYvuBFyuiBvUjvaKyPm5zNfeal6zrx",
+      "noShow": "stat_CGfFxts1utn1O0i9byzzlAKYcg58tkzTIOjFNM4DO6X",
+      "rescheduled": "stat_kmKu9ghoT5aGJP5DK8s8VJuL1jV96yPkQjoNgPQtLC1",
+      "notContacted": "stat_e1CEjUeGeANBiieJzsjc8ikCph0RbbmIgU2NiDeCV24",
+      "disqualified": "stat_kS3RkkhBtJ5pQs1AhiQ41YNVfZBt32N5xzlO2KqwHRc",
+      "dealWon": "stat_S5c7fg00FLgbF1IfeuvCxjc00pkCy6b54iSg31PSCHi",
+      "dealLost": "stat_SMFaFcAcCZDfqQ5O1tUxR5UvGABqnuH6RSYwOidWdw8"
+    }
+  },
+  "leadFields": {
+    "setterName": "cf_0JtHxMeHX6pe2F5ZOLSaOFZfS5GEsrDRhRe7Sdrdf2D",
+    "closerName": "cf_7WIrzPuafHOi54DJ5ixeIfGrQvwh8LdgjIDtAGtckA3",
+    "instagram": "cf_XcxkLFNmO0DsbM5dI3ecRmtbfpZbuUEmr1thJ6rEDba",
+    "qualification": "cf_ROPEem9oRhZVWTw1e7EOwGBSgvqPT70JIstuidIYK8U",
+    "utmSource": "cf_ATtDHAofBP7hF9d27jnkTbBZ2AjdTXeOCJsB8vKWaPV",
+    "utmMedium": "cf_sYgGbUpBRZ7AhTGrhZrxSq4IUkAcUCX1KVZXxC5X1qR",
+    "utmCampaign": "cf_DUC5bbujzngGwYzKpjjg3Tdo3A7Sdv9sJa0pp7dFYy2",
+    "utmContent": "cf_7bIX6hpCQc7CiqRLD8JUAAChGOTiiJa8BEzd31tCzkQ"
+  },
+  "activities": {
+    "optIn": {
+      "typeId": "actitype_1tcP55ePBlYbLEM8Lk2Jyq",
+      "fields": {
+        "setterName": "cf_LaoyfBF3JZvCBZV5pok2yBBIxXo6elasn0f5gJZ1uce",
+        "closerName": "cf_WLzJxtwwY5GlaRizHp7ULNHLjC0bZPfyj9vt3PpP4C1",
+        "landingPage": "cf_y16r111Uo2GtA4E2iUWa9gtcXoOYFiQQYBg7GU5ELCN",
+        "utmSource": "cf_DW07rVVynXErOQ97W6BBQHRG7wa2GAQvQSvpUP2wzvK",
+        "utmMedium": "cf_bj2GNjDPPHBMR49F9nZMPlmq7iQf2emuXyTG3qlfxAf",
+        "utmCampaign": "cf_WMhctKdKOn8Ty7bJv2JI3XqzX3CYzwAdCujv9SYKudF",
+        "utmContent": "cf_UPCRPJa0PVBOzStAkEturxRO2m077srlhr0pyoFrX7c"
+      }
+    },
+    "application": {
+      "typeId": "actitype_0PtrnHLsO29xYnI7qICDEK",
+      "fields": {
+        "setterName": "cf_mnl8mIjEDStdXaj0eDZhbIt9mY82AyG5MC4PevrO4Lf",
+        "closerName": "cf_JRAbmqqSgmvwJYOLqtHCMVKySbWhvRTfFNhLVRTFXQd",
+        "qualification": "cf_7YNNx7ggA0Jwmo8JUco2xcx2lobNG2B0VBMnaNd4zCX",
+        "currentWork": "cf_w6Lsvby411BveI1gmtjd5ORTOT8ZkAR59Myrk9akb94",
+        "currentIncome": "cf_E98JpVm6kPqdRO5G7sdBbkImuPRWcs48OgSNonLNXYj",
+        "incomeGoal": "cf_GJbtnk041ExCMecEq7HtCElVH2UgmYDZBkYMr3tZoma",
+        "salesExperience": "cf_QjfSKu9ofYECVoYJYKN2uWgSYV8UD1nEKsZSmS1jAsq",
+        "urgency": "cf_Gemx4Qq20BIS5EN8itS8891twiDT6rVN76uVRS0qYIL",
+        "instagram": "cf_E8fzQjqzpH88nk3Ij9xH7be2VJdKlKfAAbpLZhorKw0",
+        "investmentCapacity": "cf_xQ7kOddIE2eimjsGjWXAyYKOAIVvSoyvuyRxi4rW2LA",
+        "utmSource": "cf_waGDLwdccAlIzpsTyePVINX0bDyLGiFAzTfS321Q1vX",
+        "utmMedium": "cf_JMSgKTitJa1uLp04qcxHonsmhy2llaCuR1mfSEaQkiQ",
+        "utmCampaign": "cf_KtiT1DFRic79Aumo2cTUnjwvyTP9ytXBqjCx65TDaW5",
+        "utmContent": "cf_QXt2kNevFaa6oMH924t2DRPwXaxMUKhGXKwtyYqYnBx"
+      }
+    },
+    "booking": {
+      "typeId": "actitype_05o516AyJAFV4sM02kyASC",
+      "fields": {
+        "setterName": "cf_HzD9fsH9yCDacVvhlKVkM86F0nUNuoTTolTqYkePHu3",
+        "closerName": "cf_2MjXvaorimVO5wIM0MaReHnDGMVEWWNvcxpTS8dRfPl",
+        "callStart": "cf_MZOzxBn58WR8LBXtrgIJiSi9QO42XN9begz4xZOIH9c",
+        "timeZone": "cf_YuEgUFm6obY3Ef7jDggUurumExlZVrDdMEZLfE681Jn",
+        "meetingLink": "cf_5D5qmqSTFV2PNaxnB9nD8t42FVmah1wULSeAWR0zZq0",
+        "utmSource": "cf_UyHgA13EFI9pPoMdohkBp2mRU11fPjwthm98adBTjDk",
+        "utmMedium": "cf_YT30l4qXjINm77UK1bSWmylGkMrwXXllTOeFAivdPdA",
+        "utmCampaign": "cf_SG6R3MfRczKJf7rnlrxT6YIBDaWQolWgWPIgPEcIf9a",
+        "utmContent": "cf_2pweA9S5vuWJSZHrawTpmdHEjAqSTAsQuR4Gkw9eJ7s"
+      }
+    }
+  },
+  "smartViews": {
+    "allRsaVslLeads": "save_Nmc5XYci7SsTZUQxtPkvMcBYqKg9EqtixS6Pl72DHIM",
+    "applications": "save_JeBpOL5gdP2OzfUshcnLuooGXh3OmEtk6Ir5FdxqMxL",
+    "bookings": "save_DL0ZagAFzfTsDpxIPLB8jWbSEs8YrBAVv5iRI1uUL8O"
+  }
+}
