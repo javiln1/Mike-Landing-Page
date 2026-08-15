@@ -1,0 +1,6 @@
+# Claude Agent SDK - Ads Copy Agent
+# https://docs.claude.com/en/api/agent-sdk/python
+# REQUIRES Python 3.10+
+
+claude-agent-sdk>=0.1.19
+python-dotenv>=1.0.0
