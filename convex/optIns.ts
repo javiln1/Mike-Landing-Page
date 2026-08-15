@@ -1,6 +1,6 @@
 import { v } from "convex/values";
 import { internalMutation } from "./_generated/server";
-import { attributionValidator } from "./applications";
+import { attributionValidator, DEDUPE_BY_EMAIL } from "./applications";
 
 export const record = internalMutation({
   args: {
@@ -12,10 +12,12 @@ export const record = internalMutation({
     attribution: attributionValidator,
   },
   handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("optIns")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
-      .first();
+    const existing = DEDUPE_BY_EMAIL
+      ? await ctx.db
+        .query("optIns")
+        .withIndex("by_email", (q) => q.eq("email", args.email))
+        .first()
+      : null;
     if (existing) {
       return {
         optInId: existing._id,

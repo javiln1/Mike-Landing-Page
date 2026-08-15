@@ -8,6 +8,9 @@ export const attributionValidator = v.object({
   content: v.optional(v.string()),
 });
 
+// Temporarily off so repeat test submissions from the same email behave like new leads.
+export const DEDUPE_BY_EMAIL = false;
+
 export const record = internalMutation({
   args: {
     currentWork: v.string(),
@@ -31,10 +34,12 @@ export const record = internalMutation({
     attribution: attributionValidator,
   },
   handler: async (ctx, args) => {
-    const existing = await ctx.db
-      .query("applications")
-      .withIndex("by_email", (q) => q.eq("email", args.email))
-      .first();
+    const existing = DEDUPE_BY_EMAIL
+      ? await ctx.db
+        .query("applications")
+        .withIndex("by_email", (q) => q.eq("email", args.email))
+        .first()
+      : null;
 
     if (existing) {
       return {
