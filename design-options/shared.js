@@ -785,9 +785,16 @@ async function loadCalendar() {
   iframe.src = buildCalendarUrl();
   iframe.id = 'msgsndr-calendar';
   iframe.title = 'RSA Application Call calendar';
-  iframe.setAttribute('scrolling', 'no');
+  iframe.setAttribute('scrolling', 'auto');
   iframe.setAttribute('allow', 'payment');
   calendarMount.replaceChildren(iframe);
+}
+
+function resizeCalendar(iframe, detail = {}) {
+  const height = Number(detail.height);
+  if (!Number.isFinite(height) || height <= 0) return;
+  iframe.style.height = `${Math.ceil(height)}px`;
+  calendarMount.style.minHeight = `${Math.ceil(height)}px`;
 }
 
 async function syncCalendarBooking(calendarId, detail = {}) {
@@ -834,9 +841,12 @@ window.addEventListener('message', (event) => {
     !iframe
     || event.source !== iframe.contentWindow
     || event.origin !== new URL(applicationConfig.calendarUrl).origin
-    || messageType !== 'msgsndr-booking-complete'
-    || calendarRedirectStarted
   ) return;
+  if (messageType === 'highlevel.setHeight') {
+    resizeCalendar(iframe, detail);
+    return;
+  }
+  if (messageType !== 'msgsndr-booking-complete' || calendarRedirectStarted) return;
   calendarRedirectStarted = true;
   if (window.fbq) window.fbq('track', 'Schedule');
   syncCalendarBooking(detail?.calendarId, detail);

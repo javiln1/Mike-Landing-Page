@@ -122,13 +122,14 @@ http.route({
         attribution: attribution(body.attribution),
       };
       const recorded = await ctx.runMutation(internal.optIns.record, input);
+      await ctx.scheduler.runAfter(0, internal.discord.optIn, {
+        name: input.name,
+        email: input.email,
+        landingPage: input.landingPage,
+        attribution: input.attribution,
+        repeat: recorded.isDuplicate,
+      });
       if (!recorded.isDuplicate) {
-        await ctx.scheduler.runAfter(0, internal.discord.optIn, {
-          name: input.name,
-          email: input.email,
-          landingPage: input.landingPage,
-          attribution: input.attribution,
-        });
         await ctx.scheduler.runAfter(0, internal.sheets.optIn, {
           name: input.name,
           email: input.email,
@@ -291,24 +292,25 @@ http.route({
         attribution: attribution(body.attribution),
       };
       const recorded = await ctx.runMutation(internal.applications.record, input);
+      await ctx.scheduler.runAfter(0, internal.discord.application, {
+        name: input.name,
+        email: input.email,
+        phone: input.phone,
+        instagram: input.instagram,
+        currentWork: input.currentWork,
+        currentIncome: input.currentIncome,
+        incomeGoal: input.incomeGoal,
+        experience: input.experience,
+        salesRole: input.salesRole,
+        startTiming: input.startTiming,
+        investmentReadiness: input.investmentReadiness,
+        liquidCapital: input.liquidCapital,
+        landingPage: input.landingPage,
+        qualificationStatus: input.qualificationStatus,
+        attribution: input.attribution,
+        repeat: recorded.isDuplicate,
+      });
       if (!recorded.isDuplicate) {
-        await ctx.scheduler.runAfter(0, internal.discord.application, {
-          name: input.name,
-          email: input.email,
-          phone: input.phone,
-          instagram: input.instagram,
-          currentWork: input.currentWork,
-          currentIncome: input.currentIncome,
-          incomeGoal: input.incomeGoal,
-          experience: input.experience,
-          salesRole: input.salesRole,
-          startTiming: input.startTiming,
-          investmentReadiness: input.investmentReadiness,
-          liquidCapital: input.liquidCapital,
-          landingPage: input.landingPage,
-          qualificationStatus: input.qualificationStatus,
-          attribution: input.attribution,
-        });
         await ctx.scheduler.runAfter(0, internal.sheets.application, {
           name: input.name,
           email: input.email,

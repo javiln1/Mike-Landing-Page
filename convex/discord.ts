@@ -88,8 +88,9 @@ export const optIn = internalAction({
     email: v.string(),
     landingPage: v.string(),
     attribution: attributionValidator,
+    repeat: v.optional(v.boolean()),
   },
-  handler: async (_ctx, args) => send("optIns", "🧲 RSA VSL Opt-In", [
+  handler: async (_ctx, args) => send("optIns", args.repeat ? "🧲 RSA VSL Opt-In (repeat — already in CRM)" : "🧲 RSA VSL Opt-In", [
     ["Contact", [
       ["Name", args.name],
       ["Email", args.email],
@@ -119,10 +120,11 @@ export const application = internalAction({
     landingPage: v.string(),
     qualificationStatus: v.union(v.literal("qualified"), v.literal("unqualified")),
     attribution: attributionValidator,
+    repeat: v.optional(v.boolean()),
   },
   handler: async (_ctx, args) => send(
     "applications",
-    "📝 RSA Application — Ready to Book",
+    args.repeat ? "📝 RSA Application (repeat — already in CRM)" : "📝 RSA Application — Ready to Book",
     [
       ["Contact", [
         ["Name", args.name],
