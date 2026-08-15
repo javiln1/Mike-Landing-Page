@@ -76,6 +76,13 @@ const validOutcomes = [
   "Deal Lost",
 ] as const;
 
+const validInvestmentRanges = new Set([
+  "$0",
+  "$500 - $1,000",
+  "$1,000 - $2,500",
+  "$2,500+",
+]);
+
 type Outcome = typeof validOutcomes[number];
 
 function answerMap(body: Record<string, any>) {
@@ -258,12 +265,11 @@ http.route({
     try {
       const body = await request.json();
       const startTiming = text(body.startTiming ?? body.urgency, "Start timing");
-      const investmentReadiness = text(body.investmentReadiness ?? body.liquidCapital, "Investment readiness");
-      const canInvest = investmentReadiness === "Yes" || investmentReadiness === "Yes, with a payment plan";
-      const readySoon = ["Immediately", "Within the next two weeks", "Within 30 days"].includes(startTiming);
-      const qualificationStatus = canInvest && readySoon
-        ? "qualified" as const
-        : "unqualified" as const;
+      const investmentReadiness = text(body.investmentReadiness ?? body.liquidCapital, "Investment range");
+      if (!validInvestmentRanges.has(investmentReadiness)) {
+        throw new Error("Select a valid investment range.");
+      }
+      const qualificationStatus = "qualified" as const;
       const input = {
         currentWork: text(body.currentWork, "Current work"),
         currentIncome: text(body.currentIncome, "Current income"),

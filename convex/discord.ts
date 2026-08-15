@@ -122,7 +122,7 @@ export const application = internalAction({
   },
   handler: async (_ctx, args) => send(
     "applications",
-    `📝 RSA Application — ${args.qualificationStatus === "qualified" ? "Qualified" : "Unqualified"}`,
+    "📝 RSA Application — Ready to Book",
     [
       ["Contact", [
         ["Name", args.name],
@@ -137,7 +137,7 @@ export const application = internalAction({
         ["Current Monthly Income", args.currentIncome],
         ["3–6 Month Income Goal", args.incomeGoal],
         ["Ready to Begin", args.startTiming],
-        ["Can Invest $2,500", args.investmentReadiness],
+        ["Investment Range", args.investmentReadiness],
       ]],
       attributionSection(args.attribution),
       ["Funnel", [

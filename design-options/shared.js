@@ -118,18 +118,18 @@ const applicationScreens = [
     ],
   },
   {
-    title: 'Your investment readiness',
-    intro: 'This helps us determine whether the programme is commercially realistic for you right now.',
+    title: 'Your investment range',
+    intro: '',
     fields: [
       {
         id: 'investment_readiness',
         type: 'choice',
-        label: 'If accepted, could you invest $2,500 in the programme?',
+        label: 'How much are you willing to financially invest in yourself?',
         choices: [
-          'Yes',
-          'Yes, with a payment plan',
-          'Not immediately, but within 30 days',
-          'No',
+          '$0',
+          '$500 - $1,000',
+          '$1,000 - $2,500',
+          '$2,500+',
         ],
       },
     ],
@@ -176,7 +176,6 @@ const applicationConfig = {
   optInEndpoint: document.querySelector('meta[name="rsa-optin-endpoint"]')?.content || '',
   endpoint: document.querySelector('meta[name="rsa-application-endpoint"]')?.content || '',
   calendarBookedEndpoint: document.querySelector('meta[name="rsa-calendar-booked-endpoint"]')?.content || '',
-  unqualifiedRedirect: document.querySelector('meta[name="rsa-unqualified-redirect"]')?.content || '/not-qualified',
   confirmationRedirect: document.querySelector('meta[name="rsa-confirmation-redirect"]')?.content || '/confirmation-page',
   calendarUrl: document.querySelector('meta[name="rsa-calendar-url"]')?.content || '',
 };
@@ -239,7 +238,7 @@ let calendarRedirectStarted = false;
 let isTransitioning = false;
 let transitionTimer;
 const applicationAnswers = {};
-const applicationDraftKey = 'rsa-application-draft-v1';
+const applicationDraftKey = 'rsa-application-draft-v2';
 const draftAnswerKeys = new Set([
   ...applicationScreens.flatMap((screen) => screen.fields.map((field) => field.id)),
   'phoneCountry',
@@ -687,12 +686,6 @@ function captureOptIn() {
   });
 }
 
-function getQualificationStatus() {
-  const canInvest = ['Yes', 'Yes, with a payment plan'].includes(applicationAnswers.investment_readiness);
-  const readySoon = ['Immediately', 'Within the next two weeks', 'Within 30 days'].includes(applicationAnswers.start_timing);
-  return canInvest && readySoon ? 'qualified' : 'unqualified';
-}
-
 function getAttribution() {
   const params = new URLSearchParams(window.location.search);
   const value = (key) => params.get(key) || undefined;
@@ -815,7 +808,6 @@ async function finishApplication() {
     return;
   }
 
-  const qualificationStatus = getQualificationStatus();
   const payload = {
     currentWork: applicationAnswers.current_work,
     currentIncome: applicationAnswers.current_income,
@@ -832,7 +824,7 @@ async function finishApplication() {
     phone: applicationAnswers.phone,
     phoneCountryCode: applicationAnswers.phoneCountryCode,
     phoneNational: applicationAnswers.phoneNational,
-    qualificationStatus,
+    qualificationStatus: 'qualified',
     submittedAt: Date.now(),
     landingPage: window.location.href,
     userAgent: navigator.userAgent,
@@ -862,20 +854,12 @@ async function finishApplication() {
     successView.classList.add('is-visible');
     progress.style.width = '100%';
 
-    if (qualificationStatus === 'qualified') {
-      successTitle.textContent = 'Book your call.';
-      successCopy.hidden = true;
-      calendarEmbed.hidden = false;
-      applicationBody.classList.add('is-calendar');
-      loadCalendar();
-      return;
-    }
-
-    successTitle.textContent = 'Your application has been received.';
+    successTitle.textContent = 'Book your Application Call';
+    successCopy.textContent = 'Choose a time below so the team can discuss your current sales experience, your goals, and whether Remote Sales Academy is the right next step.';
     successCopy.hidden = false;
-    successCopy.textContent = 'Based on your answers, an Application Call is not the right next step yet. We are taking you to the free training resources now.';
-    const unqualifiedRedirect = isLocalPreview ? '/not-qualified.html' : applicationConfig.unqualifiedRedirect;
-    window.setTimeout(() => window.location.assign(unqualifiedRedirect), 1100);
+    calendarEmbed.hidden = false;
+    applicationBody.classList.add('is-calendar');
+    loadCalendar();
   } catch (error) {
     nextButton.disabled = false;
     nextButton.innerHTML = `Submit My Application ${arrowIcon}`;

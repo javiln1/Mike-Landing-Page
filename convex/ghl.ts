@@ -211,7 +211,7 @@ export async function syncApplication(input: {
     ["Sales experience", input.experience],
     ["Sales role", input.salesRole],
     ["Start timing", input.startTiming],
-    ["Investment readiness", input.investmentReadiness],
+    ["Investment range", input.investmentReadiness],
     ["Instagram", input.instagram],
   ]);
   return { contactId, opportunityId, noteId };
