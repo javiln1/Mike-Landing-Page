@@ -1,313 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex" />
-    <title>Application Call Booked — Remote Sales Academy</title>
-    <link rel="stylesheet" href="shared.css?v=5" />
-    <style>
-      body { font-family: 'Manrope', sans-serif; }
-      .confirmation-header { height: 58px; border-bottom: 1px solid var(--line-soft); }
-      .confirmation-header__inner { width: min(calc(100% - 40px), 1080px); height: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-      .confirmation-status { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
-      .confirmation-main { min-height: calc(100dvh - 58px); padding: 48px 20px 96px; }
-      .confirmation-main__inner { width: min(100%, 820px); margin: 0 auto; }
-      .confirmation-kicker { margin: 0 0 12px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
-      .confirmation-main h1 { max-width: 760px; margin: 0; font: 700 clamp(48px, 7vw, 68px)/.94 'Archivo Condensed', sans-serif; letter-spacing: -.025em; text-transform: uppercase; }
-      .confirmation-intro { max-width: 660px; margin: 18px 0 28px; color: var(--muted); font-size: 15px; line-height: 1.6; }
-      .booking { width: 100%; margin-top: 42px; display: grid; grid-template-columns: .95fr 1.05fr; border: 1px solid var(--line); }
-      .booking__summary { padding: 20px; display: grid; grid-template-columns: 1fr; gap: 16px; align-content: center; border-right: 1px solid var(--line); }
-      .booking__summary strong { display: block; font: 700 22px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
-      .booking__summary span { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
-      .booking__summary-actions { display: flex; align-items: center; gap: 12px; }
-      .booking__duration { color: var(--white) !important; font-size: 12px !important; font-weight: 700; }
-      .booking__summary-actions .calendar-button { min-height: 40px; padding: 0 13px; }
-      .booking__body { padding: 20px; }
-      .booking__step { margin: 0 0 9px; color: var(--red); font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-      .booking__body h2 { margin: 0; font: 700 27px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
-      .booking__body > p:not(.booking__step):not(.calendar-note) { max-width: 520px; margin: 12px 0 16px; color: var(--muted); font-size: 13px; line-height: 1.55; }
-      .calendar-button { min-height: 56px; padding: 0 18px; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 5px; font-size: 13px; font-weight: 700; }
-      .calendar-button { border: 1px solid var(--red); background: var(--red); color: var(--white); cursor: pointer; }
-      .calendar-button:active { transform: translateY(1px); }
-      .calendar-button svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-      .calendar-note { min-height: 0; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.45; }
-      .pre-call { margin-top: 42px; padding-top: 34px; border-top: 1px solid var(--line); }
-      .pre-call--first { margin-top: 0; padding-top: 0; border-top: 0; }
-      .pre-call__heading { margin-bottom: 18px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; column-gap: 32px; align-items: end; }
-      .pre-call h2 { grid-column: 1; margin: 0; font: 700 32px/1 'Archivo Condensed', sans-serif; text-transform: uppercase; }
-      .pre-call__heading > p:last-child { grid-column: 2; grid-row: 1 / 3; max-width: 620px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
-      .video-frame { width: 100%; aspect-ratio: 16 / 9; display: block; border: 0; background: #050505; object-fit: cover; }
-      .primary-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid var(--line); background: #050505; }
-      .primary-video .video-frame { position: absolute; inset: 0; height: 100%; }
-      .video-section { margin-top: 18px; }
-      .video-section__label { margin: 0 0 10px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-      .video-section h2 { margin-bottom: 28px; }
-      .video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-      .video-card { min-width: 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--surface); }
-      .video-card__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #070708; }
-      .video-card__media .video-frame { position: absolute; inset: 0; height: 100%; }
-      .branded-poster { position: absolute; inset: 0; z-index: 1; width: 100%; padding: 28px; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; border: 0; background-color: #070708; background-image: url('https://theremotesalesacademy.com/images/video-thumbnail.png'); background-position: center; background-size: cover; background-blend-mode: multiply; color: var(--white); text-align: left; cursor: pointer; }
-      .branded-poster::before { content: ''; position: absolute; inset: 0; background: rgba(7, 7, 8, .38); }
-      .branded-poster::after { content: ''; position: absolute; right: 0; bottom: 0; width: 38%; height: 3px; background: var(--red); }
-      .branded-poster > span { position: relative; z-index: 1; }
-      .branded-poster__brand { color: var(--red); font: 700 17px/1 'Archivo Condensed', sans-serif; letter-spacing: .08em; }
-      .branded-poster__title { max-width: 340px; font: 700 clamp(27px, 3vw, 38px)/.95 'Archivo Condensed', sans-serif; letter-spacing: -.015em; text-transform: uppercase; }
-      .branded-poster__action { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-      .branded-poster__play { position: absolute; right: 24px; bottom: 20px; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--red); color: var(--white); }
-      .branded-poster__play svg { width: 17px; height: 17px; margin-left: 3px; fill: currentColor; }
-      .primary-poster { padding: 40px; }
-      .primary-poster .branded-poster__brand { font-size: 22px; }
-      .primary-poster .branded-poster__title { max-width: 620px; font-size: clamp(48px, 6vw, 68px); }
-      .primary-poster .branded-poster__play { right: 38px; bottom: 32px; width: 64px; height: 64px; }
-      .primary-poster .branded-poster__play svg { width: 22px; height: 22px; }
-      .branded-poster[hidden] { display: none; }
-      .video-card__body { min-height: 102px; padding: 20px; }
-      .video-card h3 { margin: 0; font: 700 24px/1.05 'Archivo Condensed', sans-serif; text-transform: uppercase; }
-      .video-card p { margin: 10px 0 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
-      .video-duration { display: block; margin-top: 10px; color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-      .stories { margin-top: 72px; padding-top: 42px; border-top: 1px solid var(--line); }
-      .stories__intro { margin-bottom: 28px; }
-      .stories__intro p:last-child { max-width: 620px; margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
-      @media (max-width: 680px) {
-        .confirmation-header__inner { width: calc(100% - 32px); }
-        .confirmation-status { display: none; }
-        .confirmation-main { padding: 48px 16px 76px; }
-        .confirmation-main h1 { font-size: 50px; }
-        .confirmation-intro { margin-bottom: 30px; }
-        .booking { display: block; }
-        .booking__summary { grid-template-columns: 1fr; gap: 4px; padding: 22px; border-right: 0; border-bottom: 1px solid var(--line); }
-        .booking__summary-actions { margin-top: 14px; align-items: stretch; flex-direction: column; gap: 10px; }
-        .booking__summary-actions .calendar-button { width: 100%; }
-        .booking__body { padding: 22px; }
-        .pre-call { margin-top: 42px; padding-top: 34px; }
-        .pre-call__heading { display: block; margin-bottom: 20px; }
-        .pre-call h2 { font-size: 34px; }
-        .pre-call__heading > p:last-child { margin-top: 14px; }
-        .video-section { margin-top: 48px; }
-        .video-grid { grid-template-columns: 1fr; }
-        .video-card__body { min-height: 0; }
-        .branded-poster { padding: 22px; }
-        .primary-poster { padding: 24px; }
-        .primary-poster .branded-poster__brand { font-size: 17px; }
-        .primary-poster .branded-poster__title { font-size: 38px; }
-        .primary-poster .branded-poster__play { right: 22px; bottom: 18px; width: 50px; height: 50px; }
-        .stories { margin-top: 54px; padding-top: 34px; }
-      }
-    </style>
-  </head>
-  <body>
-    <header class="confirmation-header">
-      <div class="confirmation-header__inner">
-        <a class="wordmark" href="option-1.html">REMOTE SALES <b>ACADEMY</b></a>
-        <span class="confirmation-status">Application call booked</span>
-      </div>
-    </header>
-
-    <main class="confirmation-main">
-      <div class="confirmation-main__inner">
-        <p class="confirmation-kicker">Application call booked</p>
-        <h1>Your application call is booked.</h1>
-        <p class="confirmation-intro">Complete the three steps below so you are ready for the conversation and know what to expect when the team calls.</p>
-
-        <section class="pre-call pre-call--first" aria-labelledby="what-happens-now-title">
-          <div class="pre-call__heading">
-            <p class="booking__step">Step 1: Watch the short “What happens now?” video</p>
-            <h2 id="what-happens-now-title">Know what to do before your call</h2>
-            <p>Save the event, join from a quiet place, be ready to discuss your goals and watch the preparation videos before your Application Call.</p>
-          </div>
-
-          <div class="primary-video">
-            <button class="branded-poster primary-poster" type="button" aria-label="Play: What happens now?">
-              <span class="branded-poster__brand">RSA.</span>
-              <span class="branded-poster__title">What happens now?</span>
-              <span class="branded-poster__action">Start here</span>
-              <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-            </button>
-            <video class="video-frame" controls playsinline preload="metadata">
-              <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa75feb392bc58afe3a70.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </section>
-
-        <section class="booking" aria-labelledby="booking-title">
-          <div class="booking__summary">
-            <div>
-              <strong id="booking-title">Remote Sales Academy Application Call</strong>
-              <span data-booking-time>Your booked date and time will appear here</span>
-            </div>
-            <div class="booking__summary-actions">
-              <span class="booking__duration" data-booking-duration>Application Call</span>
-              <button class="calendar-button" type="button" data-save-calendar>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01" /></svg>
-                Save to Calendar
-              </button>
-            </div>
-          </div>
-          <div class="booking__body">
-            <p class="booking__step">Step 2: Save the Application Call to your calendar</p>
-            <h2>Keep your application call on your calendar</h2>
-            <p>Before the meeting, a member of the team will call you from +44 7476 956587. Save it as Remote Sales Academy so you know it's us.</p>
-            <p class="calendar-note" data-calendar-note>Preview mode: the booked time will be supplied by the scheduling flow.</p>
-          </div>
-        </section>
-
-        <section class="pre-call" id="pre-call-videos">
-          <div class="pre-call__heading">
-            <p class="booking__step">Step 3: Watch the preparation videos</p>
-            <h2>Prepare for your Application Call</h2>
-            <p>Watch the short answers below so your Application Call can focus on your goals, current situation and next steps.</p>
-          </div>
-
-          <section class="video-section" aria-label="Application Call preparation videos">
-            <div class="video-grid">
-              <article class="video-card">
-                <div class="video-card__media">
-                  <button class="branded-poster" type="button" aria-label="Play: How to verify we are legit?">
-                    <span class="branded-poster__brand">RSA.</span>
-                    <span class="branded-poster__title">How to verify we are legit?</span>
-                    <span class="branded-poster__action">Watch video</span>
-                    <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                  </button>
-                  <video class="video-frame" controls playsinline preload="metadata">
-                    <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7467b1aed1bd822d1c9.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              </article>
-              <article class="video-card">
-                <div class="video-card__media">
-                  <button class="branded-poster" type="button" aria-label="Play: Why is there an upfront investment?">
-                    <span class="branded-poster__brand">RSA.</span>
-                    <span class="branded-poster__title">Why is there an upfront investment?</span>
-                    <span class="branded-poster__action">Watch video</span>
-                    <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                  </button>
-                  <video class="video-frame" controls playsinline preload="metadata">
-                    <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7468f62c901326d7977.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              </article>
-              <article class="video-card">
-                <div class="video-card__media">
-                  <button class="branded-poster" type="button" aria-label="Play: What if I don't succeed?">
-                    <span class="branded-poster__brand">RSA.</span>
-                    <span class="branded-poster__title">What if I don't succeed?</span>
-                    <span class="branded-poster__action">Watch video</span>
-                    <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                  </button>
-                  <video class="video-frame" controls playsinline preload="metadata">
-                    <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7477b1aed6e8622d1ea.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              </article>
-              <article class="video-card">
-                <div class="video-card__media">
-                  <button class="branded-poster" type="button" aria-label="Play: How long until I am making money?">
-                    <span class="branded-poster__brand">RSA.</span>
-                    <span class="branded-poster__title">How long until I am making money?</span>
-                    <span class="branded-poster__action">Watch video</span>
-                    <span class="branded-poster__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                  </button>
-                  <video class="video-frame" controls playsinline preload="metadata">
-                    <source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa746fc6c320fccbda829.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              </article>
-            </div>
-          </section>
-
-          <section class="stories" aria-labelledby="student-stories-title">
-            <div class="stories__intro">
-              <p class="video-section__label">Student proof</p>
-              <h2 id="student-stories-title">Real results from RSA students</h2>
-              <p>Watch the same student stories from the current funnel.</p>
-            </div>
-            <div class="video-grid">
-              <article class="video-card">
-                <iframe class="video-frame" loading="lazy" src="https://www.youtube.com/embed/84GW7qME5V0" title="James — Tripled income to $6,700 per month" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="video-card__body"><h3>Tripled income to $6,700/month</h3><p>James went from earning $2k/month as an appointment setter to $6,700/month in his first month after placement.</p></div>
-              </article>
-              <article class="video-card">
-                <iframe class="video-frame" loading="lazy" src="https://www.youtube.com/embed/AvPgl-COpHs" title="Zane — From $0 to $9,000 per month" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="video-card__body"><h3>From $0 to $9,000/month</h3><p>After a bad experience elsewhere, Zane joined RSA and jumped from $1,500 to $9,000/month in a verified role.</p></div>
-              </article>
-              <article class="video-card">
-                <iframe class="video-frame" loading="lazy" src="https://www.youtube.com/embed/Tr74ImKCgaY" title="Sam — Bricklayer to $8,000 per month" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="video-card__body"><h3>Bricklayer to $8,000/month</h3><p>Sam quit his inconsistent bricklaying job and now earns $8k/month working remotely from anywhere.</p></div>
-              </article>
-              <article class="video-card">
-                <iframe class="video-frame" loading="lazy" src="https://www.youtube.com/embed/-9gStKZF2bc" title="Kai — Customer service to $5,000 per month" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <div class="video-card__body"><h3>Customer service to $5,000/month</h3><p>Kai left his burnt-out 9-5 customer service job and hit $5k/month in commissions immediately.</p></div>
-              </article>
-            </div>
-          </section>
-        </section>
-      </div>
-    </main>
-
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      const start = new Date(params.get('event_start_time') || params.get('start') || '');
-      const end = new Date(params.get('event_end_time') || params.get('end') || '');
-      const hasBookingTime = Number.isFinite(start.getTime()) && Number.isFinite(end.getTime()) && end > start;
-      const timeLabel = document.querySelector('[data-booking-time]');
-      const durationLabel = document.querySelector('[data-booking-duration]');
-      const calendarButton = document.querySelector('[data-save-calendar]');
-      const calendarNote = document.querySelector('[data-calendar-note]');
-
-      if (hasBookingTime) {
-        timeLabel.textContent = new Intl.DateTimeFormat(undefined, {
-          weekday: 'long',
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric',
-          hour: 'numeric',
-          minute: '2-digit',
-          timeZoneName: 'short',
-        }).format(start);
-        durationLabel.textContent = `${Math.round((end.getTime() - start.getTime()) / 60000)} minutes`;
-        calendarNote.textContent = 'The calendar file uses the confirmed booking time shown above.';
-      }
-
-      function formatIcsDate(date) {
-        return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
-      }
-
-      calendarButton.addEventListener('click', () => {
-        if (!hasBookingTime) {
-          calendarNote.textContent = 'Connect the booking start and end time to activate this button.';
-          return;
-        }
-
-        const event = [
-          'BEGIN:VCALENDAR',
-          'VERSION:2.0',
-          'PRODID:-//Remote Sales Academy//Application Call//EN',
-          'BEGIN:VEVENT',
-          `UID:rsa-${start.getTime()}@theremotesalesacademy.com`,
-          `DTSTAMP:${formatIcsDate(new Date())}`,
-          `DTSTART:${formatIcsDate(start)}`,
-          `DTEND:${formatIcsDate(end)}`,
-          'SUMMARY:Remote Sales Academy Application Call',
-          'DESCRIPTION:Remote Sales Academy Application Call. Keep your phone nearby for the confirmation call from +44 7476 956587.',
-          'END:VEVENT',
-          'END:VCALENDAR',
-        ].join('\r\n');
-        const url = URL.createObjectURL(new Blob([event], { type: 'text/calendar;charset=utf-8' }));
-        const download = document.createElement('a');
-        download.href = url;
-        download.download = 'remote-sales-academy-application-call.ics';
-        download.click();
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-      });
-
-      document.querySelectorAll('.branded-poster').forEach((poster) => {
-        poster.addEventListener('click', () => {
-          const video = poster.parentElement.querySelector('video');
-          poster.hidden = true;
-          video.play().catch(() => {});
-        });
-      });
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Application Call Booked — Remote Sales Academy</title>
+  <link rel="stylesheet" href="shared.css?v=6" />
+  <style>
+    body{font-family:'Manrope',sans-serif;background:#030303}.confirmation-header{position:sticky;top:0;z-index:10;height:64px;border-bottom:1px solid var(--line-soft);background:rgba(3,3,3,.92);backdrop-filter:blur(12px)}.confirmation-header__inner{width:min(calc(100% - 40px),1180px);height:100%;margin:auto;display:flex;align-items:center}.wordmark{font-size:19px}.confirmation-main{padding:66px 20px 90px}.container{width:min(100%,1120px);margin:auto}.hero{width:min(100%,820px);margin:0 auto 62px;text-align:center}.status{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;padding:8px 13px;border:1px solid rgba(34,197,94,.24);border-radius:999px;background:rgba(34,197,94,.1);color:#22c55e;font-size:12px;font-weight:700;text-transform:uppercase}.status svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}.hero h1{max-width:790px;margin:0 auto 20px;font:700 clamp(42px,5.2vw,62px)/1.02 'Archivo Condensed',sans-serif;letter-spacing:.005em;text-transform:uppercase}.hero h1 span{color:#ef233c}.event{max-width:620px;margin:0 auto 18px;padding:14px 0;display:flex;justify-content:center;gap:20px;border-block:1px solid var(--line-soft);color:#d4d4d8;font-size:12px}.event strong{display:flex;align-items:center;gap:8px}.event svg{width:15px;height:15px;fill:none;stroke:#ef233c;stroke-width:1.8}.intro{max-width:680px;margin:0 auto;color:#909099;font-size:16px;line-height:1.55}.step-card{max-width:660px;margin:28px auto 0;padding:18px;border:1px solid var(--line);border-radius:12px;background:#0b0b0d;text-align:left}.step-pill{padding:10px 16px;border:1px solid rgba(239,35,60,.38);border-radius:999px;background:rgba(239,35,60,.11);text-align:center;font-size:13px}.step-pill b{color:#fb5265}.step-detail{margin-top:18px;display:grid;grid-template-columns:44px 1fr;gap:14px}.step-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:50%;background:rgba(239,35,60,.14);color:#fb5265}.step-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}.step-detail h2{margin:0;font-size:17px;text-transform:uppercase;letter-spacing:.04em}.step-detail p{margin:7px 0 0;color:#9b9ba4;font-size:13px;line-height:1.55}.step-detail a{color:#fff;font-weight:700;text-decoration:underline;text-decoration-color:#ef233c;text-underline-offset:3px}.phone-note{grid-column:1/-1;margin-top:2px;padding-top:14px;border-top:1px solid var(--line-soft);color:#707079;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}.step-link{max-width:660px;min-height:54px;margin:16px auto 0;padding:13px 20px;display:flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;background:#ef0015;color:#fff;font-size:13px;font-weight:700}.step-link:active{transform:translateY(1px)}.step-link svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}.section{margin-bottom:82px}.section-head{margin-bottom:28px;text-align:center}.section-head h2{margin:0;font-size:28px;letter-spacing:-.02em;text-transform:uppercase}.section-head p{margin:9px auto 0;color:#909099;font-size:14px}.section-label{margin:0 0 8px!important;color:#ef233c!important;font-size:10px!important;font-weight:700;letter-spacing:.17em;text-transform:uppercase}.main-video{width:min(100%,820px);margin:auto}.video-media{position:relative;aspect-ratio:16/9;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#080808}.video-media video,.video-media iframe{width:100%;height:100%;border:0;object-fit:cover}.poster{position:absolute;inset:0;z-index:2;width:100%;padding:26px;display:flex;align-items:flex-start;justify-content:flex-end;border:0;background:#070708 url('https://theremotesalesacademy.com/images/video-thumbnail.png') center/cover;color:white;cursor:pointer}.poster:before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45)}.poster__copy{position:absolute;left:28px;bottom:25px;z-index:1;text-align:left}.poster__copy b{display:block;color:#ef233c;font:700 14px/1 'Archivo Condensed',sans-serif;letter-spacing:.1em}.poster__copy strong{display:block;margin-top:7px;font:700 clamp(25px,4vw,42px)/1 'Archivo Condensed',sans-serif;text-transform:uppercase}.play{position:relative;z-index:1;width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:#ef0015}.play svg{width:21px;height:21px;margin-left:3px;fill:#fff}.poster[hidden]{display:none}.video-grid,.story-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.video-card{overflow:hidden;border:1px solid var(--line-soft);border-radius:12px;background:#101012}.video-card .video-media{border:0;border-radius:0}.video-card__body{padding:18px}.video-card h3{margin:0;font-size:17px;text-transform:uppercase}.duration{display:flex;align-items:center;gap:6px;margin-top:9px;color:#6f6f78;font-size:12px}.duration svg{width:12px;height:12px;fill:currentColor}.wins{width:min(100%,820px);margin:auto;columns:2;column-gap:20px}.win{margin:0 0 20px;break-inside:avoid;overflow:hidden;border:1px solid var(--line-soft);border-radius:10px;background:#101012}.win img{width:100%;opacity:.88}.instagram-banner{width:min(100%,1120px);margin:8px auto 0;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:24px;border:1px solid var(--line);border-radius:10px;background:#111113}.instagram-banner__copy h3{margin:0;font-size:22px;text-transform:uppercase}.instagram-banner__copy p{margin:7px 0 0;color:#92929b;font-size:14px}.banner-button{padding:12px 20px;border-radius:999px;background:rgba(255,255,255,.07);font-size:13px;font-weight:700}.story-card{overflow:hidden;border:1px solid var(--line-soft);border-radius:12px;background:#101012}.story-card .video-media{border:0;border-radius:0}.story-card__body{padding:20px}.story-card h3{margin:0;font-size:19px;text-transform:uppercase}.story-card p{margin:9px 0 14px;color:#92929b;font-size:13px;line-height:1.55}.watch{color:#ef233c;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}.social-grid{width:min(100%,820px);margin:66px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:22px}.social{padding:34px 24px;border:1px solid var(--line-soft);border-radius:12px;background:#101012;text-align:center}.social-icon{width:54px;height:54px;margin:0 auto 16px;display:grid;place-items:center;border-radius:50%;background:#ef233c;font-size:22px;font-weight:700}.social h3{margin:0;font-size:18px;text-transform:uppercase}.social p{margin:8px 0 0;color:#92929b;font-size:13px}.before{width:min(100%,660px);margin:40px auto 0;padding:28px;border:1px solid var(--line);border-radius:12px;background:#0b0b0d;text-align:center}.before h3{margin:0;font-size:20px;text-transform:uppercase}.before p{margin:10px 0 0;color:#92929b;font-size:14px;line-height:1.6}@media(max-width:700px){.confirmation-main{padding:44px 16px 70px}.hero{margin-bottom:54px}.hero h1{font-size:42px}.event{gap:9px;font-size:11px}.intro{font-size:14px}.section{margin-bottom:60px}.video-grid,.story-grid,.social-grid{grid-template-columns:1fr}.wins{columns:1}.instagram-banner{align-items:flex-start;flex-direction:column}.banner-button{width:100%;text-align:center}.poster{padding:18px}.poster__copy{left:18px;bottom:17px}.play{width:48px;height:48px}.section-head h2{font-size:25px}}
+  </style>
+</head>
+<body>
+  <header class="confirmation-header"><div class="confirmation-header__inner"><a class="wordmark" href="option-1.html">RSA<b>.</b></a></div></header>
+  <main class="confirmation-main"><div class="container">
+    <section class="hero">
+      <div class="status"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>Application call booked</div>
+      <h1>Your application call <span>is booked</span></h1>
+      <div class="event"><strong><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4m8-4v4M3 10h18"/></svg>Remote Sales Academy Application Call</strong><span>15 minutes</span></div>
+      <p class="intro">Complete the two steps below so you are ready for the conversation and know what to expect when the team calls.</p>
+      <div class="step-card"><div class="step-pill"><b>Step 1:</b> Save the call and the team's number</div><div class="step-detail"><div class="step-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4m8-4v4M3 10h18"/></svg></div><div><h2>Keep your Application Call on your calendar</h2><p>Before the meeting, a member of the team will call you from <a href="tel:+447476956587">+44 7476 956587</a>. Save it as Remote Sales Academy so you know it's us.</p></div><div class="phone-note">Keep your phone nearby for the confirmation call</div></div></div>
+      <a class="step-link" href="#pre-call-videos"><span><b>Step 2:</b> Watch the preparation videos below</span><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></a>
+    </section>
+    <section class="section main-video" id="pre-call-videos"><div class="section-head"><p class="section-label">Watch this before your Application Call</p><h2>What happens now?</h2><p>Start with this video, then watch the short answers underneath so your Application Call can focus on your goals and next steps.</p></div><div class="video-media"><button class="poster" type="button" aria-label="Play: What happens now?"><span class="poster__copy"><b>RSA.</b><strong>What happens now?</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa75feb392bc58afe3a70.mp4" type="video/mp4"/></video></div></section>
+    <section class="section"><div class="section-head"><h2>Common Questions Answered</h2><p>Watch these short videos before your Application Call.</p></div><div class="video-grid">
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: Our Money-Back Guarantee Explained"><span class="poster__copy"><b>RSA.</b><strong>Our Money-Back Guarantee Explained</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://theremotesalesacademy.com/videos/money-back-guarantee.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>Our Money-Back Guarantee Explained</h3><span class="duration">0:51</span></div></article>
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: The Companies We Place Students Into"><span class="poster__copy"><b>RSA.</b><strong>The Companies We Place Students Into</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://theremotesalesacademy.com/videos/placement-companies.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>The Companies We Place Students Into</h3><span class="duration">1:00</span></div></article>
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: How to verify we are legit?"><span class="poster__copy"><b>RSA.</b><strong>How to verify we are legit?</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7467b1aed1bd822d1c9.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>How to verify we are legit?</h3><span class="duration">5:12</span></div></article>
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: Why is there an upfront investment?"><span class="poster__copy"><b>RSA.</b><strong>Why is there an upfront investment?</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7468f62c901326d7977.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>Why is there an upfront investment?</h3><span class="duration">4:45</span></div></article>
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: What if I don't succeed?"><span class="poster__copy"><b>RSA.</b><strong>What if I don't succeed?</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa7477b1aed6e8622d1ea.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>What if I don't succeed?</h3><span class="duration">6:30</span></div></article>
+      <article class="video-card"><div class="video-media"><button class="poster" type="button" aria-label="Play: How long until I am making money?"><span class="poster__copy"><b>RSA.</b><strong>How long until I am making money?</strong></span><span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></button><video controls playsinline preload="metadata"><source src="https://storage.googleapis.com/msgsndr/k8HrqU7BT07Zqamz1ifJ/media/696fa746fc6c320fccbda829.mp4" type="video/mp4"/></video></div><div class="video-card__body"><h3>How long until I am making money?</h3><span class="duration">3:55</span></div></article>
+    </div></section>
+    <section class="section"><div class="section-head"><h2>Real Results from Real People</h2><p>Join hundreds of students winning every single day.</p></div><div class="wins"><figure class="win"><img src="https://theremotesalesacademy.com/images/wins/win-story-1.png" alt="Verified Remote Sales Academy student result" loading="lazy"/></figure><figure class="win"><img src="https://theremotesalesacademy.com/images/wins/win-story-2.png" alt="Verified Remote Sales Academy student result" loading="lazy"/></figure></div><a class="instagram-banner" href="https://www.instagram.com/stories/highlights/18040208225396466/" target="_blank" rel="noopener noreferrer"><div class="instagram-banner__copy"><h3>Client Success Stories</h3><p>View 50+ more unfiltered wins and daily updates on Instagram.</p></div><span class="banner-button">Watch Stories</span></a></section>
+    <section class="section"><div class="section-head"><h2>Student Success Stories</h2><p>See what's possible when you follow the process.</p></div><div class="story-grid">
+      <article class="story-card"><div class="video-media"><iframe loading="lazy" src="https://www.youtube.com/embed/84GW7qME5V0" title="James student success story" allowfullscreen></iframe></div><div class="story-card__body"><h3>Tripled Income to $6,700/Month</h3><p>James went from earning $2k/mo as an appointment setter to $6,700/mo in his first month after placement.</p><span class="watch">Watch Story</span></div></article>
+      <article class="story-card"><div class="video-media"><iframe loading="lazy" src="https://www.youtube.com/embed/AvPgl-COpHs" title="Zane student success story" allowfullscreen></iframe></div><div class="story-card__body"><h3>From $0 to $9,000/Month</h3><p>After a bad experience elsewhere, Zane joined RSA and jumped from $1,500 to $9,000/mo in a verified role.</p><span class="watch">Watch Story</span></div></article>
+      <article class="story-card"><div class="video-media"><iframe loading="lazy" src="https://www.youtube.com/embed/Tr74ImKCgaY" title="Sam student success story" allowfullscreen></iframe></div><div class="story-card__body"><h3>Bricklayer to $8,000/Month</h3><p>Sam quit his inconsistent bricklaying job and now earns $8k/mo working remotely from anywhere.</p><span class="watch">Watch Story</span></div></article>
+      <article class="story-card"><div class="video-media"><iframe loading="lazy" src="https://www.youtube.com/embed/-9gStKZF2bc" title="Kai student success story" allowfullscreen></iframe></div><div class="story-card__body"><h3>Customer Service to $5,000/Month</h3><p>Kai left his burnt-out 9-5 customer service job and hit $5k/mo in commissions immediately.</p><span class="watch">Watch Story</span></div></article>
+    </div><div class="social-grid"><a class="social" href="https://www.instagram.com/mike.akerele/" target="_blank" rel="noopener noreferrer"><div class="social-icon">IG</div><h3>Follow Mike on Instagram</h3><p>Get daily sales tips and behind-the-scenes content.</p></a><a class="social" href="https://www.facebook.com/groups/theremotesalesacademy/" target="_blank" rel="noopener noreferrer"><div class="social-icon">f</div><h3>Join the Facebook Group</h3><p>Connect with other students and start learning today.</p></a></div><div class="before"><h3>Before the Call</h3><p>Keep your phone close. A member of the team will call you from +44 7476 956587 to confirm the appointment before your Application Call.</p></div></section>
+  </div></main>
+  <script>document.querySelectorAll('.poster').forEach((poster)=>poster.addEventListener('click',()=>{const video=poster.parentElement.querySelector('video');poster.hidden=true;video.play().catch(()=>{});}));</script>
+</body>
 </html>
