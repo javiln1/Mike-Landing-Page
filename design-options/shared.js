@@ -925,6 +925,30 @@ document.querySelectorAll('[data-open-application]').forEach((button) => {
   button.addEventListener('click', openApplication);
 });
 
+const mobileApplyBar = document.querySelector('[data-mobile-apply-bar]');
+const stickyCtaTrigger = document.querySelector('[data-sticky-cta-trigger]');
+
+if (mobileApplyBar && stickyCtaTrigger) {
+  const updateMobileApplyBar = () => {
+    const triggerHasPassed = stickyCtaTrigger.getBoundingClientRect().bottom <= 0;
+    mobileApplyBar.classList.toggle('is-visible', triggerHasPassed);
+    mobileApplyBar.setAttribute('aria-hidden', String(!triggerHasPassed));
+  };
+
+  let stickyCtaFrame;
+  const queueMobileApplyBarUpdate = () => {
+    if (stickyCtaFrame) return;
+    stickyCtaFrame = window.requestAnimationFrame(() => {
+      stickyCtaFrame = undefined;
+      updateMobileApplyBar();
+    });
+  };
+
+  updateMobileApplyBar();
+  window.addEventListener('scroll', queueMobileApplyBarUpdate, { passive: true });
+  window.addEventListener('resize', queueMobileApplyBarUpdate);
+}
+
 application.querySelector('[data-close-application]').addEventListener('click', closeApplication);
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape' && application.classList.contains('is-open')) closeApplication();
