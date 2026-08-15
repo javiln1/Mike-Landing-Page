@@ -249,7 +249,6 @@ const previousButton = application.querySelector('[data-previous]');
 let currentScreen = 0;
 let optInCaptured = false;
 let calendarLoaded = false;
-let calendarScriptPromise;
 let calendarBookingSynced = false;
 let calendarRedirectStarted = false;
 let isTransitioning = false;
@@ -740,31 +739,7 @@ function buildCalendarUrl() {
   return url.toString();
 }
 
-function loadCalendarScript() {
-  if (calendarScriptPromise) return calendarScriptPromise;
-
-  calendarScriptPromise = new Promise((resolve, reject) => {
-    const existing = document.querySelector('script[data-ghl-calendar-embed]');
-    if (existing && window.__GHL_EMBED_STATE__) {
-      resolve();
-      return;
-    }
-
-    const script = existing || document.createElement('script');
-    script.addEventListener('load', resolve, { once: true });
-    script.addEventListener('error', () => reject(new Error('Unable to load the booking calendar.')), { once: true });
-    if (!existing) {
-      script.src = 'https://link.msgsndr.com/js/form_embed.js';
-      script.async = true;
-      script.dataset.ghlCalendarEmbed = '';
-      document.head.append(script);
-    }
-  });
-
-  return calendarScriptPromise;
-}
-
-async function loadCalendar() {
+function loadCalendar() {
   if (!applicationConfig.calendarUrl) {
     calendarMount.innerHTML = '<p class="calendar-embed__error">The Application Call calendar is not configured yet.</p>';
     return;
@@ -772,15 +747,6 @@ async function loadCalendar() {
 
   if (calendarLoaded) return;
   calendarLoaded = true;
-
-  try {
-    await loadCalendarScript();
-  } catch (error) {
-    calendarLoaded = false;
-    calendarMount.innerHTML = `<p class="calendar-embed__error">${error instanceof Error ? error.message : 'Unable to load the booking calendar.'}</p>`;
-    return;
-  }
-
   const iframe = document.createElement('iframe');
   iframe.src = buildCalendarUrl();
   iframe.id = 'msgsndr-calendar';
@@ -910,6 +876,7 @@ async function finishApplication() {
     successCopy.textContent = 'Choose a time below so the team can discuss your current sales experience, your goals, and whether Remote Sales Academy is the right next step.';
     successCopy.hidden = false;
     calendarEmbed.hidden = false;
+    application.classList.add('application--calendar');
     applicationBody.classList.add('is-calendar');
     loadCalendar();
   } catch (error) {
@@ -940,6 +907,7 @@ function openApplication() {
   successCopy.hidden = false;
   calendarEmbed.hidden = true;
   calendarMount.replaceChildren();
+  application.classList.remove('application--calendar');
   applicationBody.classList.remove('is-calendar');
   nextButton.disabled = false;
   application.classList.add('is-open');
@@ -953,6 +921,7 @@ function closeApplication() {
   isTransitioning = false;
   saveApplicationDraft();
   application.classList.remove('is-open');
+  application.classList.remove('application--calendar');
   application.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('modal-open');
 }

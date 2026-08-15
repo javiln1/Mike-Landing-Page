@@ -328,9 +328,14 @@ video {
 }
 
 .application__body.is-calendar {
-  width: min(calc(100% - 40px), 840px);
+  width: min(calc(100% - 48px), 1152px);
   align-content: start;
-  padding-top: 46px;
+  padding: 40px 0 0;
+}
+
+.application--calendar .application__progress,
+.application--calendar .application__top {
+  display: none;
 }
 
 [data-screen-view] {
@@ -601,10 +606,10 @@ video {
 }
 
 .application__success h2 {
-  margin: 14px 0 10px;
+  margin: 0 0 12px;
   color: var(--white);
-  font: 700 clamp(34px, 5vw, 48px)/1 'Archivo Condensed', sans-serif;
-  letter-spacing: -0.015em;
+  font: 700 clamp(30px, 4vw, 48px)/1.08 'Manrope', sans-serif;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
 }
 
@@ -615,14 +620,15 @@ video {
 }
 
 .booking-intro {
-  width: min(100%, 660px);
-  margin: 0 auto 18px;
+  width: min(100%, 672px);
+  margin: 0 auto 24px;
   text-align: center;
 }
 
 .booking-wordmark {
-  margin-bottom: 14px;
-  font: 700 17px/1 'Archivo Condensed', sans-serif;
+  margin-bottom: 16px;
+  font: 700 24px/1 'Manrope', sans-serif;
+  letter-spacing: -.04em;
 }
 
 .booking-wordmark b {
@@ -632,25 +638,28 @@ video {
 .booking-status {
   display: inline-flex;
   align-items: center;
-  min-height: 27px;
-  padding: 0 14px;
+  min-height: 32px;
+  margin-bottom: 16px;
+  padding: 0 12px;
   border: 1px solid rgba(63, 175, 112, .22);
   border-radius: 999px;
   background: rgba(63, 175, 112, .12);
   color: var(--green);
-  font: 700 10px/1 'Manrope', sans-serif;
-  letter-spacing: .15em;
+  font: 700 12px/1 'Manrope', sans-serif;
+  letter-spacing: .14em;
   text-transform: uppercase;
 }
 
 .booking-intro > p {
-  max-width: 640px;
-  margin: 0 auto 18px;
+  max-width: 672px;
+  margin: 0 auto 20px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .booking-meta {
-  min-height: 44px;
-  padding: 10px 0;
+  min-height: 54px;
+  padding: 16px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -658,7 +667,7 @@ video {
   gap: 18px;
   border-block: 1px solid var(--line-soft);
   color: #d8d8dc;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .booking-meta strong,
@@ -681,13 +690,13 @@ video {
 }
 
 .booking-notice {
-  margin-top: 14px;
-  padding: 13px 16px;
+  margin-top: 16px;
+  padding: 12px 16px;
   display: flex;
   align-items: flex-start;
   gap: 11px;
   border: 1px solid rgba(223, 23, 38, .26);
-  border-radius: 3px;
+  border-radius: 6px;
   background: rgba(105, 12, 19, .22);
   text-align: left;
 }
@@ -698,8 +707,8 @@ video {
 
 .booking-notice p {
   color: #b4b4ba;
-  font-size: 11px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .booking-notice a {
@@ -708,22 +717,25 @@ video {
 }
 
 .calendar-embed {
-  margin-top: 16px;
+  margin-top: 0;
   border: 1px solid var(--line);
-  border-radius: 4px;
+  border-radius: 8px;
   background: #fff;
   overflow: hidden;
 }
 
 .calendar-embed__mount {
   min-width: 320px;
-  min-height: 680px;
+  min-height: 860px;
   overflow: hidden;
 }
 
 .calendar-embed__mount iframe {
+  display: block;
   width: 100%;
-  min-height: 680px;
+  height: 860px;
+  border: 0;
+  overflow: auto;
 }
 
 .calendar-embed__error {
@@ -902,19 +914,24 @@ video {
   }
 
   .application__body.is-calendar {
-    width: min(calc(100% - 28px), 840px);
-    padding-top: 82px;
+    width: min(calc(100% - 32px), 1152px);
+    padding: 32px 0 0;
   }
 
-  .booking-intro { margin-bottom: 14px; }
-  .booking-wordmark { font-size: 16px; }
-  .application__success h2 { margin-top: 13px; font-size: 38px; }
-  .booking-intro > p { font-size: 12px; }
-  .booking-meta { gap: 9px 14px; font-size: 10px; }
-  .booking-notice { padding: 12px 13px; }
+  .booking-intro { margin-bottom: 24px; }
+  .booking-wordmark { font-size: 20px; }
+  .application__success h2 { font-size: 30px; }
+  .booking-intro > p { font-size: 14px; line-height: 1.5; }
+  .booking-meta { gap: 8px 20px; font-size: 13px; }
+  .booking-notice { padding: 12px 16px; }
+  .booking-notice p { font-size: 13px; }
 
   .calendar-embed__mount {
-    min-height: 700px;
+    min-height: 780px;
+  }
+
+  .calendar-embed__mount iframe {
+    height: 780px;
   }
 
   .application__question {

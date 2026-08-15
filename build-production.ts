@@ -1,4 +1,4 @@
-import { mkdir } from "node:fs/promises";
+import { copyFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 
 const sourceDirectory = join(import.meta.dir, "design-options");
@@ -51,6 +51,12 @@ for (const page of pages) {
 for (const asset of ["shared.css", "shared.js"]) {
   await Bun.write(join(outputDirectory, asset), Bun.file(join(sourceDirectory, asset)));
 }
+
+await mkdir(join(outputDirectory, "assets"), { recursive: true });
+await copyFile(
+  join(import.meta.dir, "assets", "vsl-remote-sales-poster.jpg"),
+  join(outputDirectory, "assets", "vsl-remote-sales-poster.jpg"),
+);
 
 await Bun.write(join(outputDirectory, "robots.txt"), "User-agent: *\nAllow: /\nSitemap: https://theremotesalesacademy.com/sitemap.xml\n");
 await Bun.write(

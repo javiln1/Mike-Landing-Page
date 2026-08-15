@@ -25,6 +25,14 @@
       .social-proof__avatar { width: 38px; height: 38px; margin-left: -8px; overflow: hidden; border: 2px solid var(--black); border-radius: 50%; background: var(--surface); }
       .social-proof__avatar img { width: 100%; height: 100%; object-fit: cover; }
       .dr-video { margin: 0 auto; }
+      .dr-video .video-control { display: block; background: rgba(5, 5, 6, .48); text-align: left; }
+      .dr-video .video-control::after { content: ''; position: absolute; right: 0; bottom: 0; width: 100%; height: 3px; background: var(--red); }
+      .dr-video .video-control__inner { position: absolute; inset: 0; display: block; }
+      .dr-video .play-icon { position: absolute; top: 26px; right: 26px; width: 58px; height: 58px; border: 0; background: var(--red); }
+      .dr-video .landing-poster__copy { position: absolute; left: 28px; right: 100px; bottom: 26px; }
+      .dr-video .landing-poster__brand { display: block; margin-bottom: 8px; color: var(--red); font: 700 15px/1 'Archivo Condensed', sans-serif; letter-spacing: .1em; }
+      .dr-video .landing-poster__title { display: block; max-width: 650px; color: var(--white); font: 700 clamp(32px, 5vw, 54px)/.94 'Archivo Condensed', sans-serif; letter-spacing: -.015em; text-transform: uppercase; }
+      .dr-video .landing-poster__status { position: absolute; left: 50%; top: 50%; color: rgba(255,255,255,.86); font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; transform: translate(-50%, -50%); white-space: nowrap; }
       .dr-action { max-width: 500px; margin: 20px auto 0; }
       .dr-section { padding: 88px 20px; border-top: 1px solid var(--line-soft); }
       .dr-section__inner { width: min(100%, 920px); margin: 0 auto; }
@@ -81,6 +89,11 @@
         }
         .dr-sub { margin: 18px auto 24px; font-size: 15px; line-height: 1.55; }
         .dr-action { width: 100%; }
+        .dr-video .play-icon { top: 16px; right: 16px; width: 46px; height: 46px; }
+        .dr-video .landing-poster__copy { left: 18px; right: 70px; bottom: 17px; }
+        .dr-video .landing-poster__brand { margin-bottom: 5px; font-size: 11px; }
+        .dr-video .landing-poster__title { font-size: clamp(23px, 7vw, 34px); }
+        .dr-video .landing-poster__status { display: none; }
         .social-proof { margin-top: 16px; font-size: 12px; }
         .dr-section { padding: 66px 18px; }
         .result { grid-template-columns: 1fr; gap: 8px; }
@@ -108,13 +121,17 @@
           <p class="dr-sub">Watch the free training to see how to use your current sales experience to start closing remotely.</p>
 
           <div class="video-shell dr-video" data-video-shell>
-            <video autoplay muted playsinline loop controls preload="metadata" poster="https://theremotesalesacademy.com/images/video-thumbnail.png">
+            <video autoplay muted playsinline loop controls preload="metadata" poster="/assets/vsl-remote-sales-poster.jpg">
               <source src="https://theremotesalesacademy.com/videos/vsl-remote-sales-h264.mp4" type="video/mp4" />
             </video>
             <button class="video-control" type="button" data-video-control aria-label="Turn sound on">
               <span class="video-control__inner">
+                <span class="landing-poster__copy">
+                  <span class="landing-poster__brand">RSA.</span>
+                  <span class="landing-poster__title">How to break into high-ticket remote sales</span>
+                </span>
                 <span class="play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-                <span>VIDEO PLAYING - TAP FOR SOUND</span>
+                <span class="landing-poster__status">Video playing — tap for sound</span>
               </span>
             </button>
             <div class="video-progress"><span data-video-progress></span></div>
