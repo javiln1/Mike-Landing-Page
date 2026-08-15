@@ -4,6 +4,10 @@ const arrowIcon = `
   </svg>
 `;
 
+const calendarIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></svg>`;
+const clockIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>`;
+const phoneIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l1.5 4-2 1.5a14 14 0 0 0 6 6l1.5-2L21 14v3c0 2.2-1.8 4-4 4C9.3 21 3 14.7 3 7c0-2.2 1.8-4 4-4Z" /></svg>`;
+
 const phoneCountries = [
   { iso: 'AE', name: 'United Arab Emirates', code: '+971' },
   { iso: 'AU', name: 'Australia', code: '+61' },
@@ -203,8 +207,20 @@ const applicationMarkup = `
         </div>
       </div>
       <div class="application__success" data-success>
-        <h2 data-success-title>Application received.</h2>
-        <p data-success-copy>Taking you to the next step now.</p>
+        <div class="booking-intro">
+          <div class="booking-wordmark">REMOTE SALES <b>ACADEMY</b></div>
+          <div class="booking-status">Application received</div>
+          <h2 data-success-title>Book your Application Call</h2>
+          <p data-success-copy>Choose a time below so the team can discuss your current sales experience, your goals, and whether Remote Sales Academy is the right next step.</p>
+          <div class="booking-meta" aria-label="Application Call details">
+            <strong>${calendarIcon} Remote Sales Academy Application Call</strong>
+            <span>${clockIcon} 15 minutes</span>
+          </div>
+          <div class="booking-notice">
+            ${phoneIcon}
+            <p>Before the meeting, a member of the team will call you from <a href="tel:+447476956587">+44 7476 956587</a>. Save it as Remote Sales Academy, and only choose a time you can attend.</p>
+          </div>
+        </div>
         <div class="calendar-embed" data-calendar-embed hidden>
           <div class="calendar-embed__mount" data-calendar-embed-mount aria-label="Application Call calendar"></div>
         </div>
