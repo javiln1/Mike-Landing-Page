@@ -53,7 +53,6 @@ export const application = internalAction({
     startTiming: v.string(),
     investmentReadiness: v.string(),
     qualificationStatus: v.union(v.literal("qualified"), v.literal("unqualified")),
-    whyNow: v.string(),
     submittedAt: v.number(),
     attribution: attributionValidator,
   },

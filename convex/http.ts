@@ -259,8 +259,6 @@ http.route({
       const body = await request.json();
       const startTiming = text(body.startTiming ?? body.urgency, "Start timing");
       const investmentReadiness = text(body.investmentReadiness ?? body.liquidCapital, "Investment readiness");
-      const whyNow = text(body.whyNow, "Why now");
-      if (whyNow.length < 20) throw new Error("Why now must be at least 20 characters.");
       const canInvest = investmentReadiness === "Yes" || investmentReadiness === "Yes, with a payment plan";
       const readySoon = ["Immediately", "Within the next two weeks", "Within 30 days"].includes(startTiming);
       const qualificationStatus = canInvest && readySoon
@@ -272,7 +270,6 @@ http.route({
         incomeGoal: text(body.incomeGoal, "Income goal"),
         experience: text(body.experience, "Sales experience"),
         salesRole: optional(body.salesRole),
-        whyNow,
         urgency: startTiming,
         startTiming,
         investmentReadiness,
@@ -299,7 +296,6 @@ http.route({
           incomeGoal: input.incomeGoal,
           experience: input.experience,
           salesRole: input.salesRole,
-          whyNow: input.whyNow,
           startTiming: input.startTiming,
           investmentReadiness: input.investmentReadiness,
           liquidCapital: input.liquidCapital,
@@ -319,7 +315,6 @@ http.route({
           startTiming: input.startTiming,
           investmentReadiness: input.investmentReadiness,
           qualificationStatus: input.qualificationStatus,
-          whyNow: input.whyNow,
           submittedAt: input.submittedAt,
           attribution: input.attribution,
         });

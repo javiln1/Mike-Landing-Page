@@ -169,7 +169,6 @@ export async function syncApplication(input: {
   incomeGoal: string;
   experience: string;
   salesRole?: string;
-  whyNow: string;
   urgency: string;
   startTiming: string;
   investmentReadiness: string;
@@ -191,7 +190,6 @@ export async function syncApplication(input: {
   field(customFields, mappings.contactFields.incomeGoal, input.incomeGoal);
   field(customFields, mappings.contactFields.salesExperience, input.experience);
   field(customFields, mappings.contactFields.salesRole, input.salesRole);
-  field(customFields, mappings.contactFields.whyNow, input.whyNow);
   field(customFields, mappings.contactFields.startTiming, input.startTiming);
   field(customFields, mappings.contactFields.investmentReadiness, input.investmentReadiness);
   field(customFields, mappings.contactFields.landingPage, input.landingPage);
@@ -212,7 +210,6 @@ export async function syncApplication(input: {
     ["Income goal", input.incomeGoal],
     ["Sales experience", input.experience],
     ["Sales role", input.salesRole],
-    ["Why now", input.whyNow],
     ["Start timing", input.startTiming],
     ["Investment readiness", input.investmentReadiness],
     ["Instagram", input.instagram],

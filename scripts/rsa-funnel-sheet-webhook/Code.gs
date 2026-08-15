@@ -42,7 +42,7 @@ function doPost(e) {
         data.phone || '', data.instagram || '', data.currentWork || '', data.currentIncome || '',
         data.incomeGoal || '', data.experience || '', data.startTiming || '', data.investmentReadiness || '',
         attribution(data, 'source'), attribution(data, 'medium'), attribution(data, 'campaign'),
-        attribution(data, 'content'), data.whyNow || '',
+        attribution(data, 'content'),
       ]);
     } else if (data.eventType === 'booking') {
       appendRow('Bookings', [

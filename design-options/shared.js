@@ -100,21 +100,6 @@ const applicationScreens = [
     ],
   },
   {
-    title: 'Why this matters',
-    summary: true,
-    intro: 'A thoughtful answer helps the team understand what is driving this change now.',
-    fields: [
-      {
-        id: 'why_now',
-        type: 'textarea',
-        label: 'Why does changing your career or income matter now?',
-        helper: 'Tell us what has changed and why reaching your goal matters now. Minimum 20 characters.',
-        placeholder: 'Share what is happening in your career and why now is the right time to make a change.',
-        minLength: 20,
-      },
-    ],
-  },
-  {
     title: 'Your timing',
     intro: 'Be honest about when you would be ready to make a change.',
     fields: [
@@ -837,7 +822,6 @@ async function finishApplication() {
     incomeGoal: applicationAnswers.income_goal,
     experience: applicationAnswers.sales_role || 'Not currently in a sales role',
     salesRole: applicationAnswers.sales_role,
-    whyNow: applicationAnswers.why_now,
     urgency: applicationAnswers.start_timing,
     startTiming: applicationAnswers.start_timing,
     investmentReadiness: applicationAnswers.investment_readiness,
