@@ -169,7 +169,7 @@ http.route({
         throw new Error("A valid outcome is required.");
       }
       const input = {
-        submissionKey: text(body.event_id || body.submission_id || `${get("Email")}:${rawOutcome}:${get("Date of Call", "Date Closed", "Date Lost") || ""}`, "Submission ID"),
+        submissionKey: text(body.submission_id || `${get("Email")}:${rawOutcome}:${get("Date of Call", "Date Closed", "Date Lost") || ""}`, "Submission ID"),
         name: text(get("Name"), "Name"),
         email: email(get("Email")),
         setterName: optional(get("Setter", "Setter Name")),
