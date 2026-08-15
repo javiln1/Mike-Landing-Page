@@ -12,6 +12,16 @@ const webhookEnvNames: Record<WebhookKind, string> = {
   wins: "DISCORD_WINS_WEBHOOK_URL",
 };
 
+const rsaAvatarUrl = "https://cdn.discordapp.com/icons/1538060651338010754/a127a7f4d77ea32832a38938edadcab8.webp?size=128";
+
+const embedStyles: Record<WebhookKind, { color: number; label: string }> = {
+  optIns: { color: 0xe11d2e, label: "NEW OPT-IN" },
+  applications: { color: 0xe11d2e, label: "NEW APPLICATION" },
+  bookings: { color: 0x3b82f6, label: "CALL BOOKED" },
+  outcomes: { color: 0xf59e0b, label: "CALL OUTCOME" },
+  wins: { color: 0x22c55e, label: "DEAL WON" },
+};
+
 const webhookUrl = (kind: WebhookKind) => {
   const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env;
   return env?.[webhookEnvNames[kind]] ?? env?.DISCORD_WEBHOOK_URL;
@@ -38,16 +48,26 @@ function attributionFields(attribution: {
 async function send(kind: WebhookKind, title: string, fields: Array<ReturnType<typeof field>>) {
   const url = webhookUrl(kind);
   if (!url) return { skipped: true };
+  const style = embedStyles[kind];
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       username: "RSA Funnel",
+      avatar_url: rsaAvatarUrl,
       allowed_mentions: { parse: [] },
       embeds: [{
+        author: {
+          name: `REMOTE SALES ACADEMY  •  ${style.label}`,
+          icon_url: rsaAvatarUrl,
+        },
         title,
-        color: 14620454,
+        color: style.color,
         fields: fields.filter(Boolean),
+        footer: {
+          text: "RSA  •  Funnel Operations",
+          icon_url: rsaAvatarUrl,
+        },
         timestamp: new Date().toISOString(),
       }],
     }),
