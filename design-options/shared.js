@@ -218,7 +218,7 @@ const applicationMarkup = `
           </div>
           <div class="booking-notice">
             ${phoneIcon}
-            <p>Before the meeting, a member of the team will call you from <a href="tel:+447476956587">+44 7476 956587</a>. Save it as Remote Sales Academy, and only choose a time you can attend.</p>
+            <p>Before the meeting, a member of the team will call you from <a href="tel:+447460091307">+44 7460 091307</a>. Save it as Remote Sales Academy, and only choose a time you can attend.</p>
           </div>
         </div>
         <div class="calendar-embed" data-calendar-embed hidden>
