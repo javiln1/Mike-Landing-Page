@@ -39,6 +39,7 @@ await mkdir(outputDirectory, { recursive: true });
 
 const pages = [
   { source: "option-1.html", target: "index.html", canonicalPath: "/" },
+  { source: "booking.html", target: "booking.html", canonicalPath: "/booking" },
   { source: "confirmation-page.html", target: "confirmation-page.html", canonicalPath: "/confirmation-page" },
   { source: "not-qualified.html", target: "not-qualified.html", canonicalPath: "/not-qualified" },
 ];
