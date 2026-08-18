@@ -1,57 +1,29 @@
 # RSA — SMS & Email Sequences
 
-Copy of record for the GHL automations. Built from Mike's spec (2026-08-17).
+What is actually built in GHL, and the copy of record. Built 2026-08-18 from Mike's spec.
 
-**Number the team calls from:** +44 7460 091307 (as promised on the confirmation page)
-**Number SMS sends from:** to be confirmed — may differ
-
-All copy below is written to be **correct either way**: it names the calling number explicitly rather than saying "this number". See [The two-number problem](#the-two-number-problem).
+**Sending number:** +44 7460 091307 — confirmed as the account's default SMS number (UK KYC linked), and the same number the team calls from. Text and call are one identity, so "save this number" works literally.
 
 ---
 
-## The two-number problem
+## Workflow A — "RSA — Applied, Not Booked"
 
-If SMS sends from a different GHL number than the one the team calls from, the lead gets a text from one unknown number telling them to save a *different* unknown number. That is a real trust cost at exactly the moment you are asking them to trust you enough to take a call.
+Catches people who apply but do not book.
 
-**Preferred fix:** provision +44 7460 091307 as the sending number in GHL so text and call are one identity. Then every message can say "save this number", the thread is already open on their phone, and saving it is one tap. That version is in [Appendix: same-number copy](#appendix-same-number-copy).
+```
+Trigger: Contact tag added includes "rsa-application"
+  -> Wait 15 minutes
+  -> If/Else "Not booked yet"
+       Branch: Tags does not include "rsa-booked"
+         -> ANB | SMS | 1
+         -> ANB | EMAIL | 1
+         -> Add tag "rsa-nudge-sent"
+       None: end
+```
 
-**If they must stay separate**, the copy below is what ships. Two consequences to accept:
+The 15-minute wait matters: the calendar sits directly below the application form, so many people book within a couple of minutes. Without the wait they would get "have you booked yet?" while mid-booking.
 
-- Replies to these texts land on the *SMS* number in GHL conversations, not the calling number. Message 1 ends in a question, so someone needs to be watching that inbox.
-- The lead is asked to save a number they have not been contacted from yet. The line "so you know it's us" is doing the work there — do not cut it.
-
----
-
-## Before launch
-
-**1. `theremotesalesacademy.com/booking` — built, ships on next push.** `design-options/booking.html`, registered in `build-production.ts`. It mounts the GHL calendar directly with no application gate, so a lead returning from an SMS books in one step instead of re-completing the qualification form. Do not point this link at `/` — the application draft lives in `sessionStorage` (`design-options/shared.js:269`), which is gone by the time they tap a link the next day.
-
-Optional prefill: append merge fields to skip re-typing their details.
-`theremotesalesacademy.com/booking?first_name={{contact.first_name}}&email={{contact.email}}&phone={{contact.phone}}`
-Only worth doing in email — in SMS the URL gets long enough to push the message over a segment boundary.
-
-**2. Confirm the sending number** and pick the copy variant accordingly.
-
----
-
-## SMS formatting rules
-
-Every message is written in **GSM-7 safe characters only**. No em dashes (`—`), no curly apostrophes (`'`), no emoji.
-
-This matters commercially: a single non-GSM character switches the whole message to UCS-2, dropping segment size from 153 characters to **70**. One stray em dash turns a 2-segment text into a 4-segment text — double the send cost, on every message, forever. Watch for this if Mike edits copy directly in GHL, where the editor inserts smart quotes automatically.
-
----
-
-## 1. Application received, not yet booked
-
-**Trigger:** tag `rsa-application` added
-**Wait:** 15 minutes
-**Condition:** only send if tag `rsa-booked` is absent
-**Channel:** SMS + Email
-
-> Why the 15-minute wait: the calendar sits on the same page directly below the application form, so a large share of applicants book within a couple of minutes. Firing "have you booked yet?" instantly would reach people mid-booking. The wait lets genuine drop-offs separate themselves out.
-
-### SMS (~260 chars, 2 segments)
+### ANB | SMS | 1 (274 chars, 2 segments)
 
 ```
 Hey {{contact.first_name}}, it's Mike. Got your application - have you booked your 15 minute consultation yet?
@@ -63,7 +35,7 @@ We'll ring you from +44 7460 091307, save it as Remote Sales Academy so you know
 What's the main reason you reached out?
 ```
 
-### Email
+### ANB | EMAIL | 1
 
 **Subject:** `Got your application, {{contact.first_name}}`
 
@@ -85,41 +57,63 @@ Remote Sales Academy
 
 ---
 
-## 2. Booked confirmation
+## Workflow B — "RSA — Booked Show Rate"
 
-**Trigger:** appointment booked on calendar `qOGJN8o9daw4OP02G60v`
-**Timing:** immediately
-**Channel:** SMS
+```
+Trigger: Customer booked appointment
+         Filter: In calendar = RSA Application Call
+         Enrol: Contact only
+  -> BSR | SMS | Confirm
+  -> BSR | EMAIL | Confirm
+  -> Wait 30 minutes
+  -> BSR | SMS | YouTube
+  -> Wait 1 hour before appointment   (if passed: skip outbound)
+  -> BSR | SMS | 1hr
+```
 
-Two variants. Which one sends depends on whether they already received message 1 — the closing question should only ever be asked once, otherwise it reads like a bot.
+The trigger must be the **appointment** trigger, not a tag. Appointment merge fields and the "1 hour before" wait only work when an appointment event started the workflow.
 
-### 2a — Booked without receiving message 1 (~230 chars, 2 segments)
+The YouTube text goes 30 minutes after booking rather than 24 hours before the call, because bookings here are only ever 1-3 days out. It also means same-day bookers still get the pre-call content instead of having it skipped.
+
+### BSR | SMS | Confirm
 
 ```
 Nice one {{contact.first_name}}, you're booked in for {{appointment.start_time}}.
 
 We'll call you from +44 7460 091307, save it as Remote Sales Academy so you know it's us.
 
-Quick one before we speak: what's the main reason you reached out?
+Anything specific you want us to cover on the call?
 ```
 
-### 2b — Already received message 1 (~165 chars, 2 segments)
+The question here is deliberately different from Workflow A's. Someone who gets both messages should never be asked the same thing twice.
+
+### BSR | EMAIL | Confirm
+
+**Subject:** `You're booked in — {{appointment.start_time}}`
 
 ```
-Nice one {{contact.first_name}}, you're booked in for {{appointment.start_time}}.
+{{contact.first_name}},
 
-We'll call from +44 7460 091307. Save it as Remote Sales Academy so you know it's us.
+You're booked in for {{appointment.start_time}}. It's a quick one, around 15 minutes.
+
+We'll call you from +44 7460 091307. Save it as Remote Sales Academy so you know
+it's us when it rings.
+
+Before we speak, watch these. They answer the questions most people ask, so we can
+spend the call on you instead:
+
+https://theremotesalesacademy.com/confirmation-page
+
+If you want a proper feel for how we work, Mike's channel is here:
+https://youtube.com/@MichealAkerele_Sales
+
+Anything specific you want us to cover? Just hit reply.
+
+Mike
+Remote Sales Academy
 ```
 
----
-
-## 3. YouTube prep
-
-**Trigger:** same workflow, timed off appointment start
-**Timing:** 24 hours before the call. If the call is booked less than 24 hours out, send 1 hour after booking instead.
-**Channel:** SMS
-
-### SMS (~200 chars, 2 segments)
+### BSR | SMS | YouTube
 
 ```
 {{contact.first_name}}, before we speak it's worth watching a couple of these. It'll make the call a lot more useful for you:
@@ -129,14 +123,7 @@ youtube.com/@MichealAkerele_Sales
 Speak {{appointment.start_time}}.
 ```
 
----
-
-## 4. One hour before the call
-
-**Trigger:** same workflow, 1 hour before appointment start
-**Channel:** SMS
-
-### SMS (~190 chars, 2 segments)
+### BSR | SMS | 1hr
 
 ```
 {{contact.first_name}}, your call is in an hour ({{appointment.start_time}}). We'll ring you from +44 7460 091307.
@@ -146,65 +133,47 @@ Find somewhere quiet where you can actually talk it through.
 
 ---
 
-## Sequence logic
+## SMS formatting rule
 
-| Lead behaviour | Receives |
+All copy uses **GSM-7 safe characters only** — no em dashes, no curly apostrophes, no emoji. A single non-GSM character drops the segment size from 153 characters to 70, doubling the send cost on every message. Watch for this when editing copy directly in GHL, which inserts smart quotes automatically.
+
+---
+
+## Timezone fix (done in code, 2026-08-18)
+
+Appointment times were rendering in the wrong zone for some leads. GHL falls back to the **account** timezone when a contact has none set, and this account is set to `Asia/Dubai`.
+
+Spot check before the fix: Bilal had `Europe/London`, Tenia had `America/New_York`, Jane had nothing — so Jane would have seen her call time in Dubai time.
+
+Cause: our own sync created the GHL contact at application time and never sent a timezone. Whether GHL later filled it in at booking was inconsistent.
+
+Fixed by capturing the browser timezone on the funnel and writing it to the contact:
+
+- `design-options/shared.js` — sends `timeZone` on both the opt-in and application payloads
+- `convex/http.ts` — passes it through on `/opt-ins`, `/applications`, `/calendar-booked`
+- `convex/ghl.ts` — `upsertContact` now sends `timezone` to GHL
+
+Deliberately not stored in the Convex tables, to avoid a schema change for a field only GHL needs. Applies to new leads from the deploy onwards; existing blank contacts are unaffected.
+
+---
+
+## Still to do
+
+- **Cancellation workflow.** Someone who cancels still gets "your call is in an hour". Fix is a third workflow: trigger Appointment status = cancelled (filtered to RSA Application Call) -> action Remove from workflow -> `RSA — Booked Show Rate`.
+- **Quiet hours.** No sending window set on either workflow. A 3am application currently gets a 3am text. If added, set it off the *contact* timezone, not the account's.
+- **Verify a live send.** Open a contact in Conversations and check the sent text: does the first name fill in, and does the time match what the lead actually booked.
+
+---
+
+## Reference
+
+| Thing | Value |
 |---|---|
-| Applies, books within 15 min | 2a, 3, 4 |
-| Applies, books later | 1, 2b, 3, 4 |
-| Applies, never books | 1 only |
-| Books, then cancels | sequence stops on cancel |
-| Books, then reschedules | 3 and 4 recalculate to the new time |
+| Location | `ZrvuqZuyEg3n9G8JoGF0` ("Remote Sales", timezone Asia/Dubai) |
+| Calendar | `qOGJN8o9daw4OP02G60v` — RSA Application Call, 15 min, autoConfirm on, no native notifications |
+| Booking page | https://theremotesalesacademy.com/booking |
+| YouTube | https://youtube.com/@MichealAkerele_Sales |
 
-**Timing waits must be relative to appointment start, not booking time** — otherwise a reschedule leaves messages 3 and 4 firing against the old slot.
+**Tags:** `rsa-opt-in`, `rsa-application`, `rsa-booked`, `rsa-qualified`, `rsa-outcome-deal-closed`, `rsa-outcome-deal-lost` are written by the funnel sync. `rsa-nudge-sent` is created and used only by Workflow A.
 
-**Quiet hours:** suppress SMS 21:00-08:00 in the contact's local timezone. The application form accepts international numbers, so leads are not all UK.
-
-**Duplicate check:** turn off the native confirmation and reminder notifications on calendar `qOGJN8o9daw4OP02G60v` before enabling this workflow, or every lead gets messaged twice.
-
----
-
-## Appendix: same-number copy
-
-Use these only once +44 7460 091307 is confirmed as the SMS sending number. Shorter, and the save instruction becomes one tap.
-
-**1 — Application received**
-```
-Hey {{contact.first_name}}, it's Mike. Got your application - have you booked your 15 minute consultation yet?
-
-theremotesalesacademy.com/booking
-
-We'll be calling you from this number, so save it as Remote Sales Academy.
-
-What's the main reason you reached out?
-```
-
-**2a — Booked, no message 1**
-```
-Nice one {{contact.first_name}}, you're booked in for {{appointment.start_time}}.
-
-Save this number as Remote Sales Academy - it's the one we'll call you on.
-
-Quick one before we speak: what's the main reason you reached out?
-```
-
-**2b — Booked, already had message 1** (~150 chars, 1 segment)
-```
-Nice one {{contact.first_name}}, you're booked in for {{appointment.start_time}}.
-
-Save this number as Remote Sales Academy - it's the one we'll call you on.
-```
-
-**4 — One hour before**
-```
-{{contact.first_name}}, your call is in an hour ({{appointment.start_time}}). We'll ring you on this number.
-
-Find somewhere quiet where you can actually talk it through.
-```
-
----
-
-## Optional additions (not in Mike's spec)
-
-- **T-10 min SMS** — "Calling you in about 10 minutes." Small build, reliably lifts show rate on phone-delivered calls.
-- **Reply Y to confirm** on message 4, tagging `rsa-confirmed`, giving the team a live list of unconfirmed leads to chase before the call.
+**Note:** the calendar's redirect URL still points at `remote-sales-academy.vercel.app/confirmation-page` rather than the live domain. Only affects people booking via the raw calendar link, but worth fixing in Calendars -> RSA Application Call -> Forms & Payment.

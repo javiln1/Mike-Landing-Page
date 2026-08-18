@@ -121,6 +121,7 @@ http.route({
         userAgent: optional(body.userAgent),
         attribution: attribution(body.attribution),
       };
+      const timeZone = optional(body.timeZone);
       const recorded = await ctx.runMutation(internal.optIns.record, input);
       await ctx.scheduler.runAfter(0, internal.discord.optIn, {
         name: input.name,
@@ -140,7 +141,7 @@ http.route({
       }
       if (!recorded.isDuplicate || recorded.syncStatus === "failed") {
         try {
-          const synced = await syncOptIn(input);
+          const synced = await syncOptIn({ ...input, timeZone });
           await ctx.runMutation(internal.optIns.markSync, {
             optInId: recorded.optInId,
             status: "synced",
@@ -291,6 +292,7 @@ http.route({
         userAgent: optional(body.userAgent),
         attribution: attribution(body.attribution),
       };
+      const timeZone = optional(body.timeZone);
       const recorded = await ctx.runMutation(internal.applications.record, input);
       await ctx.scheduler.runAfter(0, internal.discord.application, {
         name: input.name,
@@ -331,6 +333,7 @@ http.route({
         try {
           const synced = await syncApplication({
             ...input,
+            timeZone,
           });
           await ctx.runMutation(internal.applications.markSync, {
             applicationId: recorded.applicationId,
@@ -371,6 +374,7 @@ http.route({
         name: text(body.name, "Name"),
         email: email(body.email),
         phone: optional(body.phone),
+        timeZone: optional(body.timeZone),
         attribution: attribution(body.attribution),
       });
       const booking = {

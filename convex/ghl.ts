@@ -78,6 +78,7 @@ async function upsertContact(input: {
   name: string;
   email: string;
   phone?: string;
+  timeZone?: string;
   customFields?: CustomField[];
 }) {
   const names = splitName(input.name);
@@ -89,6 +90,9 @@ async function upsertContact(input: {
       name: input.name,
       email: input.email,
       phone: clean(input.phone),
+      // Without this GHL falls back to the location timezone when rendering
+      // appointment times, which shows leads their call in the wrong zone.
+      ...(input.timeZone ? { timezone: input.timeZone } : {}),
       source: "RSA VSL Funnel",
       customFields: input.customFields || [],
     }),
@@ -147,6 +151,7 @@ export async function syncOptIn(input: {
   name: string;
   email: string;
   landingPage: string;
+  timeZone?: string;
   attribution: Attribution;
 }) {
   const customFields = attributionFields(input.attribution);
@@ -179,6 +184,7 @@ export async function syncApplication(input: {
   liquidCapital: string;
   qualificationStatus: "qualified" | "unqualified";
   landingPage: string;
+  timeZone?: string;
   attribution: Attribution;
 }) {
   const qualification = input.qualificationStatus === "qualified" ? "Qualified" : "Unqualified";
@@ -252,6 +258,7 @@ export async function syncNativeCalendarBooking(input: {
   name: string;
   email: string;
   phone?: string;
+  timeZone?: string;
   attribution: Attribution;
 }) {
   const contactId = await upsertContact({

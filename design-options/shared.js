@@ -694,6 +694,7 @@ function captureOptIn() {
       submittedAt: Date.now(),
       landingPage: window.location.href,
       userAgent: navigator.userAgent,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       attribution: getAttribution(),
     }),
     keepalive: true,
@@ -846,6 +847,7 @@ async function finishApplication() {
     submittedAt: Date.now(),
     landingPage: window.location.href,
     userAgent: navigator.userAgent,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     attribution: getAttribution(),
   };
 
