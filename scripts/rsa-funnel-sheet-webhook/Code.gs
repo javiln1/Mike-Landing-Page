@@ -1,5 +1,5 @@
 const FUNNEL_SPREADSHEET_ID = '1qIMuYPxJjBxOzsCzCKA6mkw4J2ZLa-EorOVp4GPg6lE';
-const TOKEN_SHA256 = '__SHEETS_WEBHOOK_TOKEN_SHA256__';
+const TOKEN_SHA256 = '79964440a7af30acf07ac6b254c4225a0279d1cc379cbe722c39d0492e3d923d';
 
 function jsonResponse(body) {
   return ContentService.createTextOutput(JSON.stringify(body)).setMimeType(ContentService.MimeType.JSON);
