@@ -760,14 +760,8 @@ async function finishApplication() {
 
     if (window.fbq) window.fbq('track', 'Lead');
     clearApplicationDraft();
-    screenView.hidden = true;
-    successView.classList.add('is-visible');
     progress.style.width = '100%';
-
-    successTitle.textContent = 'Thanks, we’ve got it.';
-    successCopy.textContent = 'Taking you to the next step now.';
-    successCopy.hidden = false;
-    window.setTimeout(() => window.location.assign(buildConfirmationUrl()), 900);
+    window.location.assign(buildConfirmationUrl());
   } catch (error) {
     nextButton.disabled = false;
     nextButton.innerHTML = `Submit My Application ${arrowIcon}`;
