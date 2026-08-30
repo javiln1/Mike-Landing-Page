@@ -311,6 +311,8 @@ http.route({
         qualificationStatus: input.qualificationStatus,
         attribution: input.attribution,
         repeat: recorded.isDuplicate,
+        submittedAt: input.submittedAt,
+        timeZone,
       });
       if (!recorded.isDuplicate) {
         await ctx.scheduler.runAfter(0, internal.sheets.application, {

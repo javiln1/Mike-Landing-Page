@@ -7,7 +7,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a **template-based funnel system** for Mike's Remote Sales Academy. The repository uses a **Python template engine** that generates static HTML files from templates + JSON configuration. The output is deployed to Vercel as static files.
 
 **Current client:** Mike's Remote Sales Academy
-**Primary funnel:** VSL (Video Sales Letter) → Education Page → Call Booking
+**Primary funnel:** VSL → application modal → confirmation page (team calls within 12 hours). **No self-booking** since 2026-08-30 — the GHL calendar was removed from the funnel at Mike's request; only the setter books leads in.
+
+> **Live build (read this first):** production is built by `bun run build:production` (`build-production.ts`) from `design-options/` into `dist/`, which Vercel serves (`vercel.json`). `option-1.html` is the live landing page, `shared.js` holds the application modal, and `confirmation-page.html` / `not-qualified.html` are the post-application pages. The Python `templates/` → `output/` system described below is the legacy scaffold and is not what ships. Backend is Convex (`convex/`), which syncs to GHL, Close, Discord and Google Sheets.
 
 ## Key Architecture Concepts
 

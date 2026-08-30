@@ -4,9 +4,7 @@ const arrowIcon = `
   </svg>
 `;
 
-const calendarIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M8 3v4M16 3v4M3 10h18" /></svg>`;
 const clockIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>`;
-const phoneIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h3l1.5 4-2 1.5a14 14 0 0 0 6 6l1.5-2L21 14v3c0 2.2-1.8 4-4 4C9.3 21 3 14.7 3 7c0-2.2 1.8-4 4-4Z" /></svg>`;
 
 const phoneCountries = [
   { iso: 'AE', name: 'United Arab Emirates', code: '+971' },
@@ -179,9 +177,7 @@ const applicationScreens = [
 const applicationConfig = {
   optInEndpoint: document.querySelector('meta[name="rsa-optin-endpoint"]')?.content || '',
   endpoint: document.querySelector('meta[name="rsa-application-endpoint"]')?.content || '',
-  calendarBookedEndpoint: document.querySelector('meta[name="rsa-calendar-booked-endpoint"]')?.content || '',
   confirmationRedirect: document.querySelector('meta[name="rsa-confirmation-redirect"]')?.content || '/confirmation-page',
-  calendarUrl: document.querySelector('meta[name="rsa-calendar-url"]')?.content || '',
 };
 
 const isLocalPreview = ['127.0.0.1', 'localhost'].includes(window.location.hostname);
@@ -210,19 +206,8 @@ const applicationMarkup = `
         <div class="booking-intro">
           <div class="booking-wordmark">REMOTE SALES <b>ACADEMY</b></div>
           <div class="booking-status">Application received</div>
-          <h2 data-success-title>Book your Application Call</h2>
-          <p data-success-copy>Choose a time below so the team can discuss your current sales experience, your goals, and whether Remote Sales Academy is the right next step.</p>
-          <div class="booking-meta" aria-label="Application Call details">
-            <strong>${calendarIcon} Remote Sales Academy Application Call</strong>
-            <span>${clockIcon} 15 minutes</span>
-          </div>
-          <div class="booking-notice">
-            ${phoneIcon}
-            <p>We’ll call you at your booked time. If you’re in the UK, expect a call from <a href="tel:+447460091307">+44 7460 091307</a>. If you’re in the US, expect a call from <a href="tel:+12513143620">+1 251-314-3620</a>. Save the relevant number as Remote Sales Academy, and only choose a time you can attend.</p>
-          </div>
-        </div>
-        <div class="calendar-embed" data-calendar-embed hidden>
-          <div class="calendar-embed__mount" data-calendar-embed-mount aria-label="Application Call calendar"></div>
+          <h2 data-success-title>Thanks, we’ve got it.</h2>
+          <p data-success-copy>Taking you to the next step now.</p>
         </div>
       </div>
     </div>
@@ -237,8 +222,6 @@ const screenView = application.querySelector('[data-screen-view]');
 const successView = application.querySelector('[data-success]');
 const successTitle = application.querySelector('[data-success-title]');
 const successCopy = application.querySelector('[data-success-copy]');
-const calendarEmbed = application.querySelector('[data-calendar-embed]');
-const calendarMount = application.querySelector('[data-calendar-embed-mount]');
 const screenTitle = application.querySelector('[data-screen-title]');
 const screenIntro = application.querySelector('[data-screen-intro]');
 const form = application.querySelector('[data-application-form]');
@@ -248,9 +231,6 @@ const progress = application.querySelector('[data-progress]');
 const previousButton = application.querySelector('[data-previous]');
 let currentScreen = 0;
 let optInCaptured = false;
-let calendarLoaded = false;
-let calendarBookingSynced = false;
-let calendarRedirectStarted = false;
 let isTransitioning = false;
 let transitionTimer;
 const applicationAnswers = {};
@@ -714,6 +694,11 @@ function getAttribution() {
   };
 }
 
+function buildConfirmationUrl() {
+  const path = isLocalPreview ? '/confirmation-page.html' : applicationConfig.confirmationRedirect;
+  return new URL(path, window.location.origin).toString();
+}
+
 function showSubmissionError(message) {
   let error = form.querySelector('[data-submission-error]');
   if (!error) {
@@ -724,101 +709,6 @@ function showSubmissionError(message) {
   }
   error.textContent = message;
 }
-
-function buildCalendarUrl() {
-  const url = new URL(applicationConfig.calendarUrl);
-  const nameParts = applicationAnswers.name.trim().split(/\s+/);
-  url.searchParams.set('first_name', nameParts.shift() || applicationAnswers.name);
-  if (nameParts.length) url.searchParams.set('last_name', nameParts.join(' '));
-  url.searchParams.set('email', applicationAnswers.email);
-  url.searchParams.set('phone', applicationAnswers.phone);
-  const attribution = getAttribution();
-  if (attribution.source) url.searchParams.set('utm_source', attribution.source);
-  if (attribution.medium) url.searchParams.set('utm_medium', attribution.medium);
-  if (attribution.campaign) url.searchParams.set('utm_campaign', attribution.campaign);
-  if (attribution.content) url.searchParams.set('utm_content', attribution.content);
-  return url.toString();
-}
-
-function loadCalendar() {
-  if (!applicationConfig.calendarUrl) {
-    calendarMount.innerHTML = '<p class="calendar-embed__error">The Application Call calendar is not configured yet.</p>';
-    return;
-  }
-
-  if (calendarLoaded) return;
-  calendarLoaded = true;
-  const iframe = document.createElement('iframe');
-  iframe.src = buildCalendarUrl();
-  iframe.id = 'msgsndr-calendar';
-  iframe.title = 'RSA Application Call calendar';
-  iframe.setAttribute('scrolling', 'auto');
-  iframe.setAttribute('allow', 'payment');
-  calendarMount.replaceChildren(iframe);
-}
-
-function resizeCalendar(iframe, detail = {}) {
-  const height = Number(detail.height);
-  if (!Number.isFinite(height) || height <= 0) return;
-  iframe.style.height = `${Math.ceil(height)}px`;
-  calendarMount.style.minHeight = `${Math.ceil(height)}px`;
-}
-
-async function syncCalendarBooking(calendarId, detail = {}) {
-  if (calendarBookingSynced || !applicationConfig.calendarBookedEndpoint || isLocalPreview) return;
-  calendarBookingSynced = true;
-  const booking = detail.appointment || detail.booking || detail;
-  try {
-    const response = await fetch(applicationConfig.calendarBookedEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        calendarId,
-        name: applicationAnswers.name,
-        email: applicationAnswers.email,
-        phone: applicationAnswers.phone,
-        callStart: booking.event_start_time || booking.eventStartTime || booking.startTime || booking.start,
-        timeZone: booking.timezone || booking.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
-        meetingLink: booking.meeting_location || booking.meetingLocation || booking.meetingLink || booking.location,
-        attribution: getAttribution(),
-      }),
-      keepalive: true,
-    });
-    if (!response.ok) throw new Error('Booking sync failed.');
-  } catch {
-    calendarBookingSynced = false;
-  }
-}
-
-function buildConfirmationUrl(detail = {}) {
-  const booking = detail.appointment || detail.booking || detail;
-  const start = booking.event_start_time || booking.eventStartTime || booking.startTime || booking.start;
-  const end = booking.event_end_time || booking.eventEndTime || booking.endTime || booking.end;
-  const path = isLocalPreview ? '/confirmation-page.html' : applicationConfig.confirmationRedirect;
-  const url = new URL(path, window.location.origin);
-  if (start) url.searchParams.set('event_start_time', start);
-  if (end) url.searchParams.set('event_end_time', end);
-  return url.toString();
-}
-
-window.addEventListener('message', (event) => {
-  const iframe = calendarMount.querySelector('iframe');
-  const [messageType, detail] = Array.isArray(event.data) ? event.data : [];
-  if (
-    !iframe
-    || event.source !== iframe.contentWindow
-    || event.origin !== new URL(applicationConfig.calendarUrl).origin
-  ) return;
-  if (messageType === 'highlevel.setHeight') {
-    resizeCalendar(iframe, detail);
-    return;
-  }
-  if (messageType !== 'msgsndr-booking-complete' || calendarRedirectStarted) return;
-  calendarRedirectStarted = true;
-  if (window.fbq) window.fbq('track', 'Schedule');
-  syncCalendarBooking(detail?.calendarId, detail);
-  window.location.assign(buildConfirmationUrl(detail));
-});
 
 async function finishApplication() {
   if (nextButton.disabled) return;
@@ -874,13 +764,10 @@ async function finishApplication() {
     successView.classList.add('is-visible');
     progress.style.width = '100%';
 
-    successTitle.textContent = 'Book your Application Call';
-    successCopy.textContent = 'Choose a time below so the team can discuss your current sales experience, your goals, and whether Remote Sales Academy is the right next step.';
+    successTitle.textContent = 'Thanks, we’ve got it.';
+    successCopy.textContent = 'Taking you to the next step now.';
     successCopy.hidden = false;
-    calendarEmbed.hidden = false;
-    application.classList.add('application--calendar');
-    applicationBody.classList.add('is-calendar');
-    loadCalendar();
+    window.setTimeout(() => window.location.assign(buildConfirmationUrl()), 900);
   } catch (error) {
     nextButton.disabled = false;
     nextButton.innerHTML = `Submit My Application ${arrowIcon}`;
@@ -895,22 +782,15 @@ function openApplication() {
   const draft = readApplicationDraft();
   currentScreen = draft?.currentScreen ?? 0;
   optInCaptured = false;
-  calendarLoaded = false;
-  calendarBookingSynced = false;
-  calendarRedirectStarted = false;
   Object.keys(applicationAnswers).forEach((key) => delete applicationAnswers[key]);
   if (draft) Object.assign(applicationAnswers, draft.answers);
   const restoredScreen = applicationScreens[currentScreen];
   if (!restoredScreen || (restoredScreen.showWhen && !restoredScreen.showWhen(applicationAnswers))) currentScreen = 0;
   screenView.hidden = false;
   successView.classList.remove('is-visible');
-  successTitle.textContent = 'Application received.';
+  successTitle.textContent = 'Thanks, we’ve got it.';
   successCopy.textContent = 'Taking you to the next step now.';
   successCopy.hidden = false;
-  calendarEmbed.hidden = true;
-  calendarMount.replaceChildren();
-  application.classList.remove('application--calendar');
-  applicationBody.classList.remove('is-calendar');
   nextButton.disabled = false;
   application.classList.add('is-open');
   application.setAttribute('aria-hidden', 'false');
@@ -923,7 +803,6 @@ function closeApplication() {
   isTransitioning = false;
   saveApplicationDraft();
   application.classList.remove('is-open');
-  application.classList.remove('application--calendar');
   application.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('modal-open');
 }

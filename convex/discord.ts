@@ -60,6 +60,27 @@ function attributionSection(attribution: {
   ]];
 }
 
+const callWindowHours = 12;
+
+function formatIn(date: Date, timeZone: string | undefined, options: Intl.DateTimeFormatOptions) {
+  try {
+    return new Intl.DateTimeFormat("en-GB", { ...options, timeZone }).format(date);
+  } catch {
+    return new Intl.DateTimeFormat("en-GB", { ...options, timeZone: "Europe/London" }).format(date);
+  }
+}
+
+function callWindowRows(submittedAt: number, timeZone: string | undefined): Row[] {
+  const submitted = new Date(submittedAt);
+  const deadline = new Date(submittedAt + callWindowHours * 60 * 60 * 1000);
+  const long: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZoneName: "short" };
+  return [
+    ["Call by", formatIn(deadline, "Europe/London", long)],
+    ["Lead's time zone", timeZone],
+    ["Lead's local time now", timeZone ? formatIn(submitted, timeZone, { hour: "2-digit", minute: "2-digit", timeZoneName: "short" }) : undefined],
+  ];
+}
+
 async function send(kind: WebhookKind, title: string, sections: Section[]) {
   const url = webhookUrl(kind);
   if (!url) return { skipped: true };
@@ -121,10 +142,12 @@ export const application = internalAction({
     qualificationStatus: v.union(v.literal("qualified"), v.literal("unqualified")),
     attribution: attributionValidator,
     repeat: v.optional(v.boolean()),
+    submittedAt: v.optional(v.number()),
+    timeZone: v.optional(v.string()),
   },
   handler: async (_ctx, args) => send(
     "applications",
-    args.repeat ? "📝 RSA Application (repeat — already in CRM)" : "📝 RSA Application — Ready to Book",
+    args.repeat ? "📝 RSA Application (repeat — already in CRM)" : "📝 RSA Application — Call within 12 hrs",
     [
       ["Contact", [
         ["Name", args.name],
@@ -132,6 +155,7 @@ export const application = internalAction({
         ["Phone", args.phone],
         ["Instagram", args.instagram],
       ]],
+      ["Call Window", callWindowRows(args.submittedAt ?? Date.now(), args.timeZone)],
       ["Application", [
         ["Current Situation", args.currentWork],
         ["Sales Experience", args.experience],
@@ -177,7 +201,7 @@ export const booking = internalAction({
     ]],
     attributionSection(args.attribution),
     ["Funnel", [
-      ["Source", "RSA Calendar"],
+      ["Source", args.setterName ? "Booked by setter in GHL" : "GHL calendar"],
     ]],
   ]),
 });

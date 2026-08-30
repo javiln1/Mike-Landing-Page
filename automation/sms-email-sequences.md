@@ -2,6 +2,8 @@
 
 What is actually built in GHL, and the copy of record. Built 2026-08-18 from Mike's spec.
 
+> **2026-08-30 change (Mike's request):** self-booking removed from the funnel. Leads no longer see a calendar after applying — the confirmation page tells them the team will call within 12 hours from +44 7460 091307, and only the setter books them into the RSA Application Call calendar in GHL. `/booking` has been deleted (404). Workflow A below must be updated in GHL before this ships — see the **Required GHL edits** section at the bottom.
+
 **Sending number:** +44 7460 091307 — confirmed as the account's default SMS number (UK KYC linked), and the same number the team calls from. Text and call are one identity, so "save this number" works literally.
 
 ---
@@ -171,9 +173,50 @@ Deliberately not stored in the Convex tables, to avoid a schema change for a fie
 |---|---|
 | Location | `ZrvuqZuyEg3n9G8JoGF0` ("Remote Sales", timezone Asia/Dubai) |
 | Calendar | `qOGJN8o9daw4OP02G60v` — RSA Application Call, 15 min, autoConfirm on, no native notifications |
-| Booking page | https://theremotesalesacademy.com/booking |
+| Booking page | removed 2026-08-30 — setter books in GHL only |
 | YouTube | https://youtube.com/@MichealAkerele_Sales |
 
 **Tags:** `rsa-opt-in`, `rsa-application`, `rsa-booked`, `rsa-qualified`, `rsa-outcome-deal-closed`, `rsa-outcome-deal-lost` are written by the funnel sync. `rsa-nudge-sent` is created and used only by Workflow A.
 
 **Note:** the calendar's redirect URL still points at `remote-sales-academy.vercel.app/confirmation-page` rather than the live domain. Only affects people booking via the raw calendar link, but worth fixing in Calendars -> RSA Application Call -> Forms & Payment.
+
+---
+
+## Required GHL edits for the no-self-booking change (2026-08-30)
+
+1. **Workflow A — "RSA — Applied, Not Booked"**: the "have you booked yet?" copy and the `/booking` link no longer make sense. Either pause it, or replace the two messages with the copy below (recommended — keeps the reply-bait, stays honest about who books). The 15-minute wait can drop to 5 minutes; there is no calendar to be mid-way through anymore. Keep the "does not include rsa-booked" check so anyone the setter has already booked is skipped.
+
+   ### ANB | SMS | 1 (replacement)
+
+   ```
+   Hey {{contact.first_name}}, it's Mike. Got your application, cheers.
+
+   Someone from the team will ring you within 12 hours from +44 7460 091307. Save it as Remote Sales Academy so you know it's us and pick up.
+
+   What's the main reason you reached out?
+   ```
+
+   ### ANB | EMAIL | 1 (replacement)
+
+   **Subject:** `Got your application, {{contact.first_name}}`
+
+   ```
+   Hey {{contact.first_name}}, it's Mike.
+
+   Got your application. Someone from the team will call you within 12 hours
+   from +44 7460 091307. Save it as Remote Sales Academy so you know it's us.
+
+   While you wait, watch these. They answer the questions most people ask:
+   https://theremotesalesacademy.com/confirmation-page
+
+   What's the main reason you reached out? Just hit reply.
+
+   Mike
+   Remote Sales Academy
+   ```
+
+2. **Workflow B — "RSA — Booked Show Rate"**: no change. It triggers on the appointment, so setter-made bookings in the RSA Application Call calendar fire it exactly as self-bookings did.
+
+3. **Calendar `qOGJN8o9daw4OP02G60v`**: clear the post-booking redirect URL (it still points at `remote-sales-academy.vercel.app/confirmation-page`). The calendar is now internal-only, so nobody should hit that redirect, but leaving a dead link there is untidy. Optionally untick "show on booking widget" / make it private so the public link stops working.
+
+4. **Setter alert**: the application already posts to Discord and the funnel sheet (`convex/http.ts` `/applications`). Confirm the setter is watching whichever one they work from, since the 12-hour promise now sits on them.
