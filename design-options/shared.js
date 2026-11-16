@@ -756,7 +756,8 @@ async function finishApplication() {
 
   // Reuse the same ID if this application is retried after a failed submit.
   metaLeadEventId = metaLeadEventId || createMetaEventId();
-  payload.metaEventId = metaLeadEventId;
+  const leadEventId = metaLeadEventId;
+  payload.metaEventId = leadEventId;
   saveApplicationDraft();
 
   nextButton.disabled = true;
@@ -776,7 +777,7 @@ async function finishApplication() {
       if (!response.ok) throw new Error(result.error || 'Application submission failed.');
     }
 
-    if (window.fbq) window.fbq('track', 'Lead', {}, { eventID: metaLeadEventId });
+    if (window.fbq) window.fbq('track', 'Lead', {}, { eventID: leadEventId });
     clearApplicationDraft();
     metaLeadEventId = null;
     progress.style.width = '100%';
