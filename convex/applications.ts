@@ -32,6 +32,7 @@ export const record = internalMutation({
     landingPage: v.string(),
     userAgent: v.optional(v.string()),
     attribution: attributionValidator,
+    metaEventId: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const existing = DEDUPE_BY_EMAIL

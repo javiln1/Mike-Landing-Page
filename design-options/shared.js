@@ -235,6 +235,9 @@ let isTransitioning = false;
 let transitionTimer;
 const applicationAnswers = {};
 const applicationDraftKey = 'rsa-application-draft-v2';
+const metaEventIdPattern = /^[A-Za-z0-9_-]{8,100}$/;
+// One Meta event ID per application, shared by the browser Lead event and the server record so Meta can deduplicate.
+let metaLeadEventId = null;
 const draftAnswerKeys = new Set([
   ...applicationScreens.flatMap((screen) => screen.fields.map((field) => field.id)),
   'phoneCountry',
@@ -246,7 +249,7 @@ function saveApplicationDraft() {
     const answers = Object.fromEntries(
       Object.entries(applicationAnswers).filter(([key]) => draftAnswerKeys.has(key)),
     );
-    sessionStorage.setItem(applicationDraftKey, JSON.stringify({ currentScreen, answers }));
+    sessionStorage.setItem(applicationDraftKey, JSON.stringify({ currentScreen, answers, metaEventId: metaLeadEventId || undefined }));
   } catch {
     // The form remains fully usable when browser storage is unavailable.
   }
@@ -259,7 +262,8 @@ function readApplicationDraft() {
     const answers = Object.fromEntries(
       Object.entries(draft.answers).filter(([key]) => draftAnswerKeys.has(key)),
     );
-    return { currentScreen: Number(draft.currentScreen), answers };
+    const metaEventId = typeof draft.metaEventId === 'string' && metaEventIdPattern.test(draft.metaEventId) ? draft.metaEventId : null;
+    return { currentScreen: Number(draft.currentScreen), answers, metaEventId };
   } catch {
     return null;
   }
@@ -271,6 +275,15 @@ function clearApplicationDraft() {
   } catch {
     // Ignore storage restrictions after a successful submission.
   }
+}
+
+function createMetaEventId() {
+  try {
+    if (window.crypto?.randomUUID) return `rsa-lead-${window.crypto.randomUUID()}`;
+  } catch {
+    // Fall back below when randomUUID is unavailable (older browsers, insecure contexts).
+  }
+  return `rsa-lead-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
 function visibleFields(screen) {
@@ -741,6 +754,11 @@ async function finishApplication() {
     attribution: getAttribution(),
   };
 
+  // Reuse the same ID if this application is retried after a failed submit.
+  metaLeadEventId = metaLeadEventId || createMetaEventId();
+  payload.metaEventId = metaLeadEventId;
+  saveApplicationDraft();
+
   nextButton.disabled = true;
   nextButton.textContent = 'Submitting application…';
   if (!isLocalPreview) captureOptIn();
@@ -758,8 +776,9 @@ async function finishApplication() {
       if (!response.ok) throw new Error(result.error || 'Application submission failed.');
     }
 
-    if (window.fbq) window.fbq('track', 'Lead');
+    if (window.fbq) window.fbq('track', 'Lead', {}, { eventID: metaLeadEventId });
     clearApplicationDraft();
+    metaLeadEventId = null;
     progress.style.width = '100%';
     window.location.assign(buildConfirmationUrl());
   } catch (error) {
@@ -778,6 +797,7 @@ function openApplication() {
   optInCaptured = false;
   Object.keys(applicationAnswers).forEach((key) => delete applicationAnswers[key]);
   if (draft) Object.assign(applicationAnswers, draft.answers);
+  if (draft?.metaEventId) metaLeadEventId = draft.metaEventId;
   const restoredScreen = applicationScreens[currentScreen];
   if (!restoredScreen || (restoredScreen.showWhen && !restoredScreen.showWhen(applicationAnswers))) currentScreen = 0;
   screenView.hidden = false;

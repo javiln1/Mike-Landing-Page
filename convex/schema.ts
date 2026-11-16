@@ -54,6 +54,7 @@ export default defineSchema({
     landingPage: v.string(),
     userAgent: v.optional(v.string()),
     attribution,
+    metaEventId: v.optional(v.string()),
     closeLeadId: v.optional(v.string()),
     closeOpportunityId: v.optional(v.string()),
     closeActivityId: v.optional(v.string()),
