@@ -25,6 +25,12 @@ function optional(value: unknown) {
   return result || undefined;
 }
 
+// Meta event ID shared with the browser Lead event for deduplication. Never block an application over it.
+function metaEventId(value: unknown) {
+  const result = optional(value);
+  return result && /^[A-Za-z0-9_-]{8,100}$/.test(result) ? result : undefined;
+}
+
 function email(value: unknown) {
   const result = text(value, "Email").toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(result)) throw new Error("A valid email is required.");
@@ -293,7 +299,10 @@ http.route({
         attribution: attribution(body.attribution),
       };
       const timeZone = optional(body.timeZone);
-      const recorded = await ctx.runMutation(internal.applications.record, input);
+      const recorded = await ctx.runMutation(internal.applications.record, {
+        ...input,
+        metaEventId: metaEventId(body.metaEventId),
+      });
       await ctx.scheduler.runAfter(0, internal.discord.application, {
         name: input.name,
         email: input.email,
